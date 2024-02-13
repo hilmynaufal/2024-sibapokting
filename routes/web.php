@@ -1,0 +1,157 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\RefController;
+use App\Http\Controllers\api\UserController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('/', App\Livewire\Auth\Login::class)->name('login');
+Route::get('/auth', App\Livewire\Auth\Login::class)->name('login.auth');
+Route::get('logout', App\Livewire\Auth\Logout::class)->name('logout');
+Route::get('register', App\Livewire\Auth\Register::class)->name('register');
+Route::get('forgot-password', App\Livewire\Auth\Forgot::class)->name('forgot');
+
+Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => '', 'before' => 'csrf'], function () {
+    
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/',App\Livewire\Dashboard\Index::class)->name('dashboard');
+        Route::get('/roleakses',App\Livewire\Dashboard\RoleAkses::class)->name('dashboard.role.akses');
+        Route::get('/autologin/{level}/{id}',App\Livewire\Auth\AutoLogin::class)->name('dashboard.auto.login');
+    });
+    
+    //Begin Master
+    Route::prefix('account/user')->group(function () {
+        Route::get('/',App\Livewire\Master\Kepegawaian\User\Index::class)->name('account.index');
+        Route::get('add',App\Livewire\Master\Kepegawaian\User\Add::class)->name('account.create');
+        Route::get('edit/{token}',App\Livewire\Master\Kepegawaian\User\Edit::class)->name('account.update');
+        Route::get('akun/{token}',App\Livewire\Master\Kepegawaian\User\Akun::class)->name('account.view');
+        Route::get('profile',App\Livewire\Master\Kepegawaian\User\Profile::class)->name('account.profile');
+        Route::get('password',App\Livewire\Master\Kepegawaian\User\Password::class)->name('account.password');
+    });
+    
+    Route::prefix('master/menu')->group(function () {
+        Route::get('/',App\Livewire\Master\Konfigurasi\Menu\Index::class)->name('master.menu');
+        Route::get('child/{id}',App\Livewire\Master\Konfigurasi\Menu\Child::class)->name('master.child');
+    });
+    
+    Route::prefix('master/role')->group(function () {
+        Route::get('/',App\Livewire\Master\Konfigurasi\Role\Index::class)->name('master.role');
+        Route::get('child/{id}',App\Livewire\Master\Konfigurasi\Role\Child::class)->name('master.role.child');
+    });    
+    
+    Route::prefix('master/utilitas')->group(function () {
+        // Route::get('role',App\Livewire\Master\Konfigurasi\Role\Index::class)->name('master.role');
+        // Route::get('role-child/{id}',App\Livewire\Master\Konfigurasi\Role\Child::class)->name('master.role.child');
+        Route::get('satuan-kerja',App\Livewire\Master\Kepegawaian\SatuanKerja\Index::class)->name('master.satuankerja');
+        Route::get('unit-kerja',App\Livewire\Master\Kepegawaian\UnitKerja\Index::class)->name('master.unitkerja');
+        Route::get('jabatan',App\Livewire\Master\Kepegawaian\Jabatan\Index::class)->name('master.jabatan');
+        Route::get('setting',App\Livewire\Master\Konfigurasi\Setting\Index::class)->name('master.setting');
+    });    
+    
+    Route::prefix('master/referensi')->group(function () {
+        Route::get('jenis-surat',App\Livewire\Master\Referensi\JenisSurat\Index::class)->name('master.referensi.jenissurat');
+        Route::get('sifat-surat',App\Livewire\Master\Referensi\SifatSurat\Index::class)->name('master.referensi.sifatsurat');
+        Route::get('jenis-disposisi',App\Livewire\Master\Referensi\JenisDisposisi\Index::class)->name('master.referensi.jenisdisposisi');
+        Route::get('instansi',App\Livewire\Master\Referensi\Instansi\Index::class)->name('master.referensi.instansi');
+        Route::get('provinsi',App\Livewire\Master\Referensi\Wilayah\Provinsi::class)->name('master.referensi.provinsi');
+        Route::get('kabupaten',App\Livewire\Master\Referensi\Wilayah\Kabupaten::class)->name('master.referensi.kabupaten');
+        Route::get('kecamatan',App\Livewire\Master\Referensi\Wilayah\Kecamatan::class)->name('master.referensi.kecamatan');
+        Route::get('desa',App\Livewire\Master\Referensi\Wilayah\Desa::class)->name('master.referensi.desa');
+        Route::get('alur-berkas',App\Livewire\Master\Referensi\Pajak\AlurBerkas::class)->name('master.referensi.alurberkas');
+        Route::get('jenis-transaksi',App\Livewire\Master\Referensi\Pajak\JenisTransaksi::class)->name('master.referensi.jenistransaksi');
+        Route::get('tarif-npoptkp',App\Livewire\Master\Referensi\Pajak\TarifNpoptkp::class)->name('master.referensi.tarifnpoptkp');
+        Route::get('hak-tanah',App\Livewire\Master\Referensi\Pajak\HakTanah::class)->name('master.referensi.haktanah');
+        Route::get('persyaratan',App\Livewire\Master\Referensi\Pajak\Persyaratan::class)->name('master.referensi.persyaratan');
+        Route::get('dok-tanah',App\Livewire\Master\Referensi\Pajak\DokTanah::class)->name('master.referensi.doktanah');
+        Route::get('nilai-pasar',App\Livewire\Master\Referensi\Pajak\NilaiPasar::class)->name('master.referensi.nilaipasar');
+    });    
+    
+    Route::prefix('main/lampiran')->group(function () {
+        Route::get('preview/{id}',App\Livewire\Main\Lampiran\Index::class)->name('main.lampiran.view');
+    });    
+    
+    Route::prefix('layanan/bphtb')->group(function () {
+        Route::get('create',App\Livewire\Main\Layanan\Bphtb\Create::class)->name('main.layanan.bphtb.create');
+        Route::get('index',App\Livewire\Main\Layanan\Bphtb\Index::class)->name('main.layanan.bphtb.index');
+        Route::get('detail/{id}',App\Livewire\Main\Layanan\Bphtb\Detail::class)->name('main.layanan.bphtb.detail');
+        
+        Route::get('penerima-hak',App\Livewire\Main\Layanan\Bphtb\Form\PenerimaHak::class)->name('bphtb.form.penerima.hak');
+        Route::get('penerima-hak-edit/{id}',App\Livewire\Main\Layanan\Bphtb\Form\PenerimaHakEdit::class)->name('bphtb.form.penerima.hak.edit');
+        Route::get('pelepas-hak/{id}',App\Livewire\Main\Layanan\Bphtb\Form\PelepasHak::class)->name('bphtb.form.pelepas.hak');
+        Route::get('objek-pajak/{id}',App\Livewire\Main\Layanan\Bphtb\Form\ObjekPajak::class)->name('bphtb.form.objek.pajak');
+        Route::get('maps/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Maps::class)->name('bphtb.form.maps');
+        
+        Route::get('objek-pajak-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\Verifikasi\ObjekPajak::class)->name('bphtb.verifikasi.objek.pajak');
+        Route::get('persyaratan-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.verifikasi');
+        // Route::get('persyaratan-validasi/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.validasi');
+        // Route::get('lacak-pengajuan/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.lacak.pengajuan');
+        
+        Route::get('catatan-berkas/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.catatan.berkas');
+        Route::get('cetak-sspd/{id}',App\Livewire\Main\Layanan\Bphtb\CetakSspd::class)->name('bphtb.cetak.sspd');
+        Route::get('cetak-resi/{id}',App\Livewire\Main\Layanan\Bphtb\CetakResi::class)->name('bphtb.cetak.resi');
+        Route::get('cetak-ntpd/{id}',App\Livewire\Main\Layanan\Bphtb\CetakNtpd::class)->name('bphtb.cetak.ntpd');
+        Route::get('cetak-sspdsigned/{id}',App\Livewire\Main\Layanan\Bphtb\CetakSspdSigned::class)->name('bphtb.cetak.sspdsigned');
+        Route::get('cetak-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\CetakVerifikasi::class)->name('bphtb.cetak.verifikasi');
+    }); 
+    Route::prefix('layanan/bphtbkb')->group(function () {
+        // Route::get('create',App\Livewire\Main\Layanan\BphtbKb\Create::class)->name('main.layanan.bphtbkb.create');
+        Route::get('index',App\Livewire\Main\Layanan\BphtbKb\Index::class)->name('main.layanan.bphtbkb.index');
+        Route::get('detail/{id}',App\Livewire\Main\Layanan\BphtbKb\Detail::class)->name('main.layanan.bphtbkb.detail');
+    });  
+    
+    Route::prefix('verifikasi/bphtb')->group(function () {
+        Route::get('index',App\Livewire\Main\Verifikasi\Bphtb\Index::class)->name('main.verifikasi.bphtb.index');        
+        Route::get('detail/{id}',App\Livewire\Main\Verifikasi\Bphtb\Detail::class)->name('main.verifikasi.bphtb.detail');
+    }); 
+
+    Route::prefix('verifikasi/bphtbkb')->group(function () {
+        Route::get('index',App\Livewire\Main\Verifikasi\BphtbKb\Index::class)->name('main.verifikasi.bphtbkb.index');        
+        Route::get('detail/{id}',App\Livewire\Main\Verifikasi\BphtbKb\Detail::class)->name('main.verifikasi.bphtbkb.detail');
+    });  
+
+    Route::prefix('pengajuan')->group(function () {
+        Route::get('aktif/index',App\Livewire\Main\Pengajuan\Aktif\Index::class)->name('main.pengajuan.aktif.index');
+        Route::get('aktif/detail/{id}',App\Livewire\Main\Pengajuan\Aktif\Detail::class)->name('main.pengajuan.aktif.detail');
+    }); 
+    
+    Route::prefix('main/surat')->group(function () {
+        Route::get('masuk',App\Livewire\Main\SuratMasuk\Index::class)->name('main.suratmasuk.index');
+        Route::get('keluar',App\Livewire\Main\SuratKeluar\Index::class)->name('main.suratkeluar.index');
+    });    
+    
+    Route::prefix('main/disposisi')->group(function () {
+        Route::get('masuk',App\Livewire\Main\DisposisiMasuk\Index::class)->name('main.disposisimasuk.index');
+        Route::get('cetak/{id}',App\Livewire\Main\DisposisiMasuk\Cetak::class)->name('main.disposisimasuk.cetak');
+        Route::get('keluar',App\Livewire\Main\DisposisiKeluar\Index::class)->name('main.disposisikeluar.index');
+    });      
+    
+    Route::prefix('main/laporan')->group(function () {
+        Route::get('surat-masuk',App\Livewire\Main\Laporan\SuratMasuk\Index::class)->name('main.laporan.suratmasuk.index');
+        Route::get('surat-keluar',App\Livewire\Main\Laporan\SuratKeluar\Index::class)->name('main.laporan.suratkeluar.index');
+    });      
+    
+    Route::prefix('search')->group(function () {
+        Route::get('tujuan-eksternal', [App\Livewire\Components\Search::class,'TujuanEksternal'])->name('search.tujuan.eksternal');
+    });
+    
+    
+});
+
+// Route::prefix('search')->group(function () {
+    //     Route::get('golongan', [App\Livewire\Components\SearchSelects::class,'Golongan'])->name('search.golongan');
+    //     Route::get('eselon', [App\Livewire\Components\SearchSelects::class,'Eselon'])->name('search.eselon');
+    //     Route::get('pangkat', [App\Livewire\Components\SearchSelects::class,'Pangkat'])->name('search.pangkat');
+    //     Route::get('jabatan', [App\Livewire\Components\SearchSelects::class,'Jabatan'])->name('search.jabatan');
+    //     Route::get('unit-kerja', [App\Livewire\Components\SearchSelects::class,'UnitKerja'])->name('search.unit-kerja');
+    //     Route::get('satuan-kerja', [App\Livewire\Components\SearchSelects::class,'SatuanKerja'])->name('search.satuan-kerja');
+    // });    
