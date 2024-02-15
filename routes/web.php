@@ -59,21 +59,12 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
     });    
     
     Route::prefix('master/referensi')->group(function () {
-        Route::get('jenis-surat',App\Livewire\Master\Referensi\JenisSurat\Index::class)->name('master.referensi.jenissurat');
-        Route::get('sifat-surat',App\Livewire\Master\Referensi\SifatSurat\Index::class)->name('master.referensi.sifatsurat');
-        Route::get('jenis-disposisi',App\Livewire\Master\Referensi\JenisDisposisi\Index::class)->name('master.referensi.jenisdisposisi');
-        Route::get('instansi',App\Livewire\Master\Referensi\Instansi\Index::class)->name('master.referensi.instansi');
         Route::get('provinsi',App\Livewire\Master\Referensi\Wilayah\Provinsi::class)->name('master.referensi.provinsi');
         Route::get('kabupaten',App\Livewire\Master\Referensi\Wilayah\Kabupaten::class)->name('master.referensi.kabupaten');
         Route::get('kecamatan',App\Livewire\Master\Referensi\Wilayah\Kecamatan::class)->name('master.referensi.kecamatan');
         Route::get('desa',App\Livewire\Master\Referensi\Wilayah\Desa::class)->name('master.referensi.desa');
-        Route::get('alur-berkas',App\Livewire\Master\Referensi\Pajak\AlurBerkas::class)->name('master.referensi.alurberkas');
-        Route::get('jenis-transaksi',App\Livewire\Master\Referensi\Pajak\JenisTransaksi::class)->name('master.referensi.jenistransaksi');
-        Route::get('tarif-npoptkp',App\Livewire\Master\Referensi\Pajak\TarifNpoptkp::class)->name('master.referensi.tarifnpoptkp');
-        Route::get('hak-tanah',App\Livewire\Master\Referensi\Pajak\HakTanah::class)->name('master.referensi.haktanah');
-        Route::get('persyaratan',App\Livewire\Master\Referensi\Pajak\Persyaratan::class)->name('master.referensi.persyaratan');
-        Route::get('dok-tanah',App\Livewire\Master\Referensi\Pajak\DokTanah::class)->name('master.referensi.doktanah');
-        Route::get('nilai-pasar',App\Livewire\Master\Referensi\Pajak\NilaiPasar::class)->name('master.referensi.nilaipasar');
+        // ROUTE MASTER SIBAPOKTING
+        Route::get('komoditas',App\Livewire\Master\Referensi\Komoditas::class)->name('master.referensi.komoditas');
     });    
     
     Route::prefix('main/lampiran')->group(function () {
