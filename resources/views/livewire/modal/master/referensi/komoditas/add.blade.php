@@ -44,8 +44,8 @@
                                 <label class="form-label">Gambar<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <x-filepond  data-max-file-size="1MB" wire:model="gambar" id="gambar"/>   
-                        
+                                <x-filepond title="Upload" required="1" file-document="gambar"  data-max-file-size="1MB" wire:model="gambar" id="gambar"/>   
+
                             </div>
                         </div>
 

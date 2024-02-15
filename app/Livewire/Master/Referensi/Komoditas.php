@@ -2,17 +2,25 @@
 namespace App\Livewire\Master\Referensi;
 use Livewire\Component;
 use App\Models\Referensi\RefKomoditas as Model;
+use App\Models\Referensi\RefSatuan;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
+use Storage;
 
 class Komoditas extends Component
 {
     use WithPagination;
     use LivewireAlert;
+    use WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['store' => 'render','delete', 'confirmed'];
     public $search = '';
+    
+    public $mode = 'create';
+    public $actionTitle = 'Tambah';
     
     public $perpage = 10000000;
     
@@ -20,18 +28,24 @@ class Komoditas extends Component
     public $namakomoditas;
     public $satuan;
     public $gambar;
+    public $list_satuan;
     
     
     protected $rules = [
-        'id'               => 'required',
         'namakomoditas'    => 'required',
         'satuan'           => 'required',
-        'gambar'           => 'required',
+        'gambar'           => 'file|mimes:pdf,jpg,jpeg,png,docx,doc,xls,xlsx|max:1000',
     ];
     
     public function mount()
     {
-
+        $this->list_satuan = RefSatuan::orderBy('nama','asc')->get();
+        $data = Model::count();
+        if ($data) {
+            $this->id = $data + 1;
+        } else {
+            $this->id = 1;
+        }
     }
 
     #[Layout('components.layouts.keenthemes.page')]
@@ -52,17 +66,58 @@ class Komoditas extends Component
         ]);
     }
     
+    private function resetInput()
+    {
+        $this->namakomoditas    = NULL;
+        $this->satuan           = NULL;
+        $this->gambar           = NULL;
+        $this->id               = NULL;
+    }
+    
+    public function cancel()
+    {
+        $this->resetInput();
+        $this->mode = 'create';
+        $this->actionTitle = 'Tambah';
+
+    }
+    
+    public function create()
+    {
+        $this->resetInput();
+        $this->mode = 'create';
+        $this->actionTitle = 'Tambah';
+        $this->showForm = true;
+        $this->isOpen = true;
+        $this->dispatch("showForm");
+    }
+    
     public function store()
     {
         $this->validate();
-        $model = Model::firstOrNew(['id' =>  $this->id_jenis_transaksi]);
-        $model->id          = Model::max('id') + 1;
-        $model->kd_jenis_transaksi = $this->kd_jenis_transaksi;
-        $model->nm_jenis_transaksi = $this->nm_jenis_transaksi;
+        
+        // PROSES UPLOAD
+        $folderPath = "komoditas";
+        if (!file_exists(Storage::disk('public')->path($folderPath))) {
+            Storage::disk('public')->makeDirectory($folderPath, 0755, true);
+        }
+        $uploadedFile = $this->gambar;
+        $fileName = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+        $fileExtension = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah
+        $newFileName = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file
+        // END PROSES UPLOAD
+        
+        $model = Model::firstOrNew(['id' =>  $this->id]);
+        $model->id              = $this->id;
+        $model->namakomoditas   = $this->namakomoditas;
+        $model->satuan          = $this->satuan;
+        $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
+        $model->created_id      = Auth::user()->id;
+        $model->created_at      = date('Y-m-d H:i:s');
         
         if($model->save()){
             $this->resetInput();
-            $log = 'Data Alur Berkas '.$model->nm_jenis_transaksi.' Berhasil di Ditambah';
+            $log = 'Data Komoditas '.$model->namakomoditas.' Berhasil di Ditambah';
             setActivity($log);
             $this->alert('success', $log, [
                 'position' => 'top-end',
@@ -70,15 +125,111 @@ class Komoditas extends Component
                 'toast' => true,
             ]);
         }else{
-            $log = 'Data Alur Berkas '.$model->nm_jenis_transaksi.' Gagal di Ditambah';
-            notify()->success($log);
+            $log = 'Data Komoditas '.$model->namakomoditas.' Gagal di Ditambah';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
                 'toast' => true,
             ]);
         }
+        return redirect()->route('master.referensi.komoditas');
+
         
+    }
+    
+    public function edit($primaryId)
+    {
+        $this->isOpen = true;
+        $this->mode = 'update';
+        $this->actionTitle = 'Ubah';
+        $this->primaryId = $primaryId;
+        $model = Model::where('id','=',$primaryId)->first();
+        $this->id   = $model->id;
+        $this->namakomoditas   = $model->namakomoditas;
+        $this->satuan          = $model->satuan;
+        $this->gambar          = $model->gambar;
+        $this->dispatch("showForm");
+        $this->showForm = true;
+    }
+    
+    public function update()
+    {
+        $this->validate();
+        // PROSES UPLOAD
+        $folderPath = "komoditas";
+        if (!file_exists(Storage::disk('public')->path($folderPath))) {
+            Storage::disk('public')->makeDirectory($folderPath, 0755, true);
+        }
+        $uploadedFile = $this->gambar;
+        $fileName = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+        $fileExtension = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah
+        $newFileName = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file
+        // END PROSES UPLOAD
+
+        $model = Model::firstOrNew(['id' =>  $this->id]);
+        $model->namakomoditas   = $this->namakomoditas;
+        $model->satuan          = $this->satuan;
+        $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
+        
+        if($model->save()){
+            $this->mode = "create";
+            $this->actionTitle = 'Ubah';
+            $this->resetInput();
+            $log = 'Data Komoditas '.$model->name.' Berhasil di Ubah';
+            setActivity($log);
+            $this->alert('success', $log, [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+        }else{
+            $log = 'Data Komoditas '.$model->name.' Gagal di Ubah';
+            $this->alert('error', $log, [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+            
+        }
+        return redirect()->route('master.referensi.komoditas');
+    }
+    public function deleteRequest($id)
+    {
+        $this->dispatch("swal:deleteRequest", [
+            'type' => 'warning',
+            'title' =>'Apa anda yakin ?',
+            'text' =>'Setelah memilih YA maka data akan Dihapus',
+            'id'=>$id
+        ]);
+    }
+    public function deleteSelectedRequest($id)
+    {
+        if(Model::where('id',$id)->delete()){
+            $this->resetInput();
+            $log = 'Data Desa Berhasil di Hapus';
+            setActivity($log);
+            $this->alert('success', $log, [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+        }else{
+            $log = 'Data Desa Gagal di Hapus';
+            $this->alert('error', $log, [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+            
+        }
+        return redirect()->route('master.referensi.komoditas');
+
+    }
+    
+    public $isOpen = false;
+    public function toggle()
+    {
+        $this->isOpen = !$this->isOpen;
     }
     
     

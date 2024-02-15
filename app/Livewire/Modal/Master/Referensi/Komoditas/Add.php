@@ -23,10 +23,10 @@ class Add extends ModalComponent
     {
         return view('livewire.modal.master.referensi.komoditas.add');
     }
-    // public function mount()
-    // {
-    //         $this->file      = $this->file;
-    // }
+    public function mount()
+    {
+            $this->gambar      = $this->gambar;
+    }
 
 
     public function create()

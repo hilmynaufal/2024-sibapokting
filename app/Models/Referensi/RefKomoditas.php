@@ -18,7 +18,7 @@ class RefKomoditas extends Model
     protected $table = 'ref_siba_komoditas';
     protected $primaryKey = 'id';
     
-    public $incrementing = false;
+    public $incrementing = true;
     protected $keyType = 'string';
     protected $guarded = [];
     
@@ -28,7 +28,7 @@ class RefKomoditas extends Model
         
         static::creating(function ($model) {
             try {
-                $model->id =  Generator::uuid4()->toString();
+                $model->token =  Generator::uuid4()->toString();
             } catch (UnsatisfiedDependencyException $e) {
                 abort(500, $e->getMessage());
             }

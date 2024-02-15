@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                                    <img src="{{ Storage::disk('public')->url('/komoditas/'.$gambar) }}" alt="image">
+                                    <img src="{{ Storage::disk('public')->url($gambar) }}" alt="image">
                                 </div>
                             </div>
                         </div>
