@@ -111,12 +111,6 @@
                                                         <!--begin::Card body-->
                                                         <div class="card-header">
                                                             <h4 class="card-title">@yield('title')</h4>
-                                                            @if(View::hasSection('add'))
-                                                            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                                                                <button wire:click="toggle" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i>
-                                                                    Tambah</button>
-                                                            </div>
-                                                            @endif
                                                         </div>
                                                         <!--begin::Card toolbar-->
 
