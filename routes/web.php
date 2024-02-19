@@ -66,6 +66,9 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         // ROUTE MASTER SIBAPOKTING
         Route::get('komoditas',App\Livewire\Master\Referensi\Komoditas::class)->name('master.referensi.komoditas');
         Route::get('barang',App\Livewire\Master\Referensi\Barang::class)->name('master.referensi.barang');
+        Route::get('pasar',App\Livewire\Master\Referensi\Pasar::class)->name('master.referensi.pasar');
+        Route::get('addpasar',App\Livewire\Master\Referensi\AddPasar::class)->name('master.referensi.addpasar');
+        Route::get('mapspasar/{id}',App\Livewire\Master\Referensi\MapsPasar::class)->name('master.referensi.mapspasar');
     });    
     
     Route::prefix('main/lampiran')->group(function () {
