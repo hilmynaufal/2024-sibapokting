@@ -207,8 +207,7 @@ $('input[name="lng"]').val(position[1]);
                     </div>
 
                     <div class="card-footer">
-                        <button type="button" class="btn btn-secondary"
-                            wire:click="$dispatch('closeModal')">Close</button>
+                        <a class="btn btn-secondary" href="{{route('master.referensi.pasar')}}">Close</a>
                         <button id="submitformeditpihak1" class="btn btn-success">Update</button>
                     </div>
                 </form>

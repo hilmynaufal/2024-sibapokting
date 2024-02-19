@@ -215,38 +215,37 @@ class Pasar extends Component
     //     }
     //     return redirect()->route('master.referensi.barang');
     // }
-    // public function deleteRequest($id)
-    // {
-    //     $this->dispatch("swal:deleteRequest", [
-    //         'type' => 'warning',
-    //         'title' =>'Apa anda yakin ?',
-    //         'text' =>'Setelah memilih YA maka data akan Dihapus',
-    //         'id'=>$id
-    //     ]);
-    // }
-    // public function deleteSelectedRequest($id)
-    // {
-    //     if(Model::where('id',$id)->delete()){
-    //         $this->resetInput();
-    //         $log = 'Data Barang Berhasil di Hapus';
-    //         setActivity($log);
-    //         $this->alert('success', $log, [
-    //             'position' => 'top-end',
-    //             'timer' => 3000,
-    //             'toast' => true,
-    //         ]);
-    //     }else{
-    //         $log = 'Data Barang Gagal di Hapus';
-    //         $this->alert('error', $log, [
-    //             'position' => 'top-end',
-    //             'timer' => 3000,
-    //             'toast' => true,
-    //         ]);
+    public function deleteRequest($id)
+    {
+        $this->dispatch("swal:deleteRequest", [
+            'type' => 'warning',
+            'title' =>'Apa anda yakin ?',
+            'text' =>'Setelah memilih YA maka data akan Dihapus',
+            'id'=>$id
+        ]);
+    }
+    public function deleteSelectedRequest($id)
+    {
+        if(Model::where('id',$id)->delete()){
+            $log = 'Data Pasar Berhasil di Hapus';
+            setActivity($log);
+            $this->alert('success', $log, [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+        }else{
+            $log = 'Data Pasar Gagal di Hapus';
+            $this->alert('error', $log, [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
             
-    //     }
-    //     return redirect()->route('master.referensi.barang');
+        }
+        return redirect()->route('master.referensi.pasar');
 
-    // }
+    }
     
     // public $isOpen = false;
     // public function toggle()
