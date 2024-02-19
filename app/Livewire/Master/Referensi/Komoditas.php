@@ -206,7 +206,7 @@ class Komoditas extends Component
     {
         if(Model::where('id',$id)->delete()){
             $this->resetInput();
-            $log = 'Data Desa Berhasil di Hapus';
+            $log = 'Data Barang Berhasil di Hapus';
             setActivity($log);
             $this->alert('success', $log, [
                 'position' => 'top-end',
@@ -214,7 +214,7 @@ class Komoditas extends Component
                 'toast' => true,
             ]);
         }else{
-            $log = 'Data Desa Gagal di Hapus';
+            $log = 'Data Barang Gagal di Hapus';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,

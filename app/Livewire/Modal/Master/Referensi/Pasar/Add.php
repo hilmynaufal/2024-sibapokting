@@ -1,0 +1,136 @@
+<?php
+namespace App\Livewire\Modal\Master\Referensi\Pasar;
+use App\Models\Referensi\RefPasar as Model;
+use App\Models\Wilayah\RefDesa;
+use App\Models\Wilayah\RefKecamatan;
+use App\Models\Wilayah\RefKabupaten;
+use App\Models\Wilayah\RefProvinsi;
+use Illuminate\Support\Facades\Crypt;
+use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+class Add extends ModalComponent
+{
+    use LivewireAlert;
+
+    
+    public $id;
+    public $namapasar;
+    public $tipe;
+    public $alamat;
+    public $lng;
+    public $lat;
+    public $provinsi;
+    public $kabupaten;
+    public $kecamatan;
+    public $desa;
+    public $rt;
+    public $rw;
+    public $token;
+    
+    public $provinsiList;
+    public $kabupatenList;
+    public $kecamatanList;
+    public $kelurahanList;
+    
+    public function render()
+    {
+        return view('livewire.modal.master.referensi.pasar.add');
+    }
+    
+    public function mount()
+    {
+        $this->provinsiList        = RefProvinsi::orderBy('name','ASC')->get();
+        $this->kabupatenList       = RefKabupaten::where('province_id', $this->provinsi)->orderBy('name','ASC')->get();
+        $this->kecamatanList       = RefKecamatan::where('regency_id', $this->kabupaten)->orderBy('name','ASC')->get();
+        $this->kelurahanList       = RefDesa::where('district_id', $this->kecamatan)->orderBy('name','ASC')->get();
+        
+    }
+
+    public function create()
+    {
+        $this->validate([
+                'namapasar'    => 'required',
+                'tipe'           => 'required',
+                'longitude'           => 'required',
+                'latitude'           => 'required',
+                'provinsi'           => 'required',
+                'kabupaten'          => 'required',
+                'kecamatan'           => 'required',
+                'desa'           => 'required',
+            ]);
+            $model = Model::where('id_bphtb',$this->id_bphtb)->first();
+            
+            $provinsi = RefProvinsi::select('name')->where('id', $this->idProvinsi)->first();
+            $kota_kab = RefKabupaten::select('name')->where('id', $this->idKab)->first();
+            $kecamatan = RefKecamatan::select('name')->where('id', $this->idKecamatan)->first();
+            $desa = RefDesa::select('name')->where('id', $this->idKelurahan)->first();
+            
+            $model->id_bphtb = $this->id_bphtb;
+            $model->jenis_wp = $this->jenis_wp;
+            $model->nik = $this->nik;
+            $model->npwp = $this->npwp;
+            $model->nama_wp = $this->nama_wp;
+            $model->alamat = $this->alamat;
+            $model->id_provinsi = $this->idProvinsi;
+            $model->provinsi = $provinsi->name;
+            $model->id_kota_kab = $this->idKab;
+            $model->kota_kab = $kota_kab->name;
+            $model->id_kecamatan = $this->idKecamatan;
+            $model->kecamatan = $kecamatan->name;
+            $model->id_kelurahan = $this->idKelurahan;
+            $model->kelurahan = $desa->name;
+            $model->rt = $this->rt;
+            $model->rw = $this->rw;
+            $model->kode_pos = $this->kode_pos;
+            $model->no_hp = $this->no_hp;    
+            $model->updated_id = Auth::user()->id;
+            $model->updated_at = date('Y-m-d H:i:s');        
+            if($model->update()){
+                $this->alert('success', 'Perubahan Data Penjual an.'.$model->nama_wp.' Berhasil di Simpan', [
+                    'position' => 'top',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'timerProgressBar' => true,
+                ]);
+                return redirect()->route('main.verifikasi.bphtb.detail', [Crypt::encrypt($model->id_bphtb)]);
+            }else{
+                $this->alert('error', 'Perubahan Data Penjual an.'.$model->nama_wp.' Gagal di Simpan', [
+                    'position' => 'top',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'timerProgressBar' => true,
+                ]);
+                return redirect()->route('main.verifikasi.bphtb.detail', [Crypt::encrypt($model->id_bphtb)]);
+            }
+            
+    }
+    
+
+    public function updatedProvinsi($provinsi){
+        $this->kabupatenList = RefKabupaten::where('province_id', $this->provinsi)->get();
+    }
+    
+    public function updatedKabupaten($kabupaten){
+        $this->kecamatanList = RefKecamatan::where('regency_id', $this->kabupaten)->get();
+        
+    }
+    
+    public function updatedKecamatan($kecamatan){
+        $this->kelurahanList = RefDesa::where('district_id', $this->kecamatan)->get();
+        
+    }
+
+    public static function destroyOnClose(): bool
+    {
+        return true;
+    }
+
+    public static function closeModalOnClickAway(): bool
+{
+    return false;
+}
+    
+}
+
