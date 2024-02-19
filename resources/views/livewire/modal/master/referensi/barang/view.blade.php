@@ -1,9 +1,10 @@
-<div class="modal fade show" id="view" tabindex="-1" style="display: block; padding-left: 0px;" aria-modal="true"
-    role="dialog">
+
+<div class="modal fade show" id="view" tabindex="-1" style="display: block; padding-left: 0px;"
+    aria-modal="true" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Lihat Data {{$namakomoditas}}</h5>
+                <h5 class="modal-title">Lihat Data {{$namabarang}}</h5>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     wire:click="$dispatch('closeModal')">
                 </button>
@@ -17,10 +18,9 @@
                                 <label class="form-label">Nama<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input type="text" class="form-control @error('namakomoditas') is-invalid @enderror"
-                                    name="namakomoditas" wire:model="namakomoditas" id="namakomoditas">
-                                @error('namakomoditas') <span class="invalid-feedback"
-                                    role="alert">{{ $message }}</span>
+                                <input type="text" class="form-control @error('namabarang') is-invalid @enderror" name="namabarang"
+                                    wire:model="namabarang" id="namabarang" >
+                                @error('namabarang') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -31,8 +31,8 @@
                                 <label class="form-label">Satuan Berat<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input type="text" class="form-control @error('satuan') is-invalid @enderror"
-                                    name="satuan" wire:model="satuan" id="satuan">
+                                <input type="text" class="form-control @error('satuan') is-invalid @enderror" name="satuan"
+                                    wire:model="satuan" id="satuan" >
                                 @error('satuan') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -44,18 +44,18 @@
                                 <label class="form-label">Gambar<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <x-filepond title="Upload" required="1" file-document="gambar"  data-max-file-size="1MB" wire:model="gambar" id="gambar"/>   
-
+                                <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                                    <img src="{{ Storage::disk('public')->url($gambar) }}" alt="image">
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                wire:click="$dispatch('closeModal')">Close</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="$dispatch('closeModal')">Close</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-

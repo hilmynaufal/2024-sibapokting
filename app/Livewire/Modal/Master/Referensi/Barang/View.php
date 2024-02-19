@@ -1,6 +1,6 @@
 <?php
-namespace App\Livewire\Main\Layanan\Bphtb\Modal;
-use App\Models\Bphtb\PelepasHak as Model;
+namespace App\Livewire\Modal\Master\Referensi\Barang;
+use App\Models\Referensi\RefBarang as Model;
 use App\Models\Wilayah\RefDesa;
 use App\Models\Wilayah\RefKecamatan;
 use App\Models\Wilayah\RefKabupaten;
@@ -10,52 +10,29 @@ use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class PelepasHak extends ModalComponent
+class View extends ModalComponent
 {
     use LivewireAlert;
-    public $jenis_wp, $nik, $npwp, $nama_wp, $alamat, $idProvinsi, $provinsi, $idKab, $kota_kab, $idKecamatan, $kecamatan, $idKelurahan, $kelurahan, $rt, $rw, $kode_pos, $no_hp, $id_bphtb;
-    
-    public $pelepas_hak;
-    public $provinsiList;
-    public $kabupatenList;
-    public $kecamatanList;
-    public $kelurahanList;
+
+    public $id;
+    public $namabarang;
+    public $satuan;
+    public $gambar;
     
     public function render()
     {
-        return view('livewire.main.layanan.bphtb.modal.pelepas-hak');
+        return view('livewire.modal.master.referensi.barang.view');
     }
     
     public function mount($id)
     {
 
-        $bphtb = $id;
-        $pelepas_hak = Model::where('id_bphtb',$bphtb)->first();
-        $this->id_bphtb = $bphtb;
-
-        $this->provinsiList        = RefProvinsi::orderBy('name','asc')->get();
-        $this->kabupatenList       = RefKabupaten::where('province_id', $pelepas_hak->id_provinsi)->get();
-        $this->kecamatanList       = RefKecamatan::where('regency_id', $pelepas_hak->id_kota_kab)->get();
-        $this->kelurahanList       = RefDesa::where('district_id', $pelepas_hak->id_kecamatan)->get();
-
-        $this->id_bphtb = $pelepas_hak->id_bphtb;
-        $this->jenis_wp = $pelepas_hak->jenis_wp;
-        $this->nik = $pelepas_hak->nik;
-        $this->npwp = $pelepas_hak->npwp;
-        $this->nama_wp = $pelepas_hak->nama_wp;
-        $this->alamat = $pelepas_hak->alamat;
-        $this->idProvinsi = $pelepas_hak->id_provinsi;
-        $this->provinsi = $pelepas_hak->provinsi;
-        $this->idKab = $pelepas_hak->id_kota_kab;
-        $this->kota_kab = $pelepas_hak->kota_kab;
-        $this->idKecamatan = $pelepas_hak->id_kecamatan;
-        $this->kecamatan = $pelepas_hak->kecamatan;
-        $this->idKelurahan = $pelepas_hak->id_kelurahan;
-        $this->kelurahan = $pelepas_hak->kelurahan;
-        $this->rt = $pelepas_hak->rt;
-        $this->rw = $pelepas_hak->rw;
-        $this->kode_pos = $pelepas_hak->kode_pos;
-        $this->no_hp = $pelepas_hak->no_hp;
+        $data = Model::where('id',$id)->first();
+        $this->id = $data->id;
+        $this->namabarang = $data->namabarang;
+        $this->satuan = $data->satuan;
+        $this->gambar = $data->gambar;
+        
     }
 
     public function create()

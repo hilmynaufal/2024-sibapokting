@@ -1,7 +1,7 @@
 <?php
 namespace App\Livewire\Master\Referensi;
 use Livewire\Component;
-use App\Models\Referensi\RefKomoditas as Model;
+use App\Models\Referensi\RefBarang as Model;
 use App\Models\Referensi\RefSatuan;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
@@ -10,7 +10,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 
-class Komoditas extends Component
+class Barang extends Component
 {
     use WithPagination;
     use LivewireAlert;
@@ -25,14 +25,14 @@ class Komoditas extends Component
     public $perpage = 10000000;
     
     public $id;
-    public $namakomoditas;
+    public $namabarang;
     public $satuan;
     public $gambar;
     public $list_satuan;
     
     
     protected $rules = [
-        'namakomoditas'    => 'required',
+        'namabarang'    => 'required',
         'satuan'           => 'required',
         'gambar'           => 'file|mimes:pdf,jpg,jpeg,png,docx,doc,xls,xlsx|max:1000',
     ];
@@ -61,14 +61,14 @@ class Komoditas extends Component
             $this->firstId = $rows[0]->id;
         }
         
-        return view('livewire.master.referensi.komoditas', [
+        return view('livewire.master.referensi.barang', [
           'model'=> $rows
         ]);
     }
     
     private function resetInput()
     {
-        $this->namakomoditas    = NULL;
+        $this->namabarang    = NULL;
         $this->satuan           = NULL;
         $this->gambar           = NULL;
         $this->id               = NULL;
@@ -97,7 +97,7 @@ class Komoditas extends Component
         $this->validate();
         
         // PROSES UPLOAD
-        $folderPath = "komoditas";
+        $folderPath = "barang";
         if (!file_exists(Storage::disk('public')->path($folderPath))) {
             Storage::disk('public')->makeDirectory($folderPath, 0755, true);
         }
@@ -109,7 +109,7 @@ class Komoditas extends Component
         
         $model = Model::firstOrNew(['id' =>  $this->id]);
         $model->id              = $this->id;
-        $model->namakomoditas   = $this->namakomoditas;
+        $model->namabarang   = $this->namabarang;
         $model->satuan          = $this->satuan;
         $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
         $model->created_id      = Auth::user()->id;
@@ -117,7 +117,7 @@ class Komoditas extends Component
         
         if($model->save()){
             $this->resetInput();
-            $log = 'Data Komoditas '.$model->namakomoditas.' Berhasil di Ditambah';
+            $log = 'Data barang '.$model->namabarang.' Berhasil di Ditambah';
             setActivity($log);
             $this->alert('success', $log, [
                 'position' => 'top-end',
@@ -125,14 +125,14 @@ class Komoditas extends Component
                 'toast' => true,
             ]);
         }else{
-            $log = 'Data Komoditas '.$model->namakomoditas.' Gagal di Ditambah';
+            $log = 'Data barang '.$model->namabarang.' Gagal di Ditambah';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
                 'toast' => true,
             ]);
         }
-        return redirect()->route('master.referensi.komoditas');
+        return redirect()->route('master.referensi.barang');
 
         
     }
@@ -145,7 +145,7 @@ class Komoditas extends Component
         $this->primaryId = $primaryId;
         $model = Model::where('id','=',$primaryId)->first();
         $this->id   = $model->id;
-        $this->namakomoditas   = $model->namakomoditas;
+        $this->namabarang   = $model->namabarang;
         $this->satuan          = $model->satuan;
         $this->gambar          = $model->gambar;
         $this->dispatch("showForm");
@@ -156,7 +156,7 @@ class Komoditas extends Component
     {
         $this->validate();
         // PROSES UPLOAD
-        $folderPath = "komoditas";
+        $folderPath = "barang";
         if (!file_exists(Storage::disk('public')->path($folderPath))) {
             Storage::disk('public')->makeDirectory($folderPath, 0755, true);
         }
@@ -167,7 +167,7 @@ class Komoditas extends Component
         // END PROSES UPLOAD
 
         $model = Model::firstOrNew(['id' =>  $this->id]);
-        $model->namakomoditas   = $this->namakomoditas;
+        $model->namabarang   = $this->namabarang;
         $model->satuan          = $this->satuan;
         $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
         
@@ -175,7 +175,7 @@ class Komoditas extends Component
             $this->mode = "create";
             $this->actionTitle = 'Ubah';
             $this->resetInput();
-            $log = 'Data Komoditas '.$model->name.' Berhasil di Ubah';
+            $log = 'Data barang '.$model->name.' Berhasil di Ubah';
             setActivity($log);
             $this->alert('success', $log, [
                 'position' => 'top-end',
@@ -183,7 +183,7 @@ class Komoditas extends Component
                 'toast' => true,
             ]);
         }else{
-            $log = 'Data Komoditas '.$model->name.' Gagal di Ubah';
+            $log = 'Data barang '.$model->name.' Gagal di Ubah';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
@@ -191,7 +191,7 @@ class Komoditas extends Component
             ]);
             
         }
-        return redirect()->route('master.referensi.komoditas');
+        return redirect()->route('master.referensi.barang');
     }
     public function deleteRequest($id)
     {
@@ -222,7 +222,7 @@ class Komoditas extends Component
             ]);
             
         }
-        return redirect()->route('master.referensi.komoditas');
+        return redirect()->route('master.referensi.barang');
 
     }
     

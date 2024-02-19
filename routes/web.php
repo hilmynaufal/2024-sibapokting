@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('desa',App\Livewire\Master\Referensi\Wilayah\Desa::class)->name('master.referensi.desa');
         // ROUTE MASTER SIBAPOKTING
         Route::get('komoditas',App\Livewire\Master\Referensi\Komoditas::class)->name('master.referensi.komoditas');
+        Route::get('barang',App\Livewire\Master\Referensi\Barang::class)->name('master.referensi.barang');
     });    
     
     Route::prefix('main/lampiran')->group(function () {
