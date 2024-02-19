@@ -87,7 +87,7 @@ Referensi > <b>Pasar</b>
                                     <th>Tipe</th>
                                     <th>Lokasi</th>
                                     <th>Alamat</th>
-                                    <th>Action</th>
+                                    <th style='widht:250px;'>Action</th>
                                 </tr>
                             </thead>
                             <!--end::Table head-->
@@ -108,20 +108,23 @@ Referensi > <b>Pasar</b>
                                     </td>
                                     <td>
                                         <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->tipe}}</span>
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">lat : {{ $item->latitude}},lng : {{ $item->longitude}}</span>
                                     </td>
                                     <td>
                                         <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->tipe}}</span>
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">
+                                            {{ $item->alamat}}, {{ empty($item->toDesa->name) ? '-' : $item->toDesa->name}}, {{ empty($item->toKecamatan->name) ? '-' : $item->toKecamatan->name}}
+                                            , {{ empty($item->toKabupaten->name) ? '-' : $item->toKabupaten->name}}, {{ empty($item->toProvinsi->name) ? '-' : $item->toProvinsi->name}}
+                                        </span>
                                     </td>
-                                    <td class="text-center">
+                                    <td style="width: 200px;" class="text-center">
                                         <div class="btn-list">
-                                            <a wire:click="route('master.referensi.add-pasar')"
+                                            <a href="{{route('master.referensi.mapspasar',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
-                                                <i class="bi bi-eye"></i>
+                                                <i class="bi bi-map"></i>
                                             </a>
-                                            <a wire:click="edit({{ $item->id }})"
+                                            <a href="{{route('master.referensi.editpasar',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-success btn-active-light-default me-1"
                                                 title="Lihat">
                                                 <i class="bi bi-pencil-fill"></i>

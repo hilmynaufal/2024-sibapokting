@@ -33,6 +33,8 @@ class MapsPasar extends Component
         $idPasar = Crypt::decrypt($id);
         $model = Model::where('id',$idPasar)->first();
         $this->id = $model->id;
+        $this->lat = $model->latitude;
+        $this->lng = $model->longitude;
         
     }
 

@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('pasar',App\Livewire\Master\Referensi\Pasar::class)->name('master.referensi.pasar');
         Route::get('addpasar',App\Livewire\Master\Referensi\AddPasar::class)->name('master.referensi.addpasar');
         Route::get('mapspasar/{id}',App\Livewire\Master\Referensi\MapsPasar::class)->name('master.referensi.mapspasar');
+        Route::get('editpasar/{id}',App\Livewire\Master\Referensi\EditPasar::class)->name('master.referensi.editpasar');
     });    
     
     Route::prefix('main/lampiran')->group(function () {

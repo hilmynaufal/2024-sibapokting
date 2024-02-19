@@ -77,7 +77,7 @@ class Pasar extends Component
             $query->when($this->search != "", function ($q) {
                 return $q->whereRaw('LOWER(nm_jenis_transaksi) like ?', ['%'.strtolower($this->search).'%']);
             });
-            $rows = $query->paginate($this->perpage);
+            $rows = $query->orderBy('id','asc')->paginate($this->perpage);
 
         if ($rows[0]!=null) {
             $this->firstId = $rows[0]->id;

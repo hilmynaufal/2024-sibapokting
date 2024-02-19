@@ -1,5 +1,5 @@
 @section('title')
-Tambah Data Pasar
+Ubah Data Pasar
 @stop
 @section('menu')
 Referensi > <b>Pasar</b>
@@ -14,6 +14,7 @@ Referensi > <b>Pasar</b>
             </div>
             <div class="card-body" style="text-align:left;">
                 <form class="form-horizontal" wire:submit="create">
+                    <input type="hidden" name="id_pasar" wire:model="id_pasar" id="id_pasar">
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
@@ -176,7 +177,7 @@ Referensi > <b>Pasar</b>
 
                     <div class="card-footer">
                         <a class="btn btn-secondary" href="{{route('master.referensi.pasar')}}">Close</a>
-                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="submit" class="btn btn-success">Edit</button>
                     </div>
                 </form>
             </div>
