@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Master\Referensi;
+namespace App\Livewire\Master\Referensi\Pasar;
 use Livewire\Component;
 use App\Models\Referensi\RefPasar as Model;
 use App\Models\Wilayah\RefDesa;
@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class EditPasar extends Component
+class AddPasar extends Component
 {
     use LivewireAlert;
 
     
-    public $id_pasar;
+    public $id;
     public $namapasar;
     public $tipe;
     public $alamat;
@@ -37,25 +37,11 @@ class EditPasar extends Component
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.master.referensi.edit-pasar');
+        return view('livewire.master.referensi.pasar.add-pasar');
     }
     
-    public function mount($id)
+    public function mount()
     {
-        $idPasar = Crypt::decrypt($id);
-        $model = Model::where('id',$idPasar)->first();
-        $this->id_pasar           = $model->id;
-        $this->namapasar            = $model->namapasar;
-        $this->tipe         = $model->tipe;
-        $this->alamat           = $model->alamat;
-        $this->provinsi         = $model->provinsi;
-        $this->kabupaten            = $model->kabupaten;
-        $this->kecamatan            = $model->kecamatan;
-        $this->desa         = $model->desa;
-        $this->rt           = $model->rt;
-        $this->rw           = $model->rw;
-
-
         $this->provinsiList        = RefProvinsi::orderBy('name','ASC')->get();
         $this->kabupatenList       = RefKabupaten::where('province_id', $this->provinsi)->orderBy('name','ASC')->get();
         $this->kecamatanList       = RefKecamatan::where('regency_id', $this->kabupaten)->orderBy('name','ASC')->get();
@@ -73,32 +59,34 @@ class EditPasar extends Component
                 'kecamatan'           => 'required',
                 'desa'           => 'required',
             ]);
-            $model = Model::where('id',$this->id_pasar)->first();
-            $model->namapasar    = $this->namapasar;
-            $model->tipe           = $this->tipe;
-            $model->alamat           = $this->alamat;
-            $model->provinsi           = $this->provinsi;
-            $model->kabupaten          = $this->kabupaten;
-            $model->kecamatan           = $this->kecamatan;
-            $model->desa            = $this->desa;
-            $model->updated_id      = Auth::user()->id;
-            $model->updated_at      = date('Y-m-d H:i:s');        
-            if($model->update()){
-                $this->alert('success', 'Data Pasar Berhasil di Ubah', [
+
+            $model = Model::create([
+                'namapasar'     => $this->namapasar,
+                'tipe'          => $this->tipe,
+                'provinsi'      => $this->provinsi,
+                'kabupaten'     => $this->kabupaten,
+                'kecamatan'     => $this->kecamatan,
+                'desa'          => $this->desa,
+                'alamat'        => $this->alamat,
+                'created_id'    => Auth::user()->id,
+                'created_at'    => date('Y-m-d H:i:s'),
+            ]);
+            if($model->save()){
+                $this->alert('success', 'Data Pasar Berhasil di Simpan', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('master.referensi.pasar');
+                return redirect()->route('master.referensi.mapspasar', [Crypt::encrypt($model->id)]);
             }else{
-                $this->alert('error', 'Data Pasar Gagal di Ubah', [
+                $this->alert('error', 'Data Pasar Gagal di Simpan', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('master.referensi.pasar');
+                return redirect()->route('master.referensi.mapspasar', [Crypt::encrypt($model->id)]);
             }
             
     }

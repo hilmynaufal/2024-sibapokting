@@ -66,10 +66,16 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         // ROUTE MASTER SIBAPOKTING
         Route::get('komoditas',App\Livewire\Master\Referensi\Komoditas::class)->name('master.referensi.komoditas');
         Route::get('barang',App\Livewire\Master\Referensi\Barang::class)->name('master.referensi.barang');
-        Route::get('pasar',App\Livewire\Master\Referensi\Pasar::class)->name('master.referensi.pasar');
-        Route::get('addpasar',App\Livewire\Master\Referensi\AddPasar::class)->name('master.referensi.addpasar');
-        Route::get('mapspasar/{id}',App\Livewire\Master\Referensi\MapsPasar::class)->name('master.referensi.mapspasar');
-        Route::get('editpasar/{id}',App\Livewire\Master\Referensi\EditPasar::class)->name('master.referensi.editpasar');
+
+        Route::get('pasar',App\Livewire\Master\Referensi\Pasar\Pasar::class)->name('master.referensi.pasar');
+        Route::get('addpasar',App\Livewire\Master\Referensi\Pasar\AddPasar::class)->name('master.referensi.addpasar');
+        Route::get('mapspasar/{id}',App\Livewire\Master\Referensi\Pasar\MapsPasar::class)->name('master.referensi.mapspasar');
+        Route::get('editpasar/{id}',App\Livewire\Master\Referensi\Pasar\EditPasar::class)->name('master.referensi.editpasar');
+
+        Route::get('distributor',App\Livewire\Master\Referensi\Distributor\Distributor::class)->name('master.referensi.distributor');
+        Route::get('adddistributor',App\Livewire\Master\Referensi\Distributor\AddDistributor::class)->name('master.referensi.adddistributor');
+        Route::get('mapsdistributor/{id}',App\Livewire\Master\Referensi\Distributor\MapsDistributor::class)->name('master.referensi.mapsdistributor');
+        Route::get('editdistributor/{id}',App\Livewire\Master\Referensi\Distributor\EditDistributor::class)->name('master.referensi.editdistributor');
     });    
     
     Route::prefix('main/lampiran')->group(function () {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Master\Referensi;
+namespace App\Livewire\Master\Referensi\Pasar;
 use Livewire\Component;
 use App\Models\Referensi\RefPasar as Model;
 use App\Models\Wilayah\RefDesa;
@@ -24,7 +24,7 @@ class MapsPasar extends Component
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.master.referensi.maps-pasar');
+        return view('livewire.master.referensi.pasar.maps-pasar');
     }
     
     public function mount($id)

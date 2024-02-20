@@ -1,5 +1,5 @@
 <?php
-namespace App\Livewire\Master\Referensi;
+namespace App\Livewire\Master\Referensi\Pasar;
 use Livewire\Component;
 use App\Models\Referensi\RefPasar as Model;
 use App\Models\Referensi\RefSatuan;
@@ -83,7 +83,7 @@ class Pasar extends Component
             $this->firstId = $rows[0]->id;
         }
         
-        return view('livewire.master.referensi.pasar', [
+        return view('livewire.master.referensi.pasar.pasar', [
           'model'=> $rows
         ]);
     }
@@ -154,7 +154,7 @@ class Pasar extends Component
     //             'toast' => true,
     //         ]);
     //     }
-    //     return redirect()->route('master.referensi.barang');
+    //     return redirect()->route('master.referensi.pasar.barang');
 
         
     // }
@@ -213,7 +213,7 @@ class Pasar extends Component
     //         ]);
             
     //     }
-    //     return redirect()->route('master.referensi.barang');
+    //     return redirect()->route('master.referensi.pasar.barang');
     // }
     public function deleteRequest($id)
     {
