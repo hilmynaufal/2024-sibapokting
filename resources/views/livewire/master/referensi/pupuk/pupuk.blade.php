@@ -1,8 +1,8 @@
 @section('title')
-Master Data Distributor
+Master Data Kios Pupuk
 @stop
 @section('menu')
-Referensi > <b>Distributor</b>
+Referensi > <b>Kios Pupuk</b>
 @stop
 @push('css')
     <style>
@@ -20,7 +20,7 @@ Referensi > <b>Distributor</b>
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
 <script>
-    new DataTable('#datatableDistributor', {
+    new DataTable('#datatablePupuk', {
         responsive: true
     });
 </script>
@@ -61,12 +61,12 @@ Referensi > <b>Distributor</b>
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Data Master Distributor</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Data Kios Pupuk</span>
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         data-bs-original-title="Click to add a user" data-kt-initialized="1">
-                        <a href="{{route('master.referensi.adddistributor')}}" class="btn btn-sm btn-light btn-active-primary">
-                            <i class="ki-duotone ki-plus fs-2"></i> Tambah Distributor
+                        <a href="{{route('master.referensi.addpupuk')}}" class="btn btn-sm btn-light btn-active-primary">
+                            <i class="ki-duotone ki-plus fs-2"></i> Tambah Kios
                         </a>
                     </div>
                 </div>
@@ -78,12 +78,13 @@ Referensi > <b>Distributor</b>
                     <div class="table-responsive">
                         <!--begin::Table-->
                         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4"
-                            id="datatableDistributor">
+                            id="datatablePupuk">
                             <!--begin::Table head-->
                             <thead>
                                 <tr class="fw-bold text-muted">
                                     <th>No</th>
-                                    <th>Nama Distributor</th>
+                                    <th>Nama Pupuk</th>
+                                    <th>Distributor</th>
                                     <th>Lokasi</th>
                                     <th>Alamat</th>
                                     <th>Keterangan</th>
@@ -100,7 +101,11 @@ Referensi > <b>Distributor</b>
                                     <td class="text-center">{{$no}}</td>
                                     <td>
                                         <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->namadistributor }}<br>Telp : {{ $item->notelp }}</span>
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->namapupuk }}<br>Telp : {{ $item->notelp }}</span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->toDistributor->namadistributor}}<br>Telp : {{ $item->toDistributor->notelp }}</span>
                                     </td>
                                     <td>
                                         <span
@@ -119,12 +124,12 @@ Referensi > <b>Distributor</b>
                                     </td>
                                     <td style="width: 200px;" class="text-center">
                                         <div class="btn-list">
-                                            <a href="{{route('master.referensi.mapsdistributor',[Crypt::encrypt($item->id)])}}"
+                                            <a href="{{route('master.referensi.mapspupuk',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
                                                 <i class="bi bi-map"></i>
                                             </a>
-                                            <a href="{{route('master.referensi.editdistributor',[Crypt::encrypt($item->id)])}}"
+                                            <a href="{{route('master.referensi.editpupuk',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-success btn-active-light-default me-1"
                                                 title="Lihat">
                                                 <i class="bi bi-pencil-fill"></i>

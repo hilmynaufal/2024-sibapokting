@@ -76,6 +76,11 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('adddistributor',App\Livewire\Master\Referensi\Distributor\AddDistributor::class)->name('master.referensi.adddistributor');
         Route::get('mapsdistributor/{id}',App\Livewire\Master\Referensi\Distributor\MapsDistributor::class)->name('master.referensi.mapsdistributor');
         Route::get('editdistributor/{id}',App\Livewire\Master\Referensi\Distributor\EditDistributor::class)->name('master.referensi.editdistributor');
+
+        Route::get('pupuk',App\Livewire\Master\Referensi\Pupuk\Pupuk::class)->name('master.referensi.pupuk');
+        Route::get('addpupuk',App\Livewire\Master\Referensi\Pupuk\AddPupuk::class)->name('master.referensi.addpupuk');
+        Route::get('mapspupuk/{id}',App\Livewire\Master\Referensi\Pupuk\MapsPupuk::class)->name('master.referensi.mapspupuk');
+        Route::get('editpupuk/{id}',App\Livewire\Master\Referensi\Pupuk\EditPupuk::class)->name('master.referensi.editpupuk');
     });    
     
     Route::prefix('main/lampiran')->group(function () {

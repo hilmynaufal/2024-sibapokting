@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\Master\Referensi\Distributor;
+namespace App\Livewire\Master\Referensi\Pupuk;
 use Livewire\Component;
-use App\Models\Referensi\RefDistributor as Model;
+use App\Models\Referensi\RefPupuk as Model;
+use App\Models\Referensi\RefDistributor;
 use App\Models\Wilayah\RefDesa;
 use App\Models\Wilayah\RefKecamatan;
 use App\Models\Wilayah\RefKabupaten;
@@ -12,13 +13,14 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class EditDistributor extends Component
+class EditPupuk extends Component
 {
     use LivewireAlert;
 
     
+    public $id_pupuk;
     public $id_distributor;
-    public $namadistributor;
+    public $namapupuk;
     public $notelp;
     public $alamat;
     public $provinsi;
@@ -34,20 +36,22 @@ class EditDistributor extends Component
     public $kabupatenList;
     public $kecamatanList;
     public $kelurahanList;
+    public $distributorList;
 
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.master.referensi.distributor.edit-distributor');
+        return view('livewire.master.referensi.pupuk.edit-pupuk');
     }
     
     public function mount($id)
     {
-        $idDistributor = Crypt::decrypt($id);
-        $model = Model::where('id',$idDistributor)->first();
-        $this->id_distributor           = $model->id;
-        $this->namadistributor            = $model->namadistributor;
-        $this->notelp                 = $model->notelp;
+        $idPupuk = Crypt::decrypt($id);
+        $model = Model::where('id',$idPupuk)->first();
+        $this->id_pupuk         = $model->id;
+        $this->id_distributor   = $model->id_distributor;
+        $this->namapupuk        = $model->namapupuk;
+        $this->notelp           = $model->notelp;
         $this->alamat           = $model->alamat;
         $this->provinsi         = $model->provinsi;
         $this->kabupaten            = $model->kabupaten;
@@ -58,6 +62,7 @@ class EditDistributor extends Component
         $this->keterangan           = $model->keterangan;
 
 
+        $this->distributorList     = RefDistributor::orderBy('namadistributor','ASC')->get();
         $this->provinsiList        = RefProvinsi::orderBy('name','ASC')->get();
         $this->kabupatenList       = RefKabupaten::where('province_id', $this->provinsi)->orderBy('name','ASC')->get();
         $this->kecamatanList       = RefKecamatan::where('regency_id', $this->kabupaten)->orderBy('name','ASC')->get();
@@ -67,7 +72,8 @@ class EditDistributor extends Component
     public function create()
     {
         $this->validate([
-                'namadistributor'    => 'required',
+                'id_distributor'     => 'required',
+                'namapupuk'         => 'required',
                 'notelp'           => 'required',
                 'alamat'           => 'required',
                 'provinsi'           => 'required',
@@ -76,9 +82,10 @@ class EditDistributor extends Component
                 'desa'           => 'required',
                 'keterangan'           => 'required',
             ]);
-            $model = Model::where('id',$this->id_distributor)->first();
-            $model->namadistributor    = $this->namadistributor;
+            $model = Model::where('id',$this->id_pupuk)->first();
+            $model->namapupuk    = $this->namapupuk;
             $model->notelp           = $this->notelp;
+            $model->id_distributor           = $this->id_distributor;
             $model->alamat           = $this->alamat;
             $model->provinsi           = $this->provinsi;
             $model->kabupaten          = $this->kabupaten;
@@ -90,21 +97,21 @@ class EditDistributor extends Component
             $model->updated_id      = Auth::user()->id;
             $model->updated_at      = date('Y-m-d H:i:s');        
             if($model->update()){
-                $this->alert('success', 'Data Distributor Berhasil di Ubah', [
+                $this->alert('success', 'Data Kios Pupuk Berhasil di Ubah', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('master.referensi.distributor');
+                return redirect()->route('master.referensi.pupuk');
             }else{
-                $this->alert('error', 'Data Distributor Gagal di Ubah', [
+                $this->alert('error', 'Data Kios Pupuk Gagal di Ubah', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('master.referensi.distributor');
+                return redirect()->route('master.referensi.pupuk');
             }
             
     }

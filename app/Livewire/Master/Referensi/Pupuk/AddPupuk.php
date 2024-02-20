@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\Master\Referensi\Distributor;
+namespace App\Livewire\Master\Referensi\Pupuk;
 use Livewire\Component;
-use App\Models\Referensi\RefDistributor as Model;
+use App\Models\Referensi\RefPupuk as Model;
+use App\Models\Referensi\RefDistributor;
 use App\Models\Wilayah\RefDesa;
 use App\Models\Wilayah\RefKecamatan;
 use App\Models\Wilayah\RefKabupaten;
@@ -12,13 +13,12 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class EditDistributor extends Component
+class AddPupuk extends Component
 {
     use LivewireAlert;
 
-    
-    public $id_distributor;
-    public $namadistributor;
+    public $id;
+    public $namapupuk;
     public $notelp;
     public $alamat;
     public $provinsi;
@@ -27,37 +27,25 @@ class EditDistributor extends Component
     public $desa;
     public $rt;
     public $rw;
-    public $keterangan;
     public $token;
+    public $keterangan;
+    public $id_distributor;
     
     public $provinsiList;
     public $kabupatenList;
     public $kecamatanList;
     public $kelurahanList;
+    public $distributorList;
 
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.master.referensi.distributor.edit-distributor');
+        return view('livewire.master.referensi.pupuk.add-pupuk');
     }
     
-    public function mount($id)
+    public function mount()
     {
-        $idDistributor = Crypt::decrypt($id);
-        $model = Model::where('id',$idDistributor)->first();
-        $this->id_distributor           = $model->id;
-        $this->namadistributor            = $model->namadistributor;
-        $this->notelp                 = $model->notelp;
-        $this->alamat           = $model->alamat;
-        $this->provinsi         = $model->provinsi;
-        $this->kabupaten            = $model->kabupaten;
-        $this->kecamatan            = $model->kecamatan;
-        $this->desa                 = $model->desa;
-        $this->rt                   = $model->rt;
-        $this->rw                   = $model->rw;
-        $this->keterangan           = $model->keterangan;
-
-
+        $this->distributorList     = RefDistributor::orderBy('namadistributor','ASC')->get();
         $this->provinsiList        = RefProvinsi::orderBy('name','ASC')->get();
         $this->kabupatenList       = RefKabupaten::where('province_id', $this->provinsi)->orderBy('name','ASC')->get();
         $this->kecamatanList       = RefKecamatan::where('regency_id', $this->kabupaten)->orderBy('name','ASC')->get();
@@ -67,44 +55,48 @@ class EditDistributor extends Component
     public function create()
     {
         $this->validate([
-                'namadistributor'    => 'required',
+                'namapupuk'    => 'required',
                 'notelp'           => 'required',
                 'alamat'           => 'required',
-                'provinsi'           => 'required',
-                'kabupaten'          => 'required',
-                'kecamatan'           => 'required',
-                'desa'           => 'required',
+                'provinsi'          => 'required',
+                'kabupaten'         => 'required',
+                'kecamatan'         => 'required',
+                'id_distributor'    => 'required',
+                'desa'              => 'required',
                 'keterangan'           => 'required',
             ]);
-            $model = Model::where('id',$this->id_distributor)->first();
-            $model->namadistributor    = $this->namadistributor;
-            $model->notelp           = $this->notelp;
-            $model->alamat           = $this->alamat;
-            $model->provinsi           = $this->provinsi;
-            $model->kabupaten          = $this->kabupaten;
-            $model->kecamatan           = $this->kecamatan;
-            $model->keterangan           = $this->keterangan;
-            $model->rt           = $this->rt;
-            $model->rw           = $this->rw;
-            $model->desa            = $this->desa;
-            $model->updated_id      = Auth::user()->id;
-            $model->updated_at      = date('Y-m-d H:i:s');        
-            if($model->update()){
-                $this->alert('success', 'Data Distributor Berhasil di Ubah', [
+
+            $model = Model::create([
+                'id_distributor'     => $this->id_distributor,
+                'namapupuk'         => $this->namapupuk,
+                'notelp'          => $this->notelp,
+                'provinsi'      => $this->provinsi,
+                'kabupaten'     => $this->kabupaten,
+                'kecamatan'     => $this->kecamatan,
+                'rt'            => $this->rt,
+                'rw'            => $this->rw,
+                'desa'          => $this->desa,
+                'alamat'        => $this->alamat,
+                'keterangan'        => $this->keterangan,
+                'created_id'    => Auth::user()->id,
+                'created_at'    => date('Y-m-d H:i:s'),
+            ]);
+            if($model->save()){
+                $this->alert('success', 'Data Kios Pupuk Berhasil di Simpan', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('master.referensi.distributor');
+                return redirect()->route('master.referensi.mapspupuk', [Crypt::encrypt($model->id)]);
             }else{
-                $this->alert('error', 'Data Distributor Gagal di Ubah', [
+                $this->alert('error', 'Data Kios Pupuk Gagal di Simpan', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('master.referensi.distributor');
+                return redirect()->route('master.referensi.mapspupuk', [Crypt::encrypt($model->id)]);
             }
             
     }
