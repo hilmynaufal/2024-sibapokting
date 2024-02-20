@@ -1,12 +1,10 @@
 
 @section('title')
-Tambah Maps Distributor
+Tambah Maps Agen
 @stop
 @section('menu')
-Referensi > <b>Distributor</b>
+Referensi > <b>Agen</b>
 @stop
-@push('js')
-
 @push('js')
 
 <script async defer
@@ -166,7 +164,7 @@ $('input[name="lng"]').val(position[1]);
         <div class="card mb-5 mb-xl-8">
             <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Maps Distributor</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Maps Agen</span>
                     </h3>
             </div>
             <div class="card-body" style="text-align:left;">
@@ -174,7 +172,7 @@ $('input[name="lng"]').val(position[1]);
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Titik Lokasi Maps</label>
+                                <label class="form-label">Titik Lokasi Maps Agen</label>
                             </div>
                             <div class="col-md-10">
                                 <input type="text" style="width:50%;margin-top:0.7em;margin-left:2em;" class="form-control"
@@ -198,7 +196,7 @@ $('input[name="lng"]').val(position[1]);
                             <div class="col-md-6">
                                 <label>Petunjuk Ubah Koordinat</label>
                                 <div class="alert alert-danger">Silahkan Cari & Geser Kursor untuk Merubah Koordinat Sesuai
-                                    Lokasi</div>
+                                    Lokasi Agen</div>
                             </div>
                             <div class="col-md-2">
                                 <label>Latitude</label>
@@ -214,7 +212,7 @@ $('input[name="lng"]').val(position[1]);
                     </div>
 
                     <div class="card-footer">
-                        <a class="btn btn-secondary" href="{{route('master.referensi.distributor')}}">Close</a>
+                        <a class="btn btn-secondary" href="{{route('master.referensi.agen')}}">Close</a>
                         <button id="submitformeditpihak1" class="btn btn-success">Update</button>
                     </div>
                 </form>

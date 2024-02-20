@@ -1,9 +1,9 @@
 
 @section('title')
-Tambah Maps Distributor
+Tambah Maps Pangkalan
 @stop
 @section('menu')
-Referensi > <b>Distributor</b>
+Referensi > <b>Pangkalan</b>
 @stop
 @push('js')
 
@@ -166,7 +166,7 @@ $('input[name="lng"]').val(position[1]);
         <div class="card mb-5 mb-xl-8">
             <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Maps Distributor</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Maps Pangkalan</span>
                     </h3>
             </div>
             <div class="card-body" style="text-align:left;">
@@ -214,7 +214,7 @@ $('input[name="lng"]').val(position[1]);
                     </div>
 
                     <div class="card-footer">
-                        <a class="btn btn-secondary" href="{{route('master.referensi.distributor')}}">Close</a>
+                        <a class="btn btn-secondary" href="{{route('master.referensi.pangkalan')}}">Close</a>
                         <button id="submitformeditpihak1" class="btn btn-success">Update</button>
                     </div>
                 </form>

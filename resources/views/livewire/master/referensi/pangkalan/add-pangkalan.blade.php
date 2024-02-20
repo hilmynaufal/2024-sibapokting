@@ -1,34 +1,56 @@
 @section('title')
-Ubah Data Distributor
+Tambah Data Pangkalan
 @stop
 @section('menu')
-Referensi > <b>Distributor</b>
+Referensi > <b>Pangkalan</b>
 @stop
 <div id="kt_app_content_container" class="app-container  container-xxl ">
     <div class="col-lg-12 col-xxl-12">
         <div class="card mb-5 mb-xl-8">
             <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Ubah Master Distributor</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Tambah Master Pangkalan</span>
                     </h3>
             </div>
             <div class="card-body" style="text-align:left;">
                 <form class="form-horizontal" wire:submit="create">
-                    <input type="hidden" name="id_distributor" wire:model="id_distributor" id="id_distributor">
+                    
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Nama Distributor<span class="text-danger">*</span></label>
+                                <label class="form-label">Agen<span class="text-danger">*</span></label>
                             </div>
                             <div class="col-md-10">
-                                <input type="text" class="form-control @error('namadistributor') is-invalid @enderror" name="namadistributor"
-                                    wire:model="namadistributor" id="namadistributor">
-                                @error('namadistributor') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                <div class="input-group mb-2" wire:ignore>
+                                    <select x-init="$($el).select2({ placeholder: '-- Pilih Agen --', });
+                                $($el).on('change', function() {
+                                    $wire.set('id_agen', $($el).val());
+                                })" wire:model="id_agen" name="id_agen" id="id_agen"
+                                        class="form-control form-control-lg form-select-solid @error('id_agen') is-invalid @enderror">
+                                        <option value="">-- Pilih Agen --</option>
+                                        @foreach($agenList as $agen)
+                                        <option value="{{$agen->id}}">{{strtoupper($agen->namaagen)}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Nama Pangkalan<span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control @error('namapangkalan') is-invalid @enderror" name="namapangkalan"
+                                    wire:model="namapangkalan" id="namapangkalan">
+                                @error('namapangkalan') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
@@ -42,7 +64,7 @@ Referensi > <b>Distributor</b>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
@@ -167,7 +189,6 @@ Referensi > <b>Distributor</b>
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
@@ -182,13 +203,12 @@ Referensi > <b>Distributor</b>
                     </div>
 
                     <div class="card-footer">
-                        <a class="btn btn-secondary" href="{{route('master.referensi.distributor')}}">Close</a>
-                        <button type="submit" class="btn btn-success">Edit</button>
+                        <a class="btn btn-secondary" href="{{route('master.referensi.pangkalan')}}">Close</a>
+                        <button type="submit" class="btn btn-success">Simpan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 

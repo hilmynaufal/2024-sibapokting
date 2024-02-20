@@ -1,15 +1,15 @@
 @section('title')
-Ubah Data Distributor
+Ubah Data Kios Pupuk
 @stop
 @section('menu')
-Referensi > <b>Distributor</b>
+Referensi > <b>Kios Pupuk</b>
 @stop
 <div id="kt_app_content_container" class="app-container  container-xxl ">
     <div class="col-lg-12 col-xxl-12">
         <div class="card mb-5 mb-xl-8">
             <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Tambah Master Distributor</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Edit Kios Pupuk</span>
                     </h3>
             </div>
             <div class="card-body" style="text-align:left;">

@@ -1,4 +1,11 @@
 
+@section('title')
+Maps Pasar
+@stop
+@section('menu')
+Referensi > <b>Pasar</b>
+@stop
+@push('js')
 
 @push('js')
 
@@ -159,7 +166,7 @@ $('input[name="lng"]').val(position[1]);
         <div class="card mb-5 mb-xl-8">
             <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Tambah Master Pasar</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Maps Master Pasar</span>
                     </h3>
             </div>
             <div class="card-body" style="text-align:left;">
@@ -167,7 +174,7 @@ $('input[name="lng"]').val(position[1]);
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Titik Lokasi Maps Objek Pajak</label>
+                                <label class="form-label">Titik Lokasi Maps</label>
                             </div>
                             <div class="col-md-10">
                                 <input type="text" style="width:50%;margin-top:0.7em;margin-left:2em;" class="form-control"
@@ -191,7 +198,7 @@ $('input[name="lng"]').val(position[1]);
                             <div class="col-md-6">
                                 <label>Petunjuk Ubah Koordinat</label>
                                 <div class="alert alert-danger">Silahkan Cari & Geser Kursor untuk Merubah Koordinat Sesuai
-                                    Lokasi Objek Pajak</div>
+                                    Lokasi</div>
                             </div>
                             <div class="col-md-2">
                                 <label>Latitude</label>

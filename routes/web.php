@@ -81,6 +81,16 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('addpupuk',App\Livewire\Master\Referensi\Pupuk\AddPupuk::class)->name('master.referensi.addpupuk');
         Route::get('mapspupuk/{id}',App\Livewire\Master\Referensi\Pupuk\MapsPupuk::class)->name('master.referensi.mapspupuk');
         Route::get('editpupuk/{id}',App\Livewire\Master\Referensi\Pupuk\EditPupuk::class)->name('master.referensi.editpupuk');
+
+        Route::get('agen',App\Livewire\Master\Referensi\Agen\Agen::class)->name('master.referensi.agen');
+        Route::get('addagen',App\Livewire\Master\Referensi\Agen\AddAgen::class)->name('master.referensi.addagen');
+        Route::get('mapsagen/{id}',App\Livewire\Master\Referensi\Agen\MapsAgen::class)->name('master.referensi.mapsagen');
+        Route::get('editagen/{id}',App\Livewire\Master\Referensi\Agen\EditAgen::class)->name('master.referensi.editagen');
+
+        Route::get('pangkalan',App\Livewire\Master\Referensi\Pangkalan\Pangkalan::class)->name('master.referensi.pangkalan');
+        Route::get('addpangkalan',App\Livewire\Master\Referensi\Pangkalan\AddPangkalan::class)->name('master.referensi.addpangkalan');
+        Route::get('mapspangkalan/{id}',App\Livewire\Master\Referensi\Pangkalan\MapsPangkalan::class)->name('master.referensi.mapspangkalan');
+        Route::get('editpangkalan/{id}',App\Livewire\Master\Referensi\Pangkalan\EditPangkalan::class)->name('master.referensi.editpangkalan');
     });    
     
     Route::prefix('main/lampiran')->group(function () {
