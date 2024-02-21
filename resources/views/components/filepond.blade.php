@@ -2,10 +2,9 @@
     x-data
     x-init="
     const pond = FilePond.create($refs.input, {
-        allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
+        allowMultiple: {{ $attributes->has('multiple') ? 'true' : 'false' }},
         labelFileProcessing: 'Sedang Upload...',
         labelFileProcessingComplete: 'Upload Selesai',
-        maxFiles: 1,
         credits: false,
         required: {{ $attributes['required']==1 ? 'true' : 'false' }},
         server: {
@@ -17,6 +16,12 @@
             },
         },
         labelIdle: 'Upload File {{ $attributes['title'] }}', // Tambahkan properti labelIdle di sini
+        allowImagePreview: {{ $attributes->has('allowFileTypeValidation') ? 'true' : 'false' }},
+        imagePreviewMaxHeight: {{ $attributes->has('imagePreviewMaxHeight') ? $attributes->get('imagePreviewMaxHeight') : '256' }},
+        allowFileTypeValidation: {{ $attributes->has('allowFileTypeValidation') ? 'true' : 'false' }},
+        acceptedFileTypes: {!! $attributes->get('acceptedFileTypes') ?? 'null' !!},
+        allowFileSizeValidation: {{ $attributes->has('allowFileSizeValidation') ? 'true' : 'false' }}
+            
     });
     this.addEventListener('pondReset', e => {
         pond.removeFiles();

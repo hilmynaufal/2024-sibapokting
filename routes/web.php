@@ -92,6 +92,11 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('mapspangkalan/{id}',App\Livewire\Master\Referensi\Pangkalan\MapsPangkalan::class)->name('master.referensi.mapspangkalan');
         Route::get('editpangkalan/{id}',App\Livewire\Master\Referensi\Pangkalan\EditPangkalan::class)->name('master.referensi.editpangkalan');
     });    
+
+    Route::prefix('website')->group(function () {
+        Route::get('berita/index',App\Livewire\Website\Berita\Index::class)->name('website.berita.index');
+        Route::get('berita/add',App\Livewire\Website\Berita\Add::class)->name('website.berita.add');
+    }); 
     
     Route::prefix('main/lampiran')->group(function () {
         Route::get('preview/{id}',App\Livewire\Main\Lampiran\Index::class)->name('main.lampiran.view');
@@ -110,8 +115,6 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         
         Route::get('objek-pajak-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\Verifikasi\ObjekPajak::class)->name('bphtb.verifikasi.objek.pajak');
         Route::get('persyaratan-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.verifikasi');
-        // Route::get('persyaratan-validasi/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.validasi');
-        // Route::get('lacak-pengajuan/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.lacak.pengajuan');
         
         Route::get('catatan-berkas/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.catatan.berkas');
         Route::get('cetak-sspd/{id}',App\Livewire\Main\Layanan\Bphtb\CetakSspd::class)->name('bphtb.cetak.sspd');
@@ -121,7 +124,6 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('cetak-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\CetakVerifikasi::class)->name('bphtb.cetak.verifikasi');
     }); 
     Route::prefix('layanan/bphtbkb')->group(function () {
-        // Route::get('create',App\Livewire\Main\Layanan\BphtbKb\Create::class)->name('main.layanan.bphtbkb.create');
         Route::get('index',App\Livewire\Main\Layanan\BphtbKb\Index::class)->name('main.layanan.bphtbkb.index');
         Route::get('detail/{id}',App\Livewire\Main\Layanan\BphtbKb\Detail::class)->name('main.layanan.bphtbkb.detail');
     });  

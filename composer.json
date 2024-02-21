@@ -25,6 +25,7 @@
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/image": "^2.2",
         "spatie/laravel-activitylog": "*",
+        "spatie/laravel-medialibrary": "^10.15",
         "wire-elements/modal": "^2.0"
     },
     "require-dev": {
