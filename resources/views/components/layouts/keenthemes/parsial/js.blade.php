@@ -3,6 +3,8 @@
 <script src="{{ asset('backend/themes/assets/js/scripts.bundle.js'); }}"></script>
 <script src="{{ asset('backend/themes/assets/plugins/custom/datatables/datatables.bundle.js'); }}"></script>
 
+<script src="{{ asset('backend/themes/assets/plugins/custom/fslightbox/fslightbox.bundle.js'); }}"></script>
+
 <!-- jQuery -->
 @livewireScripts
 @livewire('wire-elements-modal')

@@ -11,12 +11,12 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use Storage;
 
-class Add extends Component
+class Edit extends Component
 {
     use LivewireAlert;
     use WithFileUploads;
 
-    public $id;
+    public $id_berita;
     public $judul;
     public $slug;
     public $tanggal;
@@ -39,12 +39,24 @@ class Add extends Component
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.website.berita.add');
+        return view('livewire.website.berita.edit');
     }
     
-    public function mount()
+    public function mount($id)
     {
-        $this->kategoriList     = RefKategori::orderBy('nama','ASC')->get();
+
+        $idPangkalan = Crypt::decrypt($id);
+        $model = Model::where('id',$idPangkalan)->first();
+        $this->id_berita    = $model->id_berita;
+        $this->judul        = $model->judul;
+        $this->konten       = $model->konten;
+        $this->gambar       = $model->gambar;
+        $this->multi_gambar = json_decode($model->multi_gambar);
+        $this->sumber       = $model->sumber;
+        $this->kategori     = $model->kategori;
+        $this->kategoriList = RefKategori::orderBy('nama','ASC')->get();
+
+
     }
 
 
@@ -65,7 +77,7 @@ class Add extends Component
                 }
                 $uploadedFileImage = $this->gambar;
                 $fileNameImage = $this->gambar->getClientOriginalName(); // Mengambil nama asli file yang diunggah
-                $newFileNameImage = $folderPathImage.'/'.time() . '_' . str_replace(' ','_',strtolower($fileNameImage)); // Menyusun nama baru file
+                $newFileNameImage = time() . '_' . str_replace(' ','_',strtolower($fileNameImage)); // Menyusun nama baru file
                 $this->gambar->storeAs($folderPathImage, $newFileNameImage, 'public');
             }
             if(!empty($this->multi_gambar)){
@@ -76,7 +88,7 @@ class Add extends Component
                 foreach($this->multi_gambar as $value){
                     $uploadedFileImages = $value;
                     $fileNameImages = $value->getClientOriginalName(); // Mengambil nama asli file yang diunggah
-                    $newFileNameImages = $folderPathImages.'/'.time() . '_' . str_replace(' ','_',strtolower($fileNameImages)); // Menyusun nama baru file  
+                    $newFileNameImages = time() . '_' . str_replace(' ','_',strtolower($fileNameImages)); // Menyusun nama baru file  
                     array_push($this->images,$newFileNameImages);
                     $value->storeAs($folderPathImages, $newFileNameImages, 'public');
 

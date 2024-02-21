@@ -123,12 +123,12 @@ Website > <b>Berita</b>
                                     </td>
                                     <td style="width: 200px;" class="text-center">
                                         <div class="btn-list">
-                                            <a href="#"
+                                            <a href="{{route('website.berita.edit',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
-                                                <i class="bi bi-map"></i>
+                                                <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="#"
+                                            <a href="{{route('website.berita.edit',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-success btn-active-light-default me-1"
                                                 title="Lihat">
                                                 <i class="bi bi-pencil-fill"></i>

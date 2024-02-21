@@ -3,6 +3,7 @@
     x-init="
     const pond = FilePond.create($refs.input, {
         allowMultiple: {{ $attributes->has('multiple') ? 'true' : 'false' }},
+        allowReorder: true,
         labelFileProcessing: 'Sedang Upload...',
         labelFileProcessingComplete: 'Upload Selesai',
         credits: false,
@@ -20,12 +21,11 @@
         imagePreviewMaxHeight: {{ $attributes->has('imagePreviewMaxHeight') ? $attributes->get('imagePreviewMaxHeight') : '256' }},
         allowFileTypeValidation: {{ $attributes->has('allowFileTypeValidation') ? 'true' : 'false' }},
         acceptedFileTypes: {!! $attributes->get('acceptedFileTypes') ?? 'null' !!},
-        allowFileSizeValidation: {{ $attributes->has('allowFileSizeValidation') ? 'true' : 'false' }}
-            
+        allowFileSizeValidation: {{ $attributes->has('allowFileSizeValidation') ? 'true' : 'false' }},
     });
     this.addEventListener('pondReset', e => {
         pond.removeFiles();
     });
-">
+    ">
     <input type="file" x-ref="input" {!! isset($attributes['accept']) ? 'accept="' . $attributes['accept'] . '"' : '' !!}>
 </div>
