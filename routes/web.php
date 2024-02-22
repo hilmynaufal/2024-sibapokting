@@ -98,6 +98,12 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('berita/add',App\Livewire\Website\Berita\Add::class)->name('website.berita.add');
         Route::get('berita/edit/{id}',App\Livewire\Website\Berita\Edit::class)->name('website.berita.edit');
         Route::get('berita/view/{id}',App\Livewire\Website\Berita\View::class)->name('website.berita.view');
+
+
+        Route::get('banner/index',App\Livewire\Website\Banner\Index::class)->name('website.banner.index');
+        Route::get('banner/add',App\Livewire\Website\Banner\Add::class)->name('website.banner.add');
+        Route::get('banner/edit/{id}',App\Livewire\Website\Banner\Edit::class)->name('website.banner.edit');
+        Route::get('banner/view/{id}',App\Livewire\Website\Banner\View::class)->name('website.banner.view');
     }); 
     
     Route::prefix('main/lampiran')->group(function () {
