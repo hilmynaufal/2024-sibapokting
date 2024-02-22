@@ -46,7 +46,7 @@ class Index extends Component
     public function deleteSelectedRequest($id)
     {
         if(Model::where('id',$id)->delete()){
-            $log = 'Data Kios Pupuk Berhasil di Hapus';
+            $log = 'Berita Berhasil di Hapus';
             setActivity($log);
             $this->alert('success', $log, [
                 'position' => 'top-end',
@@ -54,7 +54,7 @@ class Index extends Component
                 'toast' => true,
             ]);
         }else{
-            $log = 'Data Kios Pupuk Gagal di Hapus';
+            $log = 'Berita Gagal di Hapus';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
@@ -62,7 +62,7 @@ class Index extends Component
             ]);
             
         }
-        return redirect()->route('master.referensi.pupuk');
+        return redirect()->route('website.berita.index');
 
     }
     

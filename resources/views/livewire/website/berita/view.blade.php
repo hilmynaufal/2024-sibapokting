@@ -1,5 +1,5 @@
 @section('title')
-Edit Data Berita
+Lihat Data Berita
 @stop
 @section('menu')
 Website > <b>Berita</b>
@@ -9,7 +9,7 @@ Website > <b>Berita</b>
         <div class="card mb-5 mb-xl-8">
             <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Edit Berita</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Lihat Berita</span>
                     </h3>
             </div>
             <div class="card-body" style="text-align:left;">
@@ -25,7 +25,7 @@ Website > <b>Berita</b>
                                     <select x-init="$($el).select2({ placeholder: '-- Pilih Kategori --', });
                                 $($el).on('change', function() {
                                     $wire.set('kategori', $($el).val());
-                                })" wire:model.defer="kategori" name="kategori" id="kategori"
+                                })" wire:model.defer="kategori" name="kategori" id="kategori" disabled
                                         class="form-control form-control-lg form-select-solid @error('kategori') is-invalid @enderror">
                                         <option value="">-- Pilih Kategori --</option>
                                         @foreach($kategoriList as $kategori)
@@ -44,7 +44,7 @@ Website > <b>Berita</b>
                             </div>
                             <div class="col-md-10">
                                 <input type="text" class="form-control @error('judul') is-invalid @enderror" name="judul"
-                                    wire:model="judul" id="judul">
+                                    wire:model="judul" id="judul" disabled>
                                 @error('judul') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -58,7 +58,7 @@ Website > <b>Berita</b>
                             </div>
                             <div class="col-md-10">
                                 <input type="text" class="form-control @error('sumber') is-invalid @enderror" name="sumber"
-                                    wire:model="sumber" id="sumber">
+                                    wire:model="sumber" id="sumber" disabled>
                                 @error('sumber') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -71,9 +71,7 @@ Website > <b>Berita</b>
                             </div>
                             <div class="col-md-10">
                                 <div class="py-5" data-bs-theme="light">
-                                    <textarea name="konten" id="konten" wire:model="konten" rows="10" cols="100">{{$konten}}</textarea>
-                                    @error('konten') <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                    @enderror
+                                    {!!$konten!!}
                                 </div>
                             </div>
                         </div>
@@ -84,21 +82,6 @@ Website > <b>Berita</b>
                                 <label class="form-label">Gambar Headline</label>
                             </div>
                             <div class="col-md-10">
-                                <div class="py-5" data-bs-theme="light">   
-                                    <x-filepond title="Gambar Headline" 
-                                    required="required" 
-                                    file-document="gambar_edit" 
-                                    data-max-file-size="1MB" 
-                                    wire:model="gambar_edit"
-                                    id="gambar_edit"
-                                    allowImagePreview
-                                    imagePreviewMaxHeight="200"
-                                    allowFileTypeValidation
-                                    acceptedFileTypes="['image/png', 'image/jpg', 'image/jpeg']"
-                                    allowFileSizeValidation
-                                    />
-                                </div>
-                                
                             @if(!empty($gambar))
                                 <div class="row g-10 row-cols-2 row-cols-lg-5">
                                     <div class="col">
@@ -122,43 +105,27 @@ Website > <b>Berita</b>
                                 <label class="form-label">Gambar Lainnya</label>
                             </div>
                             <div class="col-md-10">
-                                <div class="py-5" data-bs-theme="light">   
-                                    <x-filepond title="Gambar Lainnya" 
-                                    required="required" 
-                                    file-document="multi_gambar_edit" 
-                                    data-max-file-size="1MB" 
-                                    wire:model="multi_gambar_edit" 
-                                    id="multi_gambar_edit"
-                                    multiple
-                                    allowImagePreview
-                                    imagePreviewMaxHeight="200"
-                                    allowFileTypeValidation
-                                    acceptedFileTypes="['image/png', 'image/jpg', 'image/jpeg']"
-                                    allowFileSizeValidation
-                                    />
-                                </div>
-                            @if(!empty($multi_gambar))
-                                <div class="row g-10 row-cols-2 row-cols-lg-5">
-                                @foreach ($multi_gambar as $val)
-                                    <div class="col">
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot"
-                                            href="{{Storage::disk('public')->url($val)}}">
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-                                                style="background-image:url('{{Storage::disk('public')->url($val)}}')">
-                                            </div>
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="ki-outline ki-eye fs-3x text-white"></i> </div>
-                                        </a>
+                                @if(!empty($multi_gambar))
+                                    <div class="row g-10 row-cols-2 row-cols-lg-5">
+                                    @foreach ($multi_gambar as $val)
+                                        <div class="col">
+                                            <a class="d-block overlay" data-fslightbox="lightbox-hot"
+                                                href="{{Storage::disk('public')->url($val)}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                                    style="background-image:url('{{Storage::disk('public')->url($val)}}')">
+                                                </div>
+                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
+                                                    <i class="ki-outline ki-eye fs-3x text-white"></i> </div>
+                                            </a>
+                                        </div>
+                                    @endforeach
                                     </div>
-                                @endforeach
-                                </div>
-                            @endif
+                                @endif
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
                         <a class="btn btn-secondary" href="{{route('website.berita.index')}}">Close</a>
-                        <button type="submit" class="btn btn-success">Simpan</button>
                     </div>
                 </form>
             </div>

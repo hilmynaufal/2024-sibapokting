@@ -61,7 +61,7 @@ Website > <b>Berita</b>
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Data Berita</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Daftar Berita</span>
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         data-bs-original-title="Click to add a user" data-kt-initialized="1">
@@ -86,7 +86,6 @@ Website > <b>Berita</b>
                                     <th>Judul</th>
                                     <th>Sumber</th>
                                     <th>Kategori</th>
-                                    <th>Gambar</th>
                                     <th>Status</th>
                                     <th style='widht:250px;'>Action</th>
                                 </tr>
@@ -113,17 +112,13 @@ Website > <b>Berita</b>
                                     </td>
                                     <td>
                                         <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->gambar }}</span>
-                                    </td>
-                                    <td>
-                                        <span
                                             class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">
                                             {{ $item->status}}
                                         </span>
                                     </td>
                                     <td style="width: 200px;" class="text-center">
                                         <div class="btn-list">
-                                            <a href="{{route('website.berita.edit',[Crypt::encrypt($item->id)])}}"
+                                            <a href="{{route('website.berita.view',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
                                                 <i class="bi bi-eye"></i>
