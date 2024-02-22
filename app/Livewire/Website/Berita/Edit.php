@@ -22,6 +22,7 @@ class Edit extends Component
     public $tanggal;
     public $konten;
     public $gambar;
+    public $gambar_edit;
     public $sumber;
     public $kategori;
     public $status;
@@ -33,6 +34,7 @@ class Edit extends Component
     public $deleted_id;
     public $token;
     public $multi_gambar = [];
+    public $multi_gambar_edit = [];
     public $images = [];
     public $kategoriList;
 
@@ -45,9 +47,9 @@ class Edit extends Component
     public function mount($id)
     {
 
-        $idPangkalan = Crypt::decrypt($id);
-        $model = Model::where('id',$idPangkalan)->first();
-        $this->id_berita    = $model->id_berita;
+        $idBerita = Crypt::decrypt($id);
+        $model = Model::where('id',$idBerita)->first();
+        $this->id_berita    = $model->id;
         $this->judul        = $model->judul;
         $this->konten       = $model->konten;
         $this->gambar       = $model->gambar;
@@ -65,53 +67,54 @@ class Edit extends Component
         $this->validate([
             'judul' => 'required',
             'sumber' => 'required',
-            'gambar' => 'required',
             'kategori' => 'required',
             ]);
 
             // dd($this->gambar->getRealPath())->toMediaCollection('gambar');
-            if(!empty($this->gambar)){
+            if(!empty($this->gambar_edit)){
                 $folderPathImage = "website/articles/headline";
                 if (!file_exists(Storage::disk('public')->path($folderPathImage))) {
                     Storage::disk('public')->makeDirectory($folderPathImage, 0755, true);
                 }
-                $uploadedFileImage = $this->gambar;
-                $fileNameImage = $this->gambar->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+                $uploadedFileImage = $this->gambar_edit;
+                $fileNameImage = $this->gambar_edit->getClientOriginalName(); // Mengambil nama asli file yang diunggah
                 $newFileNameImage = time() . '_' . str_replace(' ','_',strtolower($fileNameImage)); // Menyusun nama baru file
-                $this->gambar->storeAs($folderPathImage, $newFileNameImage, 'public');
+                $this->gambar_edit->storeAs($folderPathImage, $newFileNameImage, 'public');
             }
-            if(!empty($this->multi_gambar)){
+            if(!empty($this->multi_gambar_edit)){
                 $folderPathImages = "website/articles/etc";
                 if (!file_exists(Storage::disk('public')->path($folderPathImages))) {
                     Storage::disk('public')->makeDirectory($folderPathImages, 0755, true);
                 }
-                foreach($this->multi_gambar as $value){
+                foreach($this->multi_gambar_edit as $value){
                     $uploadedFileImages = $value;
                     $fileNameImages = $value->getClientOriginalName(); // Mengambil nama asli file yang diunggah
                     $newFileNameImages = time() . '_' . str_replace(' ','_',strtolower($fileNameImages)); // Menyusun nama baru file  
-                    array_push($this->images,$newFileNameImages);
+                    array_push($this->images,$folderPathImages.'/'.$newFileNameImages);
                     $value->storeAs($folderPathImages, $newFileNameImages, 'public');
 
                 }
             }
 
-            $model = Model::create([
-                'judul'             => $this->judul,
-                'slug'              => str_replace(' ','_',strtolower($this->judul)),
-                'tanggal'           => date('Y-m-d H:i:s'),
-                'konten'            => $this->konten,
-                'gambar'            => $newFileNameImage,
-                'multi_gambar'      => json_encode($this->images),
-                'sumber'            => $this->sumber,
-                'kategori'          => $this->kategori,
-                'status'            => 'DRAFT',
-                'created_id'        => Auth::user()->id,
-                'created_at'        => date('Y-m-d H:i:s'),
-            ]);
+                $model = Model::where('id',$this->id_berita)->first();
+                
+                $model->judul           = $this->judul;
+                $model->slug            = str_replace(' ','_',strtolower($this->judul));
+                $model->konten          = $this->konten;
+                if(!empty($this->gambar_edit)){
+                    $model->gambar          = $folderPathImage.'/'.$newFileNameImage;
+                }
+                if(!empty($this->multi_gambar_edit)){
+                    $model->multi_gambar    = json_encode($this->images);
+                }
+                $model->sumber          = $this->sumber;
+                $model->kategori        = $this->kategori;
+                $model->updated_id      = Auth::user()->id;
+                $model->updated_at      = date('Y-m-d H:i:s');  
             // dd($this->images);
             // die;
-            if($model->save()){
-                $this->alert('success', 'Data Pangkalan Berhasil di Simpan', [
+            if($model->update()){
+                $this->alert('success', 'Berita Berhasil di Ubah', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
@@ -119,7 +122,7 @@ class Edit extends Component
                 ]);
                 return redirect()->route('website.berita.index');
             }else{
-                $this->alert('error', 'Data Pangkalan Gagal di Simpan', [
+                $this->alert('error', 'Berita Gagal di Ubah', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,

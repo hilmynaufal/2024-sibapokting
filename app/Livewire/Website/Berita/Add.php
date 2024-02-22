@@ -65,7 +65,7 @@ class Add extends Component
                 }
                 $uploadedFileImage = $this->gambar;
                 $fileNameImage = $this->gambar->getClientOriginalName(); // Mengambil nama asli file yang diunggah
-                $newFileNameImage = $folderPathImage.'/'.time() . '_' . str_replace(' ','_',strtolower($fileNameImage)); // Menyusun nama baru file
+                $newFileNameImage = time() . '_' . str_replace(' ','_',strtolower($fileNameImage)); // Menyusun nama baru file
                 $this->gambar->storeAs($folderPathImage, $newFileNameImage, 'public');
             }
             if(!empty($this->multi_gambar)){
@@ -76,8 +76,8 @@ class Add extends Component
                 foreach($this->multi_gambar as $value){
                     $uploadedFileImages = $value;
                     $fileNameImages = $value->getClientOriginalName(); // Mengambil nama asli file yang diunggah
-                    $newFileNameImages = $folderPathImages.'/'.time() . '_' . str_replace(' ','_',strtolower($fileNameImages)); // Menyusun nama baru file  
-                    array_push($this->images,$newFileNameImages);
+                    $newFileNameImages = time() . '_' . str_replace(' ','_',strtolower($fileNameImages)); // Menyusun nama baru file  
+                    array_push($this->images,$folderPathImages.'/'.$newFileNameImages);
                     $value->storeAs($folderPathImages, $newFileNameImages, 'public');
 
                 }
@@ -88,7 +88,7 @@ class Add extends Component
                 'slug'              => str_replace(' ','_',strtolower($this->judul)),
                 'tanggal'           => date('Y-m-d H:i:s'),
                 'konten'            => $this->konten,
-                'gambar'            => $newFileNameImage,
+                'gambar'            => $folderPathImage.'/'.$newFileNameImage,
                 'multi_gambar'      => json_encode($this->images),
                 'sumber'            => $this->sumber,
                 'kategori'          => $this->kategori,

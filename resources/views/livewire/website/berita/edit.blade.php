@@ -82,16 +82,15 @@ Website > <b>Berita</b>
                         <div class="row">
                             <div class="col-md-2">
                                 <label class="form-label">Gambar Headline</label>
-                                {{$gambar}}
                             </div>
                             <div class="col-md-10">
                                 <div class="py-5" data-bs-theme="light">   
                                     <x-filepond title="Gambar Headline" 
                                     required="required" 
-                                    file-document="gambar" 
+                                    file-document="gambar_edit" 
                                     data-max-file-size="1MB" 
-                                    wire:model="gambar"
-                                    id="gambar"
+                                    wire:model="gambar_edit"
+                                    id="gambar_edit"
                                     allowImagePreview
                                     imagePreviewMaxHeight="200"
                                     allowFileTypeValidation
@@ -123,10 +122,10 @@ Website > <b>Berita</b>
                                 <div class="py-5" data-bs-theme="light">   
                                     <x-filepond title="Gambar Lainnya" 
                                     required="required" 
-                                    file-document="multi_gambar" 
+                                    file-document="multi_gambar_edit" 
                                     data-max-file-size="1MB" 
-                                    wire:model="multi_gambar" 
-                                    id="multi_gambar"
+                                    wire:model="multi_gambar_edit" 
+                                    id="multi_gambar_edit"
                                     multiple
                                     allowImagePreview
                                     imagePreviewMaxHeight="200"
@@ -134,6 +133,20 @@ Website > <b>Berita</b>
                                     acceptedFileTypes="['image/png', 'image/jpg', 'image/jpeg']"
                                     allowFileSizeValidation
                                     />
+                                </div>
+                                <div class="row g-10 row-cols-2 row-cols-lg-5">
+                                @foreach ($multi_gambar as $val)
+                                    <div class="col">
+                                        <a class="d-block overlay" data-fslightbox="lightbox-hot"
+                                            href="{{Storage::disk('public')->url($val)}}">
+                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                                style="background-image:url('{{Storage::disk('public')->url($val)}}')">
+                                            </div>
+                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
+                                                <i class="ki-outline ki-eye fs-3x text-white"></i> </div>
+                                        </a>
+                                    </div>
+                                @endforeach
                                 </div>
                             </div>
                         </div>
@@ -152,10 +165,15 @@ Website > <b>Berita</b>
 <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
 <script>
 	ClassicEditor
-		.create( document.querySelector( '#konten' ) )
-		.catch( error => {
-			console.error( error );
-		} );
+            .create(document.querySelector('#konten'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                @this.set('konten', editor.getData());
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });
 </script>
 @endpush
 
