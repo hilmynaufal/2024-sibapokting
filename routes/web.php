@@ -108,6 +108,11 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('banner/add',App\Livewire\Website\Banner\Add::class)->name('website.banner.add');
         Route::get('banner/edit/{id}',App\Livewire\Website\Banner\Edit::class)->name('website.banner.edit');
         Route::get('banner/view/{id}',App\Livewire\Website\Banner\View::class)->name('website.banner.view');
+
+        Route::get('link/index',App\Livewire\Website\Link\Index::class)->name('website.link.index');
+        Route::get('link/add',App\Livewire\Website\Link\Add::class)->name('website.link.add');
+        Route::get('link/edit/{id}',App\Livewire\Website\Link\Edit::class)->name('website.link.edit');
+        Route::get('link/view/{id}',App\Livewire\Website\Link\View::class)->name('website.link.view');
     }); 
     
     Route::prefix('main/lampiran')->group(function () {

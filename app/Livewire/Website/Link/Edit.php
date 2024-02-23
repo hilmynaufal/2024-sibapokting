@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\Website\Banner;
+namespace App\Livewire\Website\Link;
 use Livewire\Component;
-use App\Models\Website\RefBanner as Model;
+use App\Models\Website\RefLink as Model;
 use App\Models\Website\RefKategori;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Crypt;
@@ -16,11 +16,10 @@ class Edit extends Component
     use LivewireAlert;
     use WithFileUploads;
 
-    public $id_banner;
+    public $id_link;
     public $nama;
-    public $sumber;
+    public $link;
     public $kategori;
-    public $deskripsi;
     public $gambar;
     public $gambar_edit;
     public $created_at;
@@ -34,19 +33,18 @@ class Edit extends Component
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.website.banner.edit');
+        return view('livewire.website.link.edit');
     }
     
     public function mount($id)
     {
 
-        $idBanner = Crypt::decrypt($id);
-        $model = Model::where('id',$idBanner)->first();
-        $this->id_banner    = $model->id;
+        $idLink = Crypt::decrypt($id);
+        $model = Model::where('id',$idLink)->first();
+        $this->id_link    = $model->id;
         $this->nama        = $model->nama;
-        $this->deskripsi       = $model->deskripsi;
         $this->gambar       = $model->gambar;
-        $this->sumber       = $model->sumber;
+        $this->link       = $model->link;
         $this->kategori     = $model->kategori;
 
 
@@ -57,13 +55,13 @@ class Edit extends Component
     {
         $this->validate([
             'nama' => 'required',
-            'sumber' => 'required',
+            'link' => 'required',
             'kategori' => 'required',
             ]);
 
             // dd($this->gambar->getRealPath())->toMediaCollection('gambar');
             if(!empty($this->gambar_edit)){
-                $folderPathImage = "website/banner";
+                $folderPathImage = "website/link";
                 if (!file_exists(Storage::disk('public')->path($folderPathImage))) {
                     Storage::disk('public')->makeDirectory($folderPathImage, 0755, true);
                 }
@@ -73,35 +71,34 @@ class Edit extends Component
                 $this->gambar_edit->storeAs($folderPathImage, $newFileNameImage, 'public');
             }
             
-                $model = Model::where('id',$this->id_banner)->first();
+                $model = Model::where('id',$this->id_link)->first();
                 
                 $model->nama           = $this->nama;
-                $model->deskripsi          = $this->deskripsi;
                 if(!empty($this->gambar_edit)){
                     $model->gambar          = $folderPathImage.'/'.$newFileNameImage;
                 }
-                $model->sumber          = $this->sumber;
+                $model->link          = $this->link;
                 $model->kategori        = $this->kategori;
                 $model->updated_id      = Auth::user()->id;
                 $model->updated_at      = date('Y-m-d H:i:s');  
             // dd($this->images);
             // die;
             if($model->update()){
-                $this->alert('success', 'Banner Berhasil di Ubah', [
+                $this->alert('success', 'Link Berhasil di Ubah', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('website.banner.index');
+                return redirect()->route('website.link.index');
             }else{
-                $this->alert('error', 'Banner Gagal di Ubah', [
+                $this->alert('error', 'Link Gagal di Ubah', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('website.banner.index');
+                return redirect()->route('website.link.index');
             }
             
     }
