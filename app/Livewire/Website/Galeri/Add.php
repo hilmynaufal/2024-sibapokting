@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\Website\Berita;
+namespace App\Livewire\Website\Galeri;
 use Livewire\Component;
-use App\Models\Website\RefArticles as Model;
+use App\Models\Website\RefGaleri as Model;
 use App\Models\Website\RefKategori;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Crypt;
@@ -17,20 +17,9 @@ class Add extends Component
     use WithFileUploads;
 
     public $id;
-    public $judul;
-    public $slug;
-    public $tanggal;
-    public $konten;
+    public $nama;
     public $gambar;
-    public $sumber;
     public $kategori;
-    public $status;
-    public $created_at;
-    public $created_id;
-    public $updated_at;
-    public $updated_id;
-    public $deleted_at;
-    public $deleted_id;
     public $token;
     public $multi_gambar = [];
     public $images = [];
@@ -39,7 +28,7 @@ class Add extends Component
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
-        return view('livewire.website.berita.add');
+        return view('livewire.website.galeri.add');
     }
     
     public function mount()
@@ -51,15 +40,14 @@ class Add extends Component
     public function create()
     {
         $this->validate([
-            'judul' => 'required',
-            'sumber' => 'required',
+            'nama' => 'required',
             'gambar' => 'required',
             'kategori' => 'required',
             ]);
 
             // dd($this->gambar->getRealPath())->toMediaCollection('gambar');
             if(!empty($this->gambar)){
-                $folderPathImage = "website/articles/headline";
+                $folderPathImage = "website/galeri/headline";
                 if (!file_exists(Storage::disk('public')->path($folderPathImage))) {
                     Storage::disk('public')->makeDirectory($folderPathImage, 0755, true);
                 }
@@ -69,7 +57,7 @@ class Add extends Component
                 $this->gambar->storeAs($folderPathImage, $newFileNameImage, 'public');
             }
             if(!empty($this->multi_gambar)){
-                $folderPathImages = "website/articles/etc";
+                $folderPathImages = "website/galeri/etc";
                 if (!file_exists(Storage::disk('public')->path($folderPathImages))) {
                     Storage::disk('public')->makeDirectory($folderPathImages, 0755, true);
                 }
@@ -84,36 +72,31 @@ class Add extends Component
             }
 
             $model = Model::create([
-                'judul'             => $this->judul,
-                'slug'              => str_replace(' ','_',strtolower($this->judul)),
-                'tanggal'           => date('Y-m-d H:i:s'),
-                'konten'            => $this->konten,
+                'nama'             => $this->nama,
                 'gambar'            => $folderPathImage.'/'.$newFileNameImage,
                 'multi_gambar'      => json_encode($this->images),
-                'sumber'            => $this->sumber,
                 'kategori'          => $this->kategori,
-                'status'            => 'DRAFT',
                 'created_id'        => Auth::user()->id,
                 'created_at'        => date('Y-m-d H:i:s'),
             ]);
             // dd($this->images);
             // die;
             if($model->save()){
-                $this->alert('success', 'Data Berita Berhasil di Simpan', [
+                $this->alert('success', 'Data Galeri Berhasil di Simpan', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('website.berita.index');
+                return redirect()->route('website.galeri.index');
             }else{
-                $this->alert('error', 'Data Berita Gagal di Simpan', [
+                $this->alert('error', 'Data Galeri Gagal di Simpan', [
                     'position' => 'top',
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                return redirect()->route('website.berita.index');
+                return redirect()->route('website.galeri.index');
             }
             
     }

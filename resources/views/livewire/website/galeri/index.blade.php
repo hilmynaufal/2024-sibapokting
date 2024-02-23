@@ -1,8 +1,8 @@
 @section('title')
-Daftar Banner
+Daftar Galeri
 @stop
 @section('menu')
-Website > <b>Banner</b>
+Website > <b>Galeri</b>
 @stop
 @push('css')
     <style>
@@ -61,12 +61,12 @@ Website > <b>Banner</b>
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Daftar Banner</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Daftar Galeri</span>
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         data-bs-original-title="Click to add a user" data-kt-initialized="1">
-                        <a href="{{route('website.banner.add')}}" class="btn btn-sm btn-light btn-active-primary">
-                            <i class="ki-duotone ki-plus fs-2"></i> Tambah Banner
+                        <a href="{{route('website.galeri.add')}}" class="btn btn-sm btn-light btn-active-primary">
+                            <i class="ki-duotone ki-plus fs-2"></i> Tambah Galeri
                         </a>
                     </div>
                 </div>
@@ -84,7 +84,6 @@ Website > <b>Banner</b>
                                 <tr class="fw-bold text-muted">
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>Sumber</th>
                                     <th>Kategori</th>
                                     <th>Gambar</th>
                                     <th style='widht:250px;'>Action</th>
@@ -104,11 +103,7 @@ Website > <b>Banner</b>
                                     </td>
                                     <td>
                                         <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->sumber }}</span>
-                                    </td>
-                                    <td>
-                                        <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->kategori }}</span>
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->toKategori->nama }}</span>
                                     </td>
                                     <td>
                                         <div class="m-0">  
@@ -120,12 +115,12 @@ Website > <b>Banner</b>
                                     </td>
                                     <td style="width: 200px;" class="text-center">
                                         <div class="btn-list">
-                                            <a href="{{route('website.banner.view',[Crypt::encrypt($item->id)])}}"
+                                            <a href="{{route('website.galeri.view',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{{route('website.banner.edit',[Crypt::encrypt($item->id)])}}"
+                                            <a href="{{route('website.galeri.edit',[Crypt::encrypt($item->id)])}}"
                                                 class="btn btn-sm btn-icon btn-light-success btn-active-light-default me-1"
                                                 title="Lihat">
                                                 <i class="bi bi-pencil-fill"></i>

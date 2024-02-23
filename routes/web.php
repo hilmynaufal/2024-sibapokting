@@ -99,6 +99,10 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('berita/edit/{id}',App\Livewire\Website\Berita\Edit::class)->name('website.berita.edit');
         Route::get('berita/view/{id}',App\Livewire\Website\Berita\View::class)->name('website.berita.view');
 
+        Route::get('galeri/index',App\Livewire\Website\Galeri\Index::class)->name('website.galeri.index');
+        Route::get('galeri/add',App\Livewire\Website\Galeri\Add::class)->name('website.galeri.add');
+        Route::get('galeri/edit/{id}',App\Livewire\Website\Galeri\Edit::class)->name('website.galeri.edit');
+        Route::get('galeri/view/{id}',App\Livewire\Website\Galeri\View::class)->name('website.galeri.view');
 
         Route::get('banner/index',App\Livewire\Website\Banner\Index::class)->name('website.banner.index');
         Route::get('banner/add',App\Livewire\Website\Banner\Add::class)->name('website.banner.add');
