@@ -32,6 +32,25 @@ class Index extends Component
           'model'=> $rows
         ]);
     }
+
+    public function changeStatus($id){
+        $status = Model::where('id',$id)->first();
+        if($status->status == 'DRAFT'){
+            Model::where('id',$id)->update(['status' => 'PUBLISH']);
+            $this->alert('success', 'Publish Artikel', [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+        }else{
+            Model::where('id',$id)->update(['status' => 'DRAFT']);
+            $this->alert('success', 'Draft Artikel', [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+            ]);
+        }
+    }
     
     public function deleteRequest($id)
     {

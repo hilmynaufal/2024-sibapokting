@@ -111,10 +111,10 @@ Website > <b>Berita</b>
                                             class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->toKategori->nama }}</span>
                                     </td>
                                     <td>
-                                        <span
-                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">
-                                            {{ $item->status}}
-                                        </span>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:click="changeStatus({{$item->id}})" {{$item->status == 'DRAFT' ? '' : 'checked'}}>
+                                            <label class="form-check-label" for="flexSwitchCheckChecked">{{$item->status == 'DRAFT' ? 'DRAFT' : 'PUBLISH'}}</label>
+                                        </div>
                                     </td>
                                     <td style="width: 200px;" class="text-center">
                                         <div class="btn-list">
