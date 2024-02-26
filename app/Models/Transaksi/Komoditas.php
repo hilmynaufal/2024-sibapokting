@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Models\Bphtb;
-use App\Models\Pajak\RefJenisTransaksi;
-use App\Models\User;
+namespace App\Models\Transaksi;
 
+use App\Models\Referensi\RefPasar;
+use App\Models\Referensi\RefKomoditas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid as Generator;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Support\Facades\Auth;
 
-class PembayaranPajakKurang extends Model
+class Komoditas extends Model
 {
-    use HasFactory;
-    
     protected $connection = 'pgsql';
-    protected $table = 't_bphtb_pembayaran_kurang';
+    protected $table = 't_siba_komoditas';
     protected $primaryKey = 'id';
     
     public $incrementing = false;
@@ -36,36 +33,19 @@ class PembayaranPajakKurang extends Model
         });
     }
     
-    protected static $logName = 'Pembayaran Pajak Kurang';
+    protected static $logName = 'Komoditas';
     protected static $logOnlyDirty = true;
     protected static $logFillable = true;
     public function getDescriptionForEvent(string $eventName): string
     {
         return $this->nama . " {$eventName} Oleh: " . Auth::user()->nama;
     }
-    
-    public function jenisPerolehan()
-    {
-        return $this->hasOne(RefJenisTransaksi::class,'id','jenis_transaksi_id');
+
+    public function toPasar(){
+        return $this->hasOne(RefPasar::class, 'id', 'pasar_id');
+    } 
+    public function toKomoditas(){
+        return $this->hasOne(RefKomoditas::class, 'id', 'komoditas_id');
     }
     
-    public function notaris()
-    {
-        return $this->belongsTo(User::class,'created_id');
-    }
-    
-    public function penerimaHak()
-    {
-        return $this->hasOne(PenerimaHak::class,'id_bphtb','id_bphtb');
-    }
-    
-    public function pelepasHak()
-    {
-        return $this->hasOne(PelepasHak::class,'id_bphtb','id_bphtb');
-    }
-    
-    public function objekPajak()
-    {
-        return $this->hasOne(objekPajak::class,'id_bphtb','id_bphtb');
-    }
 }

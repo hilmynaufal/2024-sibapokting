@@ -115,79 +115,12 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('link/view/{id}',App\Livewire\Website\Link\View::class)->name('website.link.view');
     }); 
     
-    Route::prefix('main/lampiran')->group(function () {
-        Route::get('preview/{id}',App\Livewire\Main\Lampiran\Index::class)->name('main.lampiran.view');
-    });    
-    
-    Route::prefix('layanan/bphtb')->group(function () {
-        Route::get('create',App\Livewire\Main\Layanan\Bphtb\Create::class)->name('main.layanan.bphtb.create');
-        Route::get('index',App\Livewire\Main\Layanan\Bphtb\Index::class)->name('main.layanan.bphtb.index');
-        Route::get('detail/{id}',App\Livewire\Main\Layanan\Bphtb\Detail::class)->name('main.layanan.bphtb.detail');
-        
-        Route::get('penerima-hak',App\Livewire\Main\Layanan\Bphtb\Form\PenerimaHak::class)->name('bphtb.form.penerima.hak');
-        Route::get('penerima-hak-edit/{id}',App\Livewire\Main\Layanan\Bphtb\Form\PenerimaHakEdit::class)->name('bphtb.form.penerima.hak.edit');
-        Route::get('pelepas-hak/{id}',App\Livewire\Main\Layanan\Bphtb\Form\PelepasHak::class)->name('bphtb.form.pelepas.hak');
-        Route::get('objek-pajak/{id}',App\Livewire\Main\Layanan\Bphtb\Form\ObjekPajak::class)->name('bphtb.form.objek.pajak');
-        Route::get('maps/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Maps::class)->name('bphtb.form.maps');
-        
-        Route::get('objek-pajak-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\Verifikasi\ObjekPajak::class)->name('bphtb.verifikasi.objek.pajak');
-        Route::get('persyaratan-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.verifikasi');
-        
-        Route::get('catatan-berkas/{id}',App\Livewire\Main\Layanan\Bphtb\Form\Perhitungan::class)->name('bphtb.form.catatan.berkas');
-        Route::get('cetak-sspd/{id}',App\Livewire\Main\Layanan\Bphtb\CetakSspd::class)->name('bphtb.cetak.sspd');
-        Route::get('cetak-resi/{id}',App\Livewire\Main\Layanan\Bphtb\CetakResi::class)->name('bphtb.cetak.resi');
-        Route::get('cetak-ntpd/{id}',App\Livewire\Main\Layanan\Bphtb\CetakNtpd::class)->name('bphtb.cetak.ntpd');
-        Route::get('cetak-sspdsigned/{id}',App\Livewire\Main\Layanan\Bphtb\CetakSspdSigned::class)->name('bphtb.cetak.sspdsigned');
-        Route::get('cetak-verifikasi/{id}',App\Livewire\Main\Layanan\Bphtb\CetakVerifikasi::class)->name('bphtb.cetak.verifikasi');
-    }); 
-    Route::prefix('layanan/bphtbkb')->group(function () {
-        Route::get('index',App\Livewire\Main\Layanan\BphtbKb\Index::class)->name('main.layanan.bphtbkb.index');
-        Route::get('detail/{id}',App\Livewire\Main\Layanan\BphtbKb\Detail::class)->name('main.layanan.bphtbkb.detail');
-    });  
-    
-    Route::prefix('verifikasi/bphtb')->group(function () {
-        Route::get('index',App\Livewire\Main\Verifikasi\Bphtb\Index::class)->name('main.verifikasi.bphtb.index');        
-        Route::get('detail/{id}',App\Livewire\Main\Verifikasi\Bphtb\Detail::class)->name('main.verifikasi.bphtb.detail');
-    }); 
-
-    Route::prefix('verifikasi/bphtbkb')->group(function () {
-        Route::get('index',App\Livewire\Main\Verifikasi\BphtbKb\Index::class)->name('main.verifikasi.bphtbkb.index');        
-        Route::get('detail/{id}',App\Livewire\Main\Verifikasi\BphtbKb\Detail::class)->name('main.verifikasi.bphtbkb.detail');
-    });  
-
-    Route::prefix('pengajuan')->group(function () {
-        Route::get('aktif/index',App\Livewire\Main\Pengajuan\Aktif\Index::class)->name('main.pengajuan.aktif.index');
-        Route::get('aktif/detail/{id}',App\Livewire\Main\Pengajuan\Aktif\Detail::class)->name('main.pengajuan.aktif.detail');
-    }); 
-    
-    Route::prefix('main/surat')->group(function () {
-        Route::get('masuk',App\Livewire\Main\SuratMasuk\Index::class)->name('main.suratmasuk.index');
-        Route::get('keluar',App\Livewire\Main\SuratKeluar\Index::class)->name('main.suratkeluar.index');
-    });    
-    
-    Route::prefix('main/disposisi')->group(function () {
-        Route::get('masuk',App\Livewire\Main\DisposisiMasuk\Index::class)->name('main.disposisimasuk.index');
-        Route::get('cetak/{id}',App\Livewire\Main\DisposisiMasuk\Cetak::class)->name('main.disposisimasuk.cetak');
-        Route::get('keluar',App\Livewire\Main\DisposisiKeluar\Index::class)->name('main.disposisikeluar.index');
-    });      
-    
-    Route::prefix('main/laporan')->group(function () {
-        Route::get('surat-masuk',App\Livewire\Main\Laporan\SuratMasuk\Index::class)->name('main.laporan.suratmasuk.index');
-        Route::get('surat-keluar',App\Livewire\Main\Laporan\SuratKeluar\Index::class)->name('main.laporan.suratkeluar.index');
-    });      
-    
     Route::prefix('search')->group(function () {
         Route::get('tujuan-eksternal', [App\Livewire\Components\Search::class,'TujuanEksternal'])->name('search.tujuan.eksternal');
     });
-    
-    
-});
+        
+    Route::prefix('main')->group(function () {
+        Route::get('komoditas',App\Livewire\Main\Komoditas::class)->name('main.komodias');
+    });
 
-// Route::prefix('search')->group(function () {
-    //     Route::get('golongan', [App\Livewire\Components\SearchSelects::class,'Golongan'])->name('search.golongan');
-    //     Route::get('eselon', [App\Livewire\Components\SearchSelects::class,'Eselon'])->name('search.eselon');
-    //     Route::get('pangkat', [App\Livewire\Components\SearchSelects::class,'Pangkat'])->name('search.pangkat');
-    //     Route::get('jabatan', [App\Livewire\Components\SearchSelects::class,'Jabatan'])->name('search.jabatan');
-    //     Route::get('unit-kerja', [App\Livewire\Components\SearchSelects::class,'UnitKerja'])->name('search.unit-kerja');
-    //     Route::get('satuan-kerja', [App\Livewire\Components\SearchSelects::class,'SatuanKerja'])->name('search.satuan-kerja');
-    // });    
+});
