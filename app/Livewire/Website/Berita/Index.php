@@ -50,6 +50,8 @@ class Index extends Component
                 'toast' => true,
             ]);
         }
+        
+        return redirect()->route('website.berita.index');
     }
     
     public function deleteRequest($id)
