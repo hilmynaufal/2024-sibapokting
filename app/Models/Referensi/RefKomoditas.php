@@ -42,4 +42,8 @@ class RefKomoditas extends Model
     {
         return $this->nama . " {$eventName} Oleh: " . Auth::user()->nama;
     }
+
+    public function toSatuan(){
+        return $this->hasOne(RefSatuan::class, 'id', 'satuan');
+    }
 }

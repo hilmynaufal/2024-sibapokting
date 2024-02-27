@@ -3,12 +3,14 @@ namespace App\Livewire\Main;
 use Livewire\Component;
 use App\Models\Transaksi\Komoditas as Model;
 use Livewire\WithPagination;
+use Livewire\WithoutUrlPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 
 class Komoditas extends Component
 {
-    use WithPagination;
+    use WithPagination,WithoutUrlPagination;
     use LivewireAlert;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['store' => 'render','delete', 'confirmed'];
@@ -22,8 +24,8 @@ class Komoditas extends Component
     public $pasar_id;
     public $id_komoditas;
     
-    public $sortColoumName = "detail_tgl";
-    public $sortDirection = "asc";
+    public $sortColoumName = "tanggal";
+    public $sortDirection = "desc";
     protected $queryString = ['search'];
     
     #[Layout('components.layouts.keenthemes.page')]
@@ -59,14 +61,19 @@ class Komoditas extends Component
             $query->when($this->search != "", function ($q) {
                 return $q->whereRaw('LOWER(pasar_id) like ?', ['%'.strtolower($this->search).'%']);
             });
+        if(Auth::user()->role_id == 5){
+            $rows = $query->where('pasar_id',Auth::user()->pasar_id)->orderBy($this->sortColoumName,$this->sortDirection)
+            ->paginate($this->perpage);
+        }else{
             $rows = $query->orderBy($this->sortColoumName,$this->sortDirection)
             ->paginate($this->perpage);
+        }
 
         if ($rows[0]!=null) {
             $this->firstId = $rows[0]->id;
         }
         
-        return view('livewire.main.transaksi.komoditas', [
+        return view('livewire.main.transaksi.komoditas.komoditas', [
           'model'=> $rows
         ]);
     }

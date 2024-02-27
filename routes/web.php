@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
     });
         
     Route::prefix('main')->group(function () {
-        Route::get('komoditas',App\Livewire\Main\Komoditas::class)->name('main.komodias');
+        Route::get('komoditas',App\Livewire\Main\Komoditas::class)->name('main.komoditas');
     });
 
 });
