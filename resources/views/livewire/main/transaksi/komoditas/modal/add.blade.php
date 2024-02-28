@@ -9,6 +9,7 @@
                     wire:click="$dispatch('closeModal')">
                 </button>
             </div>
+
             <div class="modal-body" style="text-align:left;">
                 <form class="form-horizontal" wire:submit="create">
                     <input type="hidden" id="id" name="id" wire:model.live="id" class="form-control">

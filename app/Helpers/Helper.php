@@ -1877,7 +1877,7 @@ function hargaSebelum($id,$tgl){
     ->where('komoditas_id',$komoditas->komoditas_id)
     ->where('detail_tgl',$tanggal_sebelum)->first();
     if(empty($komoditas_sebelum)){
-        $html = 'Tidak Menginput';
+        $html = 0;
     }else{
         $html = $komoditas_sebelum->harga_publish;
     }

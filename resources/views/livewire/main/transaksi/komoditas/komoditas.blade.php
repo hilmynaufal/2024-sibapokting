@@ -25,7 +25,6 @@
                     </div>
                 </div>
                 <!--end::Header-->
-
                 <!--begin::Body-->
                 <div class="card-body py-3" >
                     <!--begin::Table-->
@@ -79,10 +78,10 @@
                                     </td>
                                     <td>
                                         {{ rupiah($item->harga_publish,0)}}
-                                        {!! dinamikaHarga($item->id,$item->tanggal) !!}
+                                        {!! dinamikaHarga($item->id,$item->detail_tgl) !!}
                                     </td>
                                     <td>
-                                        {{ rupiah(hargaSebelum($item->id,$item->tanggal),0) }}
+                                        {{ rupiah(hargaSebelum($item->id,$item->detail_tgl),0) }}
                                     </td>
                                     <td>
                                         <div class="btn-list">

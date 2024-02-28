@@ -52,13 +52,6 @@ class Index extends Component
     public function mount()
     {
         $this->total = Model::where('is_active',1)->count();
-        $this->golongan_list        = RefGolongan::where('is_active','=',1)->orderBy('golongan','desc')->get();
-        $this->pangkat_list         = RefPangkat::where('is_active','=',1)->orderBy('pangkat','asc')->get();
-        $this->eselon_list          = RefEselon::where('is_active','=',1)->orderBy('eselon','desc')->get();
-        $this->jabatan_list         = RefJabatan::where('is_active','=',1)->orderBy('jabatan','asc')->get();
-        $this->unit_kerja_list      = RefUnitKerja::where('is_active','=',1)->orderBy('unit_kerja','asc')->get();
-        $this->satuan_kerja_list    = RefSatuanKerja::where('is_active','=',1)->orderBy('satuan_kerja','asc')->get();
-        $this->jenis_kelamin_list   = RefJenisKelamin::where('is_active','=',1)->orderBy('jenis_kelamin','asc')->get();
         $this->role_list   = RefRole::where('is_active','=',1)->where('is_delete','=',0)->orderBy('role','asc')->get();
     }
     

@@ -41,6 +41,7 @@ class Add extends ModalComponent
     public $nama_komoditas;
     public $nama_pasar;
 
+    public $komoditas;
     
     public function render()
     {
@@ -55,8 +56,18 @@ class Add extends ModalComponent
             $this->listPasar = RefPasar::orderBy('namapasar','asc')->get();
         }
         $this->pasarId = Auth::user()->pasar_id;
-        $this->tanggal = date('Y-m-d h:i');
-        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
+        $this->tanggal = date('Y-m-d H:i');
+        // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
+        $dt = new \Carbon\Carbon($this->tanggal);
+        $tanggalChange = $dt->format('Y-m-d');
+        $this->komoditas = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
+        $komoditasInserted = [];
+        foreach($this->komoditas as $value){
+            array_push($komoditasInserted,$value->komoditas_id);
+        }
+        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')
+        ->whereNotIn('id', $komoditasInserted)->get();
+
         
     }
 
@@ -68,12 +79,13 @@ class Add extends ModalComponent
         $komoditas = RefKomoditas::where('id',$this->komoditasId)->first();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
+        $tanggalChangeTime = $dt->format('Y-m-d H:i:s');
 
             $model = Model::create([
                 'komoditas_id' => $this->komoditasId,
                 'pasar_id' => $this->pasarId,
                 'users_id' => Auth::user()->id,
-                'tanggal' => $this->tanggal,
+                'tanggal' => $tanggalChangeTime,
                 'harga_publish' => $this->harga,
                 'harga_dinamik' => $selisih_harga,
                 'kondisi' => $kondisi,
@@ -103,16 +115,11 @@ class Add extends ModalComponent
             }
             
     }
-    public function updatedpasarId($pasarId){
+    public function updatedpasarId(){
         // $cek_komoditas = RefKomoditas::join('t_siba_komoditas','t_siba_komoditas.komoditas_id','=','t_siba_komoditas.id','right')
         // ->where('t_siba_komoditas.pasar_id',$pasarId)
         // ->where('t_siba_komoditas.detail_tgl',date('Y-m-d'))->get();
-        $komoditas = Model::where('pasar_id',$pasar)
-        ->where('komoditas_id',$komoditas)
-        ->where('detail_tgl',$tanggal_sebelum)->get();
-
         $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
-        dd($komoditas);
     }
 
     public static function destroyOnClose(): bool
