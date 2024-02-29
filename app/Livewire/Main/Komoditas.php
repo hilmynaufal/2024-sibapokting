@@ -91,8 +91,7 @@ class Komoditas extends Component
     public function deleteSelectedRequest($id)
     {
         if(Model::where('id',$id)->delete()){
-            $this->resetInput();
-            $log = 'Data Alur Berkas Berhasil di Hapus';
+            $log = 'Data Komoditas Berhasil di Hapus';
             setActivity($log);
             $this->alert('success', $log, [
                 'position' => 'top-end',
@@ -100,7 +99,7 @@ class Komoditas extends Component
                 'toast' => true,
             ]);
         }else{
-            $log = 'Data Alur Berkas Gagal di Hapus';
+            $log = 'Data Komoditas Gagal di Hapus';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,

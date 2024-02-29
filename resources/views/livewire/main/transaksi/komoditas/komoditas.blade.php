@@ -16,6 +16,36 @@
         }
     </style>
 @endpush
+
+@push('js')
+<script>
+    window.addEventListener('swal:deleteRequest', event => {
+        Swal.fire({
+            title: event.detail[0].title,
+            text: event.detail[0].text,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.value) {
+                @this.call('deleteSelectedRequest', event.detail[0].id);
+                Swal.fire({
+                    title: 'Data Berhasil tersimpan',
+                    icon: 'success'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Operasi Dibatalkan',
+                    icon: 'success'
+                });
+            }
+        });
+    });
+</script>
+@endpush
+
 <!--begin::Col-->
 <div id="kt_app_content_container" class="app-container  container-xxl ">
     <!--begin::Row-->
@@ -95,7 +125,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-list">
-                                            <a 
+                                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.view' , arguments: { id: {{ $item->id }} }})"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
                                                 <i class="bi bi-eye"></i>
