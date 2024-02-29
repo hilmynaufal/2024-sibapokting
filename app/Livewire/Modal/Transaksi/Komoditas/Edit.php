@@ -10,11 +10,11 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Carbon\Carbon;
 
-class Add extends ModalComponent
+class Edit extends ModalComponent
 {
     use LivewireAlert;
 
-    public $id;
+    public $id_komoditas_update;
     public $listPasar;
     public $pasarId;
     public $listKomoditas=[];
@@ -45,33 +45,29 @@ class Add extends ModalComponent
     
     public function render()
     {
-        return view('livewire.main.transaksi.komoditas.modal.add');
+        return view('livewire.main.transaksi.komoditas.modal.edit');
     }
     
-    public function mount()
+    public function mount($id)
     {
+        $data = Model::where('id',$id)->first();
+
         if(Auth::user()->role_id == 5){
             $this->listPasar = RefPasar::orderBy('namapasar','asc')->where('id',Auth::user()->pasar_id)->get();
         }else{
             $this->listPasar = RefPasar::orderBy('namapasar','asc')->get();
         }
-        $this->pasarId = Auth::user()->pasar_id;
-        $this->tanggal = date('Y-m-d H:i');
-        // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
-        $dt = new \Carbon\Carbon($this->tanggal);
-        $tanggalChange = $dt->format('Y-m-d');
-        $this->komoditas = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
-        $komoditasInserted = [];
-        foreach($this->komoditas as $value){
-            array_push($komoditasInserted,$value->komoditas_id);
-        }
-        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')
-        ->whereNotIn('id', $komoditasInserted)->get();
+        $this->pasarId = $data->pasar_id;
+        $this->komoditasId = $data->komoditas_id;
+        $this->harga = $data->harga_publish;
+        $this->tanggal = $data->tanggal;
+        $this->id_komoditas_update = $id;
+        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
 
         
     }
 
-    public function create()
+    public function update()
     {
         $selisih_harga  = hargaSelisih($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
         $kondisi        = statusDinamika($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
@@ -81,39 +77,30 @@ class Add extends ModalComponent
         $tanggalChange = $dt->format('Y-m-d');
         $tanggalChangeTime = $dt->format('Y-m-d H:i:s');
 
-            $model = Model::create([
-                'komoditas_id' => $this->komoditasId,
-                'pasar_id' => $this->pasarId,
-                'users_id' => Auth::user()->id,
-                'tanggal' => $tanggalChangeTime,
-                'harga_publish' => $this->harga,
-                'harga_dinamik' => $selisih_harga,
-                'kondisi' => $kondisi,
-                'status' => 'harga pasar',
-                'harga_pasar' => $this->harga,
-                'detail_tgl' => $tanggalChange,
-                'nama_komoditas' => $komoditas->namakomoditas,
-                'nama_pasar' => $pasar->namapasar,
-                'created_id' => Auth::user()->id,
-                'created_at' => date('Y-m-d H:i:s'),
+        $model = Model::where('id',$this->id_komoditas_update)->first();
+        $model->harga_publish = $this->harga;
+        $model->harga_dinamik = $selisih_harga;
+        $model->kondisi = $kondisi;
+        $model->harga_pasar = $this->harga;
+        $model->detail_tgl = $tanggalChange;
+        $model->updated_id = Auth::user()->id;
+        $model->updated_at = date('Y-m-d H:i:s');        
+        if($model->update()){
+            $this->alert('success', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Berhasil di Simpan', [
+                'timer' => 3000,
+                'toast' => true,
+                'timerProgressBar' => true,
             ]);
-            if($model->save()){
-                $this->alert('success', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Berhasil di Simpan', [
-                    'timer' => 3000,
-                    'toast' => true,
-                    'timerProgressBar' => true,
-                ]);
-                    return redirect()->route('main.komoditas');
-                
-            }else{
-                $this->alert('error', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Gagal di Simpan', [
-                    'timer' => 3000,
-                    'toast' => true,
-                    'timerProgressBar' => true,
-                ]);
-                    return redirect()->route('main.komoditas');
-            }
+                return redirect()->route('main.komoditas');
             
+        }else{
+            $this->alert('error', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Gagal di Simpan', [
+                'timer' => 3000,
+                'toast' => true,
+                'timerProgressBar' => true,
+            ]);
+                return redirect()->route('main.komoditas');
+        }
     }
     public function updatedpasarId(){
         // $cek_komoditas = RefKomoditas::join('t_siba_komoditas','t_siba_komoditas.komoditas_id','=','t_siba_komoditas.id','right')

@@ -12,14 +12,14 @@
 
             <div class="modal-body" style="text-align:left;">
                 <form class="form-horizontal" wire:submit="update">
-                    <input type="hidden" id="id" name="id" wire:model.live="id" class="form-control">
+                    <input type="hidden" id="id_komoditas_update" name="id_komoditas_update" wire:model="id_komoditas_update" class="form-control">
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
                                 <label class="form-label">Tanggal Penginputan<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input required type="datetime-local" class="form-control" placeholder="Pick date rage" id="tanggal"
+                                <input disabled type="datetime-local" class="form-control" placeholder="Pick date rage" id="tanggal"
                                 class="form-control @error('tanggal') is-invalid @enderror" name="tanggal"
                                 wire:model="tanggal"/>
                                 @error('tanggal') <span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -34,10 +34,7 @@
                                 <label class="form-label">Pasar<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10" wire:ignore>
-                                <select x-init="$($el).select2({ placeholder: '-- Pilih Pasar --', });
-                                    $($el).on('change', function() {
-                                        $wire.set('pasarId', $($el).val());
-                                    })"  required type="text" class="form-control form-control-lg form-select-solid @error('pasarId') is-invalid @enderror" name="pasarId"
+                                <select disabled type="text" class="form-control form-control-lg form-select-solid @error('pasarId') is-invalid @enderror" name="pasarId"
                                     wire:model.live="pasarId" id="pasarId">
                                     <option value="">-- Pilih Pasar --</option>
                                     @foreach($listPasar as $val)
@@ -56,10 +53,7 @@
                                 <label class="form-label">Komoditas<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <select x-init="$($el).select2({ placeholder: '-- Pilih Komoditas --', });
-                                    $($el).on('change', function() {
-                                        $wire.set('komoditasId', $($el).val());
-                                    })" required type="text" class="form-control form-control-lg form-select-solid @error('komoditasId') is-invalid @enderror" name="komoditasId"
+                                <select disabled type="text" class="form-control form-control-lg form-select-solid @error('komoditasId') is-invalid @enderror" name="komoditasId"
                                     wire:model="komoditasId" id="komoditasId">
                                     <option value="">-- Pilih Komoditas --</option>
                                     @foreach($listKomoditas as $val)

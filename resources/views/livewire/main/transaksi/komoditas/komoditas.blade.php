@@ -6,6 +6,16 @@
     Layanan > BPHTB > <b>Transaksi Harga Komoditas Pangan</b>
 @stop
 
+@push('css')
+    <style>
+        .select2-container--open {
+            z-index: 999999999;
+        }
+        .select2-container {
+            z-index: 999999999;
+        }
+    </style>
+@endpush
 <!--begin::Col-->
 <div id="kt_app_content_container" class="app-container  container-xxl ">
     <!--begin::Row-->
@@ -90,7 +100,7 @@
                                                 title="Ubah">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a wire:click="edit({{ $item->id }})"
+                                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.edit' , arguments: { id: {{ $item->id }} }})"
                                                 class="btn btn-sm btn-icon btn-light-success btn-active-light-default me-1"
                                                 title="Lihat">
                                                 <i class="bi bi-pencil-fill"></i>
