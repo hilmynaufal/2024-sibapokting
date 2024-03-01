@@ -55,7 +55,7 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold fs-3 mb-1">Harga Pangan Kabupaten Bandung</span>
+                        <span class="card-label fw-bold fs-3 mb-1">Ketersediaan Kabupaten Bandung</span>
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         data-bs-original-title="Click to add a user" data-kt-initialized="1">
@@ -101,6 +101,7 @@
                                     <th rowspan="2" >Stok Awal</th>
                                     <th style="text-align:center;" colspan="2">Informasi Barang</th>
                                     <th rowspan="2">Stok Akhir</th>
+                                    <th rowspan="2">Status</th>
                                     <th rowspan="2">Action</th>
                                 </tr>
                                 <tr class="text-uppercase">
@@ -122,11 +123,19 @@
                                         {{ TglTimeIndo($item->tanggal)}}
                                     </td>
                                     <td>
-                                        {{ rupiah($item->harga_publish,0)}}
-                                        {!! dinamikaHarga($item->id,$item->detail_tgl) !!}
+                                        {{ $item->stok_awal}}
                                     </td>
                                     <td>
-                                        {{ rupiah(hargaSebelum($item->id,$item->detail_tgl),0) }}
+                                        {{ $item->stok_masuk}}
+                                    </td>
+                                    <td>
+                                        {{ $item->stok_keluar}}
+                                    </td>
+                                    <td>
+                                        {{ $item->stok_akhir}}
+                                    </td>
+                                    <td>
+                                        {!!presentasePermintaan($item->stok_awal,$item->stok_masuk,$item->stok_keluar)!!}
                                     </td>
                                     <td>
                                         <div class="btn-list">

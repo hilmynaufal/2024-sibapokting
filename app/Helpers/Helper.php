@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\RefSetting;
 use App\Models\Activity;
 use App\Models\Transaksi\Komoditas;
+use App\Models\Transaksi\Barang;
 use App\Models\Bphtb\PembayaranPajak;
 use App\Models\Bphtb\PembayaranPajakKurang;
 use App\Models\Disposisi;
@@ -1868,6 +1869,21 @@ function statusDinamika($komoditas,$pasar,$harga,$tgl){
     return $value;
 }
 
+function stokSebelum($barang,$pasar,$tgl){
+    $dt = new \Carbon\Carbon($tgl);
+    $tanggal = $dt->format('Y-m-d');
+    $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
+    $barang_sebelum = barang::where('pasar_id',$pasar)
+    ->where('barang_id',$barang)
+    ->where('detail_tgl',$tanggal_sebelum)->first();
+    if(empty($barang_sebelum)){
+        $html = 0;
+    }else{
+        $html = $barang_sebelum->stok_akhir;
+    }
+    return $html;
+}
+
 function hargaSebelum($id,$tgl){
     $dt = new \Carbon\Carbon($tgl);
     $tanggal = $dt->format('Y-m-d');
@@ -1896,6 +1912,23 @@ function presentasePenurunan($sekarang,$kemarin){
     $presentase = $selisih / $sekarang;
     $hasil = $presentase * 100;
     return substr($hasil,0,4).'%';
+}
+
+function presentasePermintaan($awal,$masuk,$keluar){
+    $stok = $awal + $masuk;
+    $permintaan = $keluar / $stok;
+    $hasil = floor($permintaan * 100);
+    $html='';
+    if($hasil < 25){
+        $html .='<span class="badge badge-light-success">Permintaan '.$hasil.' % dari Ketersediaan</span>';
+    }elseif($hasil >= 25 && $hasil < 25){
+        $html .='<span class="badge badge-light-primary">Permintaan '.$hasil.' % dari Ketersediaan</span>';
+    }elseif($hasil >= 50 && $hasil < 75){
+        $html .='<span class="badge badge-light-warning">Permintaan '.$hasil.' % dari Ketersediaan</span>';
+    }elseif($hasil >= 75){
+        $html .='<span class="badge badge-light-danger">Permintaan '.$hasil.' % dari Ketersediaan</span>';
+    }
+    return $html;
 }
                                           
                                             

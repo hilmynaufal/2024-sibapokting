@@ -4,14 +4,14 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Barang {{tglIndoHari(date('Y-m-d'))}}</h5>
+                <h5 class="modal-title">Tambah Stok Barang {{tglIndoHari(date('Y-m-d'))}}</h5>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     wire:click="$dispatch('closeModal')">
                 </button>
             </div>
 
             <div class="modal-body" style="text-align:left;">
-                <form class="form-horizontal" wire:submit="update">
+                <form class="form-horizontal" wire:submit="create">
                     <input type="hidden" id="id" name="id" wire:model.live="id" class="form-control">
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
@@ -60,7 +60,7 @@
                                     $($el).on('change', function() {
                                         $wire.set('barangId', $($el).val());
                                     })" required type="text" class="form-control form-control-lg form-select-solid @error('barangId') is-invalid @enderror" name="barangId"
-                                    wire:model="barangId" id="barangId">
+                                    wire:model.live="barangId" id="barangId">
                                     <option value="">-- Pilih Barang --</option>
                                     @foreach($listBarang as $val)
                                         <option value="{{$val->id}}">{{$val->namabarang}}</option>
@@ -78,8 +78,8 @@
                                 <label class="form-label">Stok Awal<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input required type="number" class="form-control" id="stok_awal"
-                                class="form-control @error('stok_awal') is-invalid @enderror" name="stok_awal"
+                                <input disabled type="number" class="form-control" id="stok_awal"
+                                class="form-control @error('stok_awal') is-invalid @enderror" name="stok_awal" wire:change="hitung"
                                 wire:model="stok_awal"/>
                                 @error('stok_awal') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
@@ -94,7 +94,7 @@
                             </div>
                             <div class="col-md-10">
                                 <input required type="number" class="form-control" id="stok_masuk"
-                                class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk"
+                                class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk" wire:change="hitung"
                                 wire:model="stok_masuk"/>
                                 @error('stok_masuk') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
@@ -109,7 +109,7 @@
                             </div>
                             <div class="col-md-10">
                                 <input required type="number" class="form-control" id="stok_keluar"
-                                class="form-control @error('stok_keluar') is-invalid @enderror" name="stok_keluar"
+                                class="form-control @error('stok_keluar') is-invalid @enderror" name="stok_keluar" wire:change="hitung"
                                 wire:model="stok_keluar"/>
                                 @error('stok_keluar') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
@@ -123,9 +123,9 @@
                                 <label class="form-label">Stok Akhir<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input required type="number" class="form-control" id="stok_akhir"
+                                <input disabled required type="number" class="form-control" id="stok_akhir"
                                 class="form-control @error('stok_akhir') is-invalid @enderror" name="stok_akhir"
-                                wire:model="stok_akhir"/>
+                                wire:model.live="stok_akhir"/>
                                 @error('stok_akhir') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
 

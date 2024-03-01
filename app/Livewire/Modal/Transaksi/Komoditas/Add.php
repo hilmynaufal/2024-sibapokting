@@ -116,11 +116,6 @@ class Add extends ModalComponent
             
     }
     public function updatedpasarId(){
-        // $cek_komoditas = RefKomoditas::join('t_siba_komoditas','t_siba_komoditas.komoditas_id','=','t_siba_komoditas.id','right')
-        // ->where('t_siba_komoditas.pasar_id',$pasarId)
-        // ->where('t_siba_komoditas.detail_tgl',date('Y-m-d'))->get();
-        $this->tanggal = date('Y-m-d H:i');
-        // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
         $this->komoditas = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();

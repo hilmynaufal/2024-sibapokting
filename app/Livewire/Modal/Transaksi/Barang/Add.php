@@ -72,50 +72,46 @@ class Add extends ModalComponent
 
     public function create()
     {
-        $selisih_harga  = hargaSelisih($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
-        $kondisi        = statusDinamika($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
         $pasar = RefPasar::where('id',$this->pasarId)->first();
-        $komoditas = RefBarang::where('id',$this->komoditasId)->first();
+        $barang = RefBarang::where('id',$this->barangId)->first();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
         $tanggalChangeTime = $dt->format('Y-m-d H:i:s');
 
             $model = Model::create([
-                'komoditas_id' => $this->komoditasId,
+                'barang_id' => $this->barangId,
                 'pasar_id' => $this->pasarId,
                 'users_id' => Auth::user()->id,
                 'tanggal' => $tanggalChangeTime,
-                'harga_publish' => $this->harga,
-                'harga_dinamik' => $selisih_harga,
-                'kondisi' => $kondisi,
-                'status' => 'harga pasar',
-                'harga_pasar' => $this->harga,
+                'stok_awal' => $this->stok_awal,
+                'stok_masuk' => $this->stok_masuk,
+                'stok_keluar' => $this->stok_keluar,
+                'stok_akhir' => $this->stok_akhir,
                 'detail_tgl' => $tanggalChange,
-                'nama_komoditas' => $komoditas->namakomoditas,
+                'nama_barang' => $barang->namabarang,
                 'nama_pasar' => $pasar->namapasar,
                 'created_id' => Auth::user()->id,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
             if($model->save()){
-                $this->alert('success', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Berhasil di Simpan', [
+                $this->alert('success', 'Update Harga Barang.'.$barang->namabarang.' Berhasil di Simpan', [
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                    return redirect()->route('main.komoditas');
+                    return redirect()->route('main.barang');
                 
             }else{
-                $this->alert('error', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Gagal di Simpan', [
+                $this->alert('error', 'Update Harga Barang.'.$barang->namabarang.' Gagal di Simpan', [
                     'timer' => 3000,
                     'toast' => true,
                     'timerProgressBar' => true,
                 ]);
-                    return redirect()->route('main.komoditas');
+                    return redirect()->route('main.barang');
             }
             
     }
     public function updatedpasarId(){
-        $this->tanggal = date('Y-m-d H:i');
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
         $this->barang = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
@@ -128,11 +124,15 @@ class Add extends ModalComponent
 
     }
 
-    public function updatebarangId(){
+    public function updated()
+    {
+        $dt = new \Carbon\Carbon($this->tanggal);
+        $tanggalChange = $dt->format('Y-m-d');
+        $this->stok_awal = stokSebelum($this->barangId,$this->pasarId,$tanggalChange);
+    }
 
-        $this->barang = Model::where('pasar_id',$this->pasarId)->where('barang_id',$this->barangId)->where('detail_tgl',$tanggalChange)->get();
-        dd($this->barang);
-        // $this
+    public function hitung(){
+        $this->stok_akhir = $this->stok_awal + $this->stok_masuk - $this->stok_keluar;
     }
 
     public static function destroyOnClose(): bool
