@@ -1,9 +1,9 @@
 
 @section('title')
-    Transaksi Harga Barang Pangan
+    Transaksi Ketersediaan Stok Barang
 @stop
 @section('menu')
-    Layanan > BPHTB > <b>Transaksi Harga Barang Pangan</b>
+    Layanan > Transaksi > <b>Transaksi Ketersediaan Stok Barang</b>
 @stop
 
 @push('css')
@@ -59,7 +59,7 @@
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         data-bs-original-title="Click to add a user" data-kt-initialized="1">
-                        <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.add'})" class="btn btn-sm btn-light btn-active-primary">
+                        <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.barang.add'})" class="btn btn-sm btn-light btn-active-primary">
                             <i class="ki-duotone ki-plus fs-2"></i> Tambah Data
                         </a>
                     </div>
@@ -130,12 +130,12 @@
                                     </td>
                                     <td>
                                         <div class="btn-list">
-                                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.view' , arguments: { id: {{ $item->id }} }})"
+                                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.barang.view' , arguments: { id: {{ $item->id }} }})"
                                                 class="btn btn-sm btn-icon btn-light-primary btn-active-light-default me-1"
                                                 title="Ubah">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.edit' , arguments: { id: {{ $item->id }} }})"
+                                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.barang.edit' , arguments: { id: {{ $item->id }} }})"
                                                 class="btn btn-sm btn-icon btn-light-success btn-active-light-default me-1"
                                                 title="Lihat">
                                                 <i class="bi bi-pencil-fill"></i>

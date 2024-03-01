@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Harga Pangan {{tglIndoHari(date('Y-m-d'))}}</h5>
+                <h5 class="modal-title">Update Barang {{tglIndoHari(date('Y-m-d'))}}</h5>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     wire:click="$dispatch('closeModal')">
                 </button>
@@ -53,34 +53,80 @@
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Komoditas<span class="text-danger"></span></label>
+                                <label class="form-label">Nama Barang<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <select x-init="$($el).select2({ placeholder: '-- Pilih Komoditas --', });
+                                <select x-init="$($el).select2({ placeholder: '-- Pilih Barang --', });
                                     $($el).on('change', function() {
-                                        $wire.set('komoditasId', $($el).val());
-                                    })" required type="text" class="form-control form-control-lg form-select-solid @error('komoditasId') is-invalid @enderror" name="komoditasId"
-                                    wire:model="komoditasId" id="komoditasId">
-                                    <option value="">-- Pilih Komoditas --</option>
-                                    @foreach($listKomoditas as $val)
-                                        <option value="{{$val->id}}">{{$val->namakomoditas}}</option>
+                                        $wire.set('barangId', $($el).val());
+                                    })" required type="text" class="form-control form-control-lg form-select-solid @error('barangId') is-invalid @enderror" name="barangId"
+                                    wire:model="barangId" id="barangId">
+                                    <option value="">-- Pilih Barang --</option>
+                                    @foreach($listBarang as $val)
+                                        <option value="{{$val->id}}">{{$val->namabarang}}</option>
                                     @endforeach
                                 </select>
-                                @error('komoditasId') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @error('barangId') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Stok Awal<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input required type="number" class="form-control" id="stok_awal"
+                                class="form-control @error('stok_awal') is-invalid @enderror" name="stok_awal"
+                                wire:model="stok_awal"/>
+                                @error('stok_awal') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+
                             </div>
                         </div>
                     </div>
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Harga Sekarang<span class="text-danger"></span></label>
+                                <label class="form-label">Barang Masuk<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input required type="number" class="form-control" id="harga"
-                                class="form-control @error('harga') is-invalid @enderror" name="harga"
-                                wire:model="harga"/>
-                                @error('harga') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                <input required type="number" class="form-control" id="stok_masuk"
+                                class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk"
+                                wire:model="stok_masuk"/>
+                                @error('stok_masuk') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Barang Keluar<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input required type="number" class="form-control" id="stok_keluar"
+                                class="form-control @error('stok_keluar') is-invalid @enderror" name="stok_keluar"
+                                wire:model="stok_keluar"/>
+                                @error('stok_keluar') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Stok Akhir<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input required type="number" class="form-control" id="stok_akhir"
+                                class="form-control @error('stok_akhir') is-invalid @enderror" name="stok_akhir"
+                                wire:model="stok_akhir"/>
+                                @error('stok_akhir') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
 
                             </div>

@@ -1,8 +1,8 @@
 <?php
-namespace App\Livewire\Modal\Transaksi\Komoditas;
-use App\Models\Transaksi\Komoditas as Model;
+namespace App\Livewire\Modal\Transaksi\Barang;
+use App\Models\Transaksi\Barang as Model;
 use App\Models\Referensi\RefPasar;
-use App\Models\Referensi\RefKomoditas;
+use App\Models\Referensi\RefBarang;
 use Illuminate\Support\Facades\Crypt;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +17,8 @@ class Add extends ModalComponent
     public $id;
     public $listPasar;
     public $pasarId;
-    public $listKomoditas=[];
-    public $komoditasId;
+    public $listBarang=[];
+    public $barangId;
     public $harga;
     public $created_at;
     public $created_id;
@@ -26,26 +26,25 @@ class Add extends ModalComponent
     public $updated_id;
     public $deleted_at;
     public $deleted_id;
-    public $komoditas_id;
+    public $barang_id;
     public $pasar_id;
     public $users_id;
     public $tanggal;
-    public $harga_publish;
-    public $harga_admin;
-    public $harga_dinamik;
-    public $kondisi;
+    public $stok_awal;
+    public $stok_masuk;
+    public $stok_keluar;
+    public $stok_akhir;
     public $status;
-    public $tanggal_update;
-    public $harga_pasar;
     public $detail_tgl;
-    public $nama_komoditas;
+    public $harga_pasar;
+    public $nama_barang;
     public $nama_pasar;
 
-    public $komoditas;
+    public $barang;
     
     public function render()
     {
-        return view('livewire.main.transaksi.komoditas.modal.add');
+        return view('livewire.main.transaksi.barang.modal.add');
     }
     
     public function mount()
@@ -57,16 +56,16 @@ class Add extends ModalComponent
         }
         $this->pasarId = Auth::user()->pasar_id;
         $this->tanggal = date('Y-m-d H:i');
-        // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
+        // $this->listKomoditas = RefBarang::orderBy('namakomoditas','asc')->get();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
-        $this->komoditas = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
-        $komoditasInserted = [];
-        foreach($this->komoditas as $value){
-            array_push($komoditasInserted,$value->komoditas_id);
+        $this->barang = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
+        $barangInserted = [];
+        foreach($this->barang as $value){
+            array_push($barangInserted,$value->barang_id);
         }
-        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')
-        ->whereNotIn('id', $komoditasInserted)->get();
+        $this->listBarang = RefBarang::orderBy('namabarang','asc')
+        ->whereNotIn('id', $barangInserted)->get();
 
         
     }
@@ -76,7 +75,7 @@ class Add extends ModalComponent
         $selisih_harga  = hargaSelisih($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
         $kondisi        = statusDinamika($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
         $pasar = RefPasar::where('id',$this->pasarId)->first();
-        $komoditas = RefKomoditas::where('id',$this->komoditasId)->first();
+        $komoditas = RefBarang::where('id',$this->komoditasId)->first();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
         $tanggalChangeTime = $dt->format('Y-m-d H:i:s');
@@ -116,20 +115,24 @@ class Add extends ModalComponent
             
     }
     public function updatedpasarId(){
-        // $cek_komoditas = RefKomoditas::join('t_siba_komoditas','t_siba_komoditas.komoditas_id','=','t_siba_komoditas.id','right')
-        // ->where('t_siba_komoditas.pasar_id',$pasarId)
-        // ->where('t_siba_komoditas.detail_tgl',date('Y-m-d'))->get();
         $this->tanggal = date('Y-m-d H:i');
-        // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
-        $this->komoditas = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
-        $komoditasInserted = [];
-        foreach($this->komoditas as $value){
-            array_push($komoditasInserted,$value->komoditas_id);
+        $this->barang = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
+        $barangInserted = [];
+        foreach($this->barang as $value){
+            array_push($barangInserted,$value->barang_id);
         }
-        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')
-        ->whereNotIn('id', $komoditasInserted)->get();
+        $this->listBarang = RefBarang::orderBy('namabarang','asc')
+        ->whereNotIn('id', $barangInserted)->get();
+
+    }
+
+    public function updatebarangId(){
+
+        $this->barang = Model::where('pasar_id',$this->pasarId)->where('barang_id',$this->barangId)->where('detail_tgl',$tanggalChange)->get();
+        dd($this->barang);
+        // $this
     }
 
     public static function destroyOnClose(): bool
@@ -138,9 +141,9 @@ class Add extends ModalComponent
     }
 
     public static function closeModalOnClickAway(): bool
-{
-    return false;
-}
+    {
+        return false;
+    }
     
 }
 
