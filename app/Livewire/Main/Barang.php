@@ -2,6 +2,8 @@
 namespace App\Livewire\Main;
 use Livewire\Component;
 use App\Models\Transaksi\Barang as Model;
+use App\Models\Referensi\RefPasar;
+use App\Models\Referensi\RefBarang;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -23,7 +25,9 @@ class Barang extends Component
     
     public $pasar_id;
     public $id_barang;
-    
+    public $selectPasar;
+    public $selectTanggal;
+    public $listPasar;
     public $sortColoumName = "tanggal";
     public $sortDirection = "desc";
     protected $queryString = ['search'];
@@ -31,7 +35,12 @@ class Barang extends Component
     #[Layout('components.layouts.keenthemes.page')]
     public function mount()
     {
-
+        if(Auth::user()->role_id == 5){
+            $this->listPasar = RefPasar::orderBy('namapasar','asc')->where('id',Auth::user()->pasar_id)->get();
+        }else{
+            $this->listPasar = RefPasar::orderBy('namapasar','asc')->get();
+        }
+        $this->selectTanggal = date('Y-m-d');
     }
     
     protected $rules = [
@@ -58,8 +67,11 @@ class Barang extends Component
     public function render()
     {
         $query = Model::query();
-            $query->when($this->search != "", function ($q) {
-                return $q->whereRaw('LOWER(pasar_id) like ?', ['%'.strtolower($this->search).'%']);
+            $query->when($this->selectPasar != "", function ($q) {
+                return $q->where('pasar_id','=',$this->selectPasar);
+            });
+            $query->when($this->selectTanggal != "", function ($q) {
+                return $q->where('detail_tgl','=',$this->selectTanggal);
             });
         if(Auth::user()->role_id == 5){
             $rows = $query->where('pasar_id',Auth::user()->pasar_id)->orderBy($this->sortColoumName,$this->sortDirection)

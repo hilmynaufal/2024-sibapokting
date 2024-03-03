@@ -69,14 +69,34 @@
                 <div class="card-body py-3" >
                     <!--begin::Table-->
                     <div class="table-responsive">
-                        <div class="col-sm-12 col-md-6">
-                            <select wire:model.live="perpage" class="form-select form-select-sm" style="width: 75px;">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
+                        <div class="d-flex flex-row flex-column-fluid">
+                            <div class="d-flex flex-row-auto w-800px flex-start">
+                                <select wire:model.live="perpage" class="form-select form-select-sm" style="width: 75px;">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-row-auto w-200px flex-end" style="margin-right: 10px;">
+                                <select wire:model.live="selectPasar" class="form-select form-select-sm">
+                                    @if(Auth::user()->role_id != 5)
+                                        <option value="">-- Pilih Semua --</option>
+                                    @endif
+                                    @foreach($listPasar as $val)
+                                        <option value="{{$val->id}}">{{$val->namapasar}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="d-flex flex-row-auto w-180px flex-end">
+                                <input type="date" class="form-control form-control-sm" placeholder="Pick date rage" id="selectTanggal"
+                                    class="form-control @error('selectTanggal') is-invalid @enderror" name="selectTanggal"
+                                    wire:model.live="selectTanggal"/>
+                            </div>
+                            <div class="d-flex flex-row-auto w-10px flex-end">
+                            </div>
                         </div>
                         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4"
                             id="kt_advance_table_widget_2">
@@ -110,7 +130,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($model as $index => $item)
+                                @forelse ($model as $index => $item)
                                 <tr>
                                     <td>
                                         {{ $item->toPasar->namapasar }}
@@ -157,7 +177,12 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                
+                                @empty
+                                        <tr class="odd">
+                                            <td valign="top" class="text-center" colspan="8" class="dataTables_empty">Nama Tidak Ditemukan</td>
+                                        </tr>
+                                @endforelse
                             </tbody>
                         </table>
 
