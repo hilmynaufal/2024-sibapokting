@@ -1,8 +1,8 @@
 <?php
-namespace App\Livewire\Modal\Transaksi\Komoditas;
-use App\Models\Transaksi\Komoditas as Model;
+namespace App\Livewire\Modal\Transaksi\Barang;
+use App\Models\Transaksi\Barang as Model;
 use App\Models\Referensi\RefPasar;
-use App\Models\Referensi\RefKomoditas;
+use App\Models\Referensi\RefBarang;
 use Illuminate\Support\Facades\Crypt;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +14,11 @@ class Edit extends ModalComponent
 {
     use LivewireAlert;
 
-    public $id_komoditas_update;
-    public $listPasar;
+    public $id_barang_update;
     public $pasarId;
-    public $listKomoditas=[];
-    public $komoditasId;
+    public $listPasar=[];
+    public $listBarang=[];
+    public $barangId;
     public $harga;
     public $created_at;
     public $created_id;
@@ -26,26 +26,25 @@ class Edit extends ModalComponent
     public $updated_id;
     public $deleted_at;
     public $deleted_id;
-    public $komoditas_id;
+    public $barang_id;
     public $pasar_id;
     public $users_id;
     public $tanggal;
-    public $harga_publish;
-    public $harga_admin;
-    public $harga_dinamik;
-    public $kondisi;
+    public $stok_awal;
+    public $stok_masuk;
+    public $stok_keluar;
+    public $stok_akhir;
     public $status;
-    public $tanggal_update;
-    public $harga_pasar;
     public $detail_tgl;
-    public $nama_komoditas;
+    public $harga_pasar;
+    public $nama_barang;
     public $nama_pasar;
 
-    public $komoditas;
+    public $barang;
     
     public function render()
     {
-        return view('livewire.main.transaksi.komoditas.modal.edit');
+        return view('livewire.main.transaksi.barang.modal.edit');
     }
     
     public function mount($id)
@@ -58,65 +57,62 @@ class Edit extends ModalComponent
             $this->listPasar = RefPasar::orderBy('namapasar','asc')->get();
         }
         $this->pasarId = $data->pasar_id;
-        $this->komoditasId = $data->komoditas_id;
-        $this->harga = $data->harga_publish;
+        $this->barangId = $data->barang_id;
+        $this->stok_awal = $data->stok_awal;
+        $this->stok_masuk = $data->stok_masuk;
+        $this->stok_keluar = $data->stok_keluar;
+        $this->stok_akhir = $data->stok_akhir;
         $this->tanggal = $data->tanggal;
-        $this->id_komoditas_update = $id;
-        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
+        $this->id_barang_update = $id;
+        $this->listBarang = RefBarang::orderBy('namabarang','asc')->get();
 
         
     }
 
     public function update()
     {
-        $selisih_harga  = hargaSelisih($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
-        $kondisi        = statusDinamika($this->komoditasId,$this->pasarId,$this->harga,$this->tanggal);
+        $selisih_harga  = hargaSelisih($this->barangId,$this->pasarId,$this->harga,$this->tanggal);
+        $kondisi        = statusDinamika($this->barangId,$this->pasarId,$this->harga,$this->tanggal);
         $pasar = RefPasar::where('id',$this->pasarId)->first();
-        $komoditas = RefKomoditas::where('id',$this->komoditasId)->first();
+        $barang = RefBarang::where('id',$this->barangId)->first();
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
         $tanggalChangeTime = $dt->format('Y-m-d H:i:s');
 
-        $model = Model::where('id',$this->id_komoditas_update)->first();
-        $model->harga_publish = $this->harga;
-        $model->harga_dinamik = $selisih_harga;
-        $model->kondisi = $kondisi;
-        $model->harga_pasar = $this->harga;
-        $model->detail_tgl = $tanggalChange;
+        $model = Model::where('id',$this->id_barang_update)->first();
+        $model->stok_awal = $this->stok_awal;
+        $model->stok_masuk = $this->stok_masuk;
+        $model->stok_keluar = $this->stok_keluar;
+        $model->stok_akhir = $this->stok_akhir;
         $model->updated_id = Auth::user()->id;
         $model->updated_at = date('Y-m-d H:i:s');        
         if($model->update()){
-            $this->alert('success', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Berhasil di Simpan', [
+            $this->alert('success', 'Update Harga Barang.'.$barang->namabarang.' Berhasil di Simpan', [
                 'timer' => 3000,
                 'toast' => true,
                 'timerProgressBar' => true,
             ]);
-                return redirect()->route('main.komoditas');
+                return redirect()->route('main.barang');
             
         }else{
-            $this->alert('error', 'Update Harga Komoditas.'.$komoditas->namakomoditas.' Gagal di Simpan', [
+            $this->alert('error', 'Update Harga Barang.'.$barang->namabarang.' Gagal di Simpan', [
                 'timer' => 3000,
                 'toast' => true,
                 'timerProgressBar' => true,
             ]);
-                return redirect()->route('main.komoditas');
+                return redirect()->route('main.barang');
         }
     }
-    public function updatedpasarId(){
-        // $cek_komoditas = RefKomoditas::join('t_siba_komoditas','t_siba_komoditas.komoditas_id','=','t_siba_komoditas.id','right')
-        // ->where('t_siba_komoditas.pasar_id',$pasarId)
-        // ->where('t_siba_komoditas.detail_tgl',date('Y-m-d'))->get();
-        $this->tanggal = date('Y-m-d H:i');
-        // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')->get();
+
+    public function updated()
+    {
         $dt = new \Carbon\Carbon($this->tanggal);
         $tanggalChange = $dt->format('Y-m-d');
-        $this->komoditas = Model::where('pasar_id',$this->pasarId)->where('detail_tgl',$tanggalChange)->get();
-        $komoditasInserted = [];
-        foreach($this->komoditas as $value){
-            array_push($komoditasInserted,$value->komoditas_id);
-        }
-        $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')
-        ->whereNotIn('id', $komoditasInserted)->get();
+        $this->stok_awal = stokSebelum($this->barangId,$this->pasarId,$tanggalChange);
+    }
+
+    public function hitung(){
+        $this->stok_akhir = $this->stok_awal + $this->stok_masuk - $this->stok_keluar;
     }
 
     public static function destroyOnClose(): bool

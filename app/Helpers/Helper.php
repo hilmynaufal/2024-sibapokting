@@ -1921,7 +1921,7 @@ function presentasePermintaan($awal,$masuk,$keluar){
     $html='';
     if($hasil < 25){
         $html .='<span class="badge badge-light-success">Permintaan '.$hasil.' % dari Ketersediaan</span>';
-    }elseif($hasil >= 25 && $hasil < 25){
+    }elseif($hasil >= 25 && $hasil < 49){
         $html .='<span class="badge badge-light-primary">Permintaan '.$hasil.' % dari Ketersediaan</span>';
     }elseif($hasil >= 50 && $hasil < 75){
         $html .='<span class="badge badge-light-warning">Permintaan '.$hasil.' % dari Ketersediaan</span>';

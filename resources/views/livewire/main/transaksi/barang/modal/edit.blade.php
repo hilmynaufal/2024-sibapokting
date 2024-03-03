@@ -12,7 +12,7 @@
 
             <div class="modal-body" style="text-align:left;">
                 <form class="form-horizontal" wire:submit="update">
-                    <input type="hidden" id="id_komoditas_update" name="id_komoditas_update" wire:model="id_komoditas_update" class="form-control">
+                    <input type="hidden" id="id_barang_update" name="id_barang_update" wire:model="id_barang_update" class="form-control">
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
@@ -34,7 +34,10 @@
                                 <label class="form-label">Pasar<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10" wire:ignore>
-                                <select disabled type="text" class="form-control form-control-lg form-select-solid @error('pasarId') is-invalid @enderror" name="pasarId"
+                                <select disabled x-init="$($el).select2({ placeholder: '-- Pilih Pasar --', });
+                                    $($el).on('change', function() {
+                                        $wire.set('pasarId', $($el).val());
+                                    })"  required type="text" class="form-control form-control-lg form-select-solid @error('pasarId') is-invalid @enderror" name="pasarId"
                                     wire:model.live="pasarId" id="pasarId">
                                     <option value="">-- Pilih Pasar --</option>
                                     @foreach($listPasar as $val)
@@ -50,37 +53,85 @@
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Komoditas<span class="text-danger"></span></label>
+                                <label class="form-label">Nama Barang<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <select disabled type="text" class="form-control form-control-lg form-select-solid @error('komoditasId') is-invalid @enderror" name="komoditasId"
-                                    wire:model="komoditasId" id="komoditasId">
-                                    <option value="">-- Pilih Komoditas --</option>
-                                    @foreach($listKomoditas as $val)
-                                        <option value="{{$val->id}}">{{$val->namakomoditas}}</option>
+                                <select disabled x-init="$($el).select2({ placeholder: '-- Pilih Barang --', });
+                                    $($el).on('change', function() {
+                                        $wire.set('barangId', $($el).val());
+                                    })" required type="text" class="form-control form-control-lg form-select-solid @error('barangId') is-invalid @enderror" name="barangId"
+                                    wire:model.live="barangId" id="barangId">
+                                    <option value="">-- Pilih Barang --</option>
+                                    @foreach($listBarang as $val)
+                                        <option value="{{$val->id}}">{{$val->namabarang}}</option>
                                     @endforeach
                                 </select>
-                                @error('komoditasId') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @error('barangId') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Stok Awal<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input disabled type="number" class="form-control" id="stok_awal"
+                                class="form-control @error('stok_awal') is-invalid @enderror" name="stok_awal" wire:change="hitung"
+                                wire:model="stok_awal"/>
+                                @error('stok_awal') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+
                             </div>
                         </div>
                     </div>
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="form-label">Harga Sekarang<span class="text-danger"></span></label>
+                                <label class="form-label">Barang Masuk<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
-                                <input required type="number" class="form-control" id="harga"
-                                class="form-control @error('harga') is-invalid @enderror" name="harga"
-                                wire:model="harga"/>
-                                @error('harga') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                <input required type="number" class="form-control" id="stok_masuk"
+                                class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk" wire:change="hitung"
+                                wire:model="stok_masuk"/>
+                                @error('stok_masuk') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
 
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Barang Keluar<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input required type="number" class="form-control" id="stok_keluar"
+                                class="form-control @error('stok_keluar') is-invalid @enderror" name="stok_keluar" wire:change="hitung"
+                                wire:model="stok_keluar"/>
+                                @error('stok_keluar') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Stok Akhir<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input disabled required type="number" class="form-control" id="stok_akhir"
+                                class="form-control @error('stok_akhir') is-invalid @enderror" name="stok_akhir"
+                                wire:model.live="stok_akhir"/>
+                                @error('stok_akhir') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info float-start" wire:target="create">Submit</button>
