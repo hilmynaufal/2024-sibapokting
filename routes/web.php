@@ -122,6 +122,8 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
     Route::prefix('main')->group(function () {
         Route::get('komoditas',App\Livewire\Main\Komoditas::class)->name('main.komoditas');
         Route::get('barang',App\Livewire\Main\Barang::class)->name('main.barang');
+        // Route::get('integrasi.proses',App\Livewire\Main\Integrasi\Proses::class)->name('main.integrasi.proses');
+        Route::get('integrasi',App\Livewire\Main\Integrasi::class)->name('main.integrasi');
     });
 
 });
