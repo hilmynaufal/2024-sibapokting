@@ -2,6 +2,7 @@
 namespace App\Livewire\Main;
 use Livewire\Component;
 use App\Models\RefSilinda as Model;
+use App\Models\Transaksi\Komoditas;
 use App\Models\Referensi\RefPasar;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
@@ -53,31 +54,17 @@ class Integrasi extends Component
         $this->pathResourceSend = $model->pathResourceSend;
     }
     
-    protected $rules = [
-        'kd_jenis_transaksi'      => 'required',
-        'nm_jenis_transaksi'      => 'required',
-    ];
-    
-    public function sortBy($coloumName)
-    {
-        if($this->sortColoumName === $coloumName){
-            $this->sortDirection = $this->swapSortDirection();
-        }else{
-            $this->sortDirection ='asc';
-        }
-        $this->sortColoumName = $coloumName;
-    }
-    
-    public function swapSortDirection()
-    {
-        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    public function view(){
+        $pasarInt           = RefPasar::where('status_integrasi',1)->get();
+        return view('livewire.main.integrasi.view',[
+            'komoditas' => $pasarInt,
+        ]);
     }
     
     
     public function render()
     {
         $this->token_get();
-        // array of curl handles
         $multiCurl          = array();
         $result             = array();
 
@@ -118,27 +105,6 @@ class Integrasi extends Component
 
             curl_multi_close($mh);
         }
-
-
-        // $curl = curl_init();
-        // curl_setopt_array($curl, array(
-        //     CURLOPT_URL => $this->baseURL . $this->pathResource,
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => '',
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 0,
-        //     CURLOPT_FOLLOWLOCATION => true,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => 'POST',
-        //     CURLOPT_POSTFIELDS => $myJSON,
-        //     CURLOPT_HTTPHEADER => $this->httpHeader($token_silinda->token),
-        // ));
-        
-        // $response = curl_exec($curl);
-        // curl_close($curl);
-        // $data = json_decode($result);
-        // var_dump($data) or die;
-        
         return view('livewire.main.integrasi.selesai',[
             'komoditas' => $result,
         ]);
