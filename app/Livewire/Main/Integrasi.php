@@ -73,7 +73,7 @@ class Integrasi extends Component
         $mh = curl_multi_init();
         foreach ($pasarInt as $i => $id) { 
             $myObj              = new \stdClass();
-            $myObj->length      = 10;
+            $myObj->length      = 70;
             $myObj->market_id   = $id->kode_integrasi;
             $myObj->time        = date("Y-m-d");
             $myJSON             = json_encode($myObj);

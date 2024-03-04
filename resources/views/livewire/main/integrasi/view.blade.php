@@ -83,11 +83,10 @@ Referensi > <b>Integrasi Data</b>
                                                 </div>
                                             </td>
                                             <td>
-                                                {{empty($value->last_integrasi) ? '-' : tglIndoHari($value->last_integrasi)}} 
+                                                {{empty($value->last_integrasi) ? '-' : TglTimeIndo($value->last_integrasi)}} 
                                             </td>
-
                                             <td>
-                                                @if($value->last_integrasi != date("Y-m-d"))
+                                                @if(TglStandar($value->last_integrasi) != date("Y-m-d"))
                                                 <i class="ki-outline ki-0 fs-2x text-danger"></i>
                                                 <i class="ki-outline ki-cross fs-2x text-danger"></i> </td>
                                                 @else
@@ -95,8 +94,11 @@ Referensi > <b>Integrasi Data</b>
                                                 <i class="ki-outline ki-0 fs-2x text-success"></i> </td>
                                                 @endif
                                             <td>
-                                                <button class="btn btn-sm btn-dark lh-1 py-4" wire:click="singkronisasi({{$value->id}})">
-                                                    <i class="ki-outline ki-setting-4 fs-4 me-1"></i> Singkronisasi data
+                                                <button class="btn btn-sm btn-dark lh-1 py-4" wire:click="singkronisasi({{$value->id}})" wire:loading.attr="disabled">
+                                                    <span wire:loading.remove><i class="ki-outline ki-setting-4 fs-4 me-1"></i>Singkronisasi</span>
+                                                    <span wire:loading >
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...
+                                                    </span>
                                                 </button>
                                             </td>
                                         </tr>

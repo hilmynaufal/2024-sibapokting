@@ -261,7 +261,7 @@ function setIconMenu($id){
             {
                 $dt = new  \Carbon\Carbon($tgl);
                 setlocale(LC_TIME, 'IND');
-                return $dt->formatLocalized('%Y-%m-%D');
+                return $dt->formatLocalized('%Y-%m-%d');
             }
             
             function Bulan($tgl)

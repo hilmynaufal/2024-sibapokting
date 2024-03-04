@@ -72,7 +72,7 @@ Referensi > <b>Integrasi Data</b>
                                     @foreach ($val->data as $value) 
                                     <tr>
                                         <td>{{$no;}}</td>
-                                        <td style="vertical-align: middle;">{{$value->commodity_id}}-{{$value->commodity_name}}</td>
+                                        <td style="vertical-align: middle;">{{$value->commodity_name}}</td>
                                         <td style="vertical-align: middle;">{{tglIndoHari($value->time)}}</td>
                                         <td style="vertical-align: middle;">{{$value->market_name}}</td>
                                         <td style="vertical-align: middle;">{{rupiah($value->value,0)}}</td>
