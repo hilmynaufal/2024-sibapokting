@@ -28,6 +28,19 @@
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="col-md-2">
+                                <label class="form-label">Harga Eceran Tertingg<span class="text-danger"></span></label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control @error('het') is-invalid @enderror" name="het"
+                                    wire:model="het" id="het" >
+                                @error('het') <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
                                 <label class="form-label">Satuan Berat<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">

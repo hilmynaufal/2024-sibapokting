@@ -9,6 +9,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+use Illuminate\Http\Request;
 
 class Barang extends Component
 {
@@ -34,7 +35,6 @@ class Barang extends Component
     protected $rules = [
         'namabarang'    => 'required',
         'satuan'           => 'required',
-        'gambar'           => 'file|mimes:pdf,jpg,jpeg,png,docx,doc,xls,xlsx|max:1000',
     ];
     
     public function mount()
@@ -152,7 +152,7 @@ class Barang extends Component
         $this->showForm = true;
     }
     
-    public function update()
+    public function update(Request $request)
     {
         $this->validate();
         // PROSES UPLOAD
@@ -161,15 +161,17 @@ class Barang extends Component
             Storage::disk('public')->makeDirectory($folderPath, 0755, true);
         }
         $uploadedFile = $this->gambar;
-        $fileName = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
-        $fileExtension = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah
-        $newFileName = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file
         // END PROSES UPLOAD
-
         $model = Model::firstOrNew(['id' =>  $this->id]);
         $model->namabarang   = $this->namabarang;
         $model->satuan          = $this->satuan;
-        $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
+        
+        if(!empty($request->hasfile('gambar'))){
+            $fileName               = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+            $fileExtension          = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah
+            $newFileName            = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file
+            $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
+        }
         
         if($model->save()){
             $this->mode = "create";

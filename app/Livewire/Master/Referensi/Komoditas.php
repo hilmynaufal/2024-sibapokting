@@ -9,6 +9,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+use Illuminate\Http\Request;
 
 class Komoditas extends Component
 {
@@ -28,13 +29,14 @@ class Komoditas extends Component
     public $namakomoditas;
     public $satuan;
     public $gambar;
+    public $het;
     public $list_satuan;
     
     
     protected $rules = [
         'namakomoditas'    => 'required',
         'satuan'           => 'required',
-        'gambar'           => 'file|mimes:pdf,jpg,jpeg,png,docx,doc,xls,xlsx|max:1000',
+        // 'gambar'           => 'file|mimes:pdf,jpg,jpeg,png,docx,doc,xls,xlsx|max:1000',
     ];
     
     public function mount()
@@ -55,7 +57,7 @@ class Komoditas extends Component
             $query->when($this->search != "", function ($q) {
                 return $q->whereRaw('LOWER(nm_jenis_transaksi) like ?', ['%'.strtolower($this->search).'%']);
             });
-            $rows = $query->paginate($this->perpage);
+            $rows = $query->orderBy('id','asc')->paginate($this->perpage);
 
         if ($rows[0]!=null) {
             $this->firstId = $rows[0]->id;
@@ -70,6 +72,7 @@ class Komoditas extends Component
     {
         $this->namakomoditas    = NULL;
         $this->satuan           = NULL;
+        $this->het           = NULL;
         $this->gambar           = NULL;
         $this->id               = NULL;
     }
@@ -111,6 +114,7 @@ class Komoditas extends Component
         $model->id              = $this->id;
         $model->namakomoditas   = $this->namakomoditas;
         $model->satuan          = $this->satuan;
+        $model->het          = $this->het;
         $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
         $model->created_id      = Auth::user()->id;
         $model->created_at      = date('Y-m-d H:i:s');
@@ -148,11 +152,12 @@ class Komoditas extends Component
         $this->namakomoditas   = $model->namakomoditas;
         $this->satuan          = $model->satuan;
         $this->gambar          = $model->gambar;
+        $this->het              = $model->het;
         $this->dispatch("showForm");
         $this->showForm = true;
     }
     
-    public function update()
+    public function update(Request $request)
     {
         $this->validate();
         // PROSES UPLOAD
@@ -160,17 +165,18 @@ class Komoditas extends Component
         if (!file_exists(Storage::disk('public')->path($folderPath))) {
             Storage::disk('public')->makeDirectory($folderPath, 0755, true);
         }
-        $uploadedFile = $this->gambar;
-        $fileName = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
-        $fileExtension = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah
-        $newFileName = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file
-        // END PROSES UPLOAD
-
+        
         $model = Model::firstOrNew(['id' =>  $this->id]);
         $model->namakomoditas   = $this->namakomoditas;
         $model->satuan          = $this->satuan;
-        $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
-        
+        $model->het             = $this->het;
+        $uploadedFile           = $this->gambar;
+        if(!empty($request->hasfile('gambar'))){
+            $fileName = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+            $fileExtension = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah
+            $newFileName = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file
+            $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
+        }
         if($model->save()){
             $this->mode = "create";
             $this->actionTitle = 'Ubah';

@@ -77,6 +77,7 @@ Referensi > <b>Komoditas</b>
                                     <th>No</th>
                                     <th>Nama Komoditas</th>
                                     <th>Satuan</th>
+                                    <th>HET</th>
                                     <th>Gambar</th>
                                     <th>Action</th>
                                 </tr>
@@ -96,6 +97,10 @@ Referensi > <b>Komoditas</b>
                                     <td>
                                         <span
                                             class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->satuan}}</span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ empty($item->het) ? rupiah(0,0) : rupiah($item->het,0) }}</span>
                                     </td>
                                     <td class="text-center">
                                         <div class="symbol symbol-50px">
@@ -163,6 +168,22 @@ Referensi > <b>Komoditas</b>
                                             class="form-control form-control-sm @error('namakomoditas') is-invalid @enderror"
                                             name="namakomoditas" wire:model="namakomoditas" id="namakomoditas">
                                         @error('namakomoditas') <span class="invalid-feedback"
+                                            role="alert">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="form-label">HET(Harga Eceran Tertinggi)<span class="text-danger"></span></label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="number"
+                                            class="form-control form-control-sm @error('het') is-invalid @enderror"
+                                            name="het" wire:model="het" id="het">
+                                        @error('het') <span class="invalid-feedback"
                                             role="alert">{{ $message }}</span>
                                         @enderror
                                     </div>
