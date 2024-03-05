@@ -86,27 +86,37 @@ class IntegrasiProses extends Component
                 
 
         }
-        $jsonRest = json_decode($response);
-        if($jsonRest->status == 'ok'){
-            $model                      = RefPasar::firstOrNew(['id' =>  $id]);
-            $model->last_integrasi      = date("Y-m-d H:i:s");
-            $model->save();
-            $log = 'Integrasi Silinda Berhasil di Hapus';
-            setActivity($log);
-            $this->alert('success', $log, [
-                'position' => 'top-end',
-                'timer' => 3000,
-                'toast' => true,
-            ]);
-        }else{
+        if(empty($response)){
             $log = 'Integrasi Silinda Gagal di Hapus';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
                 'toast' => true,
             ]);
-            
+        }else{
+            $jsonRest = json_decode($response);
+            if($jsonRest->status == 'ok'){
+                $model                      = RefPasar::firstOrNew(['id' =>  $id]);
+                $model->last_integrasi      = date("Y-m-d H:i:s");
+                $model->save();
+                $log = 'Integrasi Silinda Berhasil di Hapus';
+                setActivity($log);
+                $this->alert('success', $log, [
+                    'position' => 'top-end',
+                    'timer' => 3000,
+                    'toast' => true,
+                ]);
+            }else{
+                $log = 'Integrasi Silinda Gagal di Hapus';
+                $this->alert('error', $log, [
+                    'position' => 'top-end',
+                    'timer' => 3000,
+                    'toast' => true,
+                ]);
+                
+            }
         }
+        
     }
     
     // mendapatkan token SPLP
