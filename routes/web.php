@@ -15,7 +15,10 @@ use App\Http\Controllers\api\UserController;
 |
 */
 
-Route::get('/', App\Livewire\Auth\Login::class)->name('login');
+
+Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
+
+Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
 Route::get('/auth', App\Livewire\Auth\Login::class)->name('login.auth');
 Route::get('logout', App\Livewire\Auth\Logout::class)->name('logout');
 Route::get('register', App\Livewire\Auth\Register::class)->name('register');

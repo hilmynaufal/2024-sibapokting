@@ -354,7 +354,7 @@
             <!--begin::Menu item-->
             <div class="menu-item px-5">
                 <a href="{{ route('account.profile') }}" class="menu-link px-5">
-                Profil Saya {!! getRoleAksesLogin() !!}
+                Profil Saya
                 </a>
             </div>
             <!--end::Menu item-->

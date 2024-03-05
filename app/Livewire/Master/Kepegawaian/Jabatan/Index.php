@@ -21,8 +21,6 @@ class Index extends Component
     public $primaryId;
     public $url;
     public $icon;
-    public $jabatan_list_atasan;
-    
     public $mode = 'create';
     public $perpage = 10;
     public $total;
@@ -33,8 +31,6 @@ class Index extends Component
     public function mount()
     {
         $this->total = Model::where('is_active',1)->where('is_delete','=',0)->count();
-        $this->jabatan_list_atasan = Model::where('is_active','=',1)->where('is_delete','=',0)->orderBy('jabatan','ASC')->get();
-        // var_dump($this->jabatan_list_atasan);
     }
     
     protected $rules = [

@@ -21,7 +21,6 @@ class Form extends Component
     public $primaryId;
     public $url;
     public $icon;
-    public $jabatan_list;
     
     public $mode = 'create';
     public $perpage = 10;
@@ -33,7 +32,6 @@ class Form extends Component
     public function mount()
     {
         $this->total = Model::where('is_active',1)->where('is_delete','=',0)->count();
-        $this->jabatan_list = Model::where('is_active','=',1)->where('is_delete','=',0)->orderBy('jabatan','asc')->get();
     }
     
     protected $rules = [

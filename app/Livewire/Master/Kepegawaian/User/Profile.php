@@ -52,12 +52,6 @@ class Profile extends Component
     public $avatar_path;
     public $avatar_human_size;
     
-    public $golongan_list;
-    public $pangkat_list;
-    public $eselon_list;
-    public $jabatan_list;
-    public $satuan_kerja_list;
-    public $unit_kerja_list;
     public $jenis_kelamin_list;
     
     public $jabatan_pembantu_id;
@@ -66,13 +60,7 @@ class Profile extends Component
     
     public function mount()
     {
-        // $this->golongan_list        = RefGolongan::where('is_active','=',1)->orderBy('golongan','desc')->get();
-        // $this->pangkat_list         = RefPangkat::where('is_active','=',1)->orderBy('pangkat','asc')->get();
-        // $this->eselon_list          = RefEselon::where('is_active','=',1)->orderBy('eselon','desc')->get();
-        $this->jabatan_list             = RefJabatan::where('is_active','=',1)->orderBy('jabatan','asc')->get();
-        $this->jabatan_pembantu_list    = RefJabatan::where('is_active','=',1)->where('status_pj','=',1)->orderBy('jabatan','asc')->get();
-        $this->unit_kerja_list      = RefUnitKerja::where('is_active','=',1)->orderBy('unit_kerja','asc')->get();
-        $this->satuan_kerja_list    = RefSatuanKerja::where('is_active','=',1)->orderBy('satuan_kerja','asc')->get();
+        
         $this->jenis_kelamin_list   = RefJenisKelamin::where('is_active','=',1)->orderBy('jenis_kelamin','asc')->get();
         
         $data = User::where('id','=',Auth::user()->id)->first();
