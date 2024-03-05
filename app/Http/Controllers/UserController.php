@@ -20,11 +20,7 @@ class UserController extends Controller
                 'users.username',
                 'users.email',
                 'users.password',
-                'users.no_induk',
                 'users.nama_lengkap',
-                'users.jabatan',
-                'users.satuan_kerja',
-                'users.unit_kerja'
             )
             ->where('users.username', '=', $username)
             ->where('users.is_active', '=', 1)
@@ -39,16 +35,8 @@ class UserController extends Controller
                             'users.username',
                             'users.email',
                             'users.password',
-                            'users.no_induk',
                             'users.nama',
-                            'users.jabatan_id',
-                            'users.jabatan',
-                            'users.satuan_kerja',
-                            'users.unit_kerja',
                             'users.role_id',
-                            'users.jabatan_pembantu_id',
-                            'users.jabatan_pembantu',
-                            'users.role_id_pembantu', 
                             'users.id'
                         )
                         ->where('users.username', '=', $username)

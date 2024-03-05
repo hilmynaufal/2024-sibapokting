@@ -28,10 +28,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Auth
-// Route::post('auth/login-sso', [AuthController::class,'auth']);
-Route::post('auth/callback', [AuthController::class,'auth']);
-
 Route::post('Login', [UserController::class,'login']);
+// Route::post('auth/login-sso', [AuthController::class,'auth']);
+
+Route::post('auth/callback', [AuthController::class,'auth']);
 Route::get('TestApi', [RefController::class,'Test']);
 
 // Master
