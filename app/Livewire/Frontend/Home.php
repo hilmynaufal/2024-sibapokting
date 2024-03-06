@@ -83,7 +83,7 @@ class Home extends Component
             $this->firstId = $rows[0]->id;
         }
         
-        return view('livewire.master.referensi.pasar.pasar', [
+        return view('livewire.frontend.home', [
           'model'=> $rows
         ]);
     }

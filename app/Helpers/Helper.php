@@ -66,7 +66,7 @@ function menu($role)
     ->whereHas('menu', function ($query) {
         return $query->where([['parent_id', '=', 0], ['is_active', '=', 1], ['is_delete', '=', 0]]);
     })
-    ->where('role_id', '=', $role)
+    ->where('role_id', '=', $role)->where('jenis_menu', 'Backend')
     ->get()
     ->sortBy(function ($query) {
         return $query->menu->posisi;
@@ -74,6 +74,24 @@ function menu($role)
     ->all();
     
     return $menu;
+}
+
+function menuUtama()
+{
+    $menu = RefMenu::where([['parent_id', '=', 0], ['is_active', '=', 1], ['is_delete', '=', 0]])
+    ->where('jenis_menu', 'Front')
+    ->get();
+    
+    return $menu;
+}
+
+
+function menuChildUtama($parent)
+{
+    $child = RefMenu::where([['parent_id', '=', $parent], ['is_active', '=', 1], ['is_delete', '=', 0]])
+    ->where('jenis_menu', 'Front')
+    ->get();
+    return $child;
 }
 
 function cekMenuChild($parent, $role)
@@ -109,6 +127,7 @@ function menuChild($parent, $role)
 function MenuChildern($id)
 {
     $model = RefMenu::select('id', 'menu', 'url', 'posisi', 'parent_id')
+    ->where('jenis_menu', 'Backend')
     ->where([['is_active', '=', 1], ['parent_id', '=', $id]]);
     if ($model->get()) {
         return $model;
@@ -120,7 +139,9 @@ function MenuChildern($id)
 
 function MenuChildernList($id)
 {
-    $model = RefMenu::select('id', 'menu', 'url', 'posisi', 'parent_id')->where([['is_active', '=', 1], ['parent_id', '=', $id]])->get();
+    $model = RefMenu::select('id', 'menu', 'url', 'posisi', 'parent_id')
+    ->where('jenis_menu', 'Backend')
+    ->where([['is_active', '=', 1], ['parent_id', '=', $id]])->get();
     return $model;
 }
 
