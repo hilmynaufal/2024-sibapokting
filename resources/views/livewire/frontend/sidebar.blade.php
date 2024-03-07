@@ -1,5 +1,7 @@
 <!--begin::Sidebar-->
-<div id="kt_app_sidebar" class="app-sidebar  flex-column " data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="275px" data-kt-drawer-direction="start"
+<div>
+<div id="kt_app_sidebar" class="app-sidebar  flex-column " data-kt-drawer="true" data-kt-drawer-name="app-sidebar" 
+data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="275px" data-kt-drawer-direction="start"
                     data-kt-drawer-toggle="#kt_app_sidebar_toggle">
 
                     <!--begin::Logo-->
@@ -18,7 +20,7 @@
                     <div class="flex-column-fluid px-4 px-lg-8 py-4" id="kt_app_sidebar_nav">
                         <!--begin::Nav wrapper-->
                         <div id="kt_app_sidebar_nav_wrapper" class="d-flex flex-column hover-scroll-y pe-4 me-n4" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar, #kt_app_sidebar_nav"
-                            data-kt-scroll-offset="5px">
+                            data-kt-scroll-offset="5px" style="min-height: 354px;">
                             <!--begin::Progress-->
                             <div class="d-flex align-items-center flex-column w-100 mb-6">
                                 <div class="d-flex justify-content-between fw-bolder fs-6 text-gray-800  w-100 mt-auto mb-3">
@@ -66,157 +68,36 @@
                             <!--begin::Links-->
                             <div class="mb-6">
                                 <!--begin::Title-->
-                                <h3 class="text-gray-800 fw-bold mb-8">Services</h3>
+                                <h3 class="text-gray-800 fw-bold mb-8">Komoditas Lainnya</h3>
                                 <!--end::Title-->
 
                                 <!--begin::Row-->
                                 <div class="row row-cols-3" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/calendar.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-calendar fs-1"></i> </span>
-                                            <!--end::Icon-->
+                                    
+                                    @foreach($list_komoditas as $kom)
+                                        <!--begin::Col-->
+                                        <div class="col mb-4">
+                                            <!--begin::Link-->
+                                            <a href="#" wire:click.windows="setKomoditas({{$kom->id}})" 
+                                            class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column 
+                                            {{$komoditas_id == $kom->id ? 'active' : ''}} flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
+                                                <!--begin::Icon-->
+                                                <span class="mb-2">
+                                                    <div class="symbol symbol-20px">
+                                                        <img src="{{ Storage::disk('public')->url($kom->gambar) }}"
+                                                            alt="">
+                                                    </div>
+                                                </span>
+                                                <!--end::Icon-->
 
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Events</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/support-center/licenses.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-security-check fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Insurance</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/support-center/overview.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-wifi-square fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Network</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/projects/budget.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-chart-line-up-2 fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Financial</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/subscriptions/getting-started.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200"
-                                            data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-shield-tick fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Technical</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/contacts/getting-started.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-rocket fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">CareCal</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/projects/list.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-geolocation fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Hospitality</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/file-manager/folders.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-abstract-28 fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Utilities</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col mb-4">
-                                        <!--begin::Link-->
-                                        <a href="https://preview.keenthemes.com/metronic8/demo23/apps/contacts/add-contact.html" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px active border-primary border-dashed"
-                                            data-kt-button="true">
-                                            <!--begin::Icon-->
-                                            <span class="mb-2">
-                                                <i class="ki-outline ki-plus fs-1"></i> </span>
-                                            <!--end::Icon-->
-
-                                            <!--begin::Label-->
-                                            <span class="fs-7 fw-bold">Add New</span>
-                                            <!--end::Label-->
-                                        </a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <span class="fs-7 fw-bold">{{$kom->namakomoditas}}</span>
+                                                <!--end::Label-->
+                                            </a>
+                                            <!--end::Link-->
+                                        </div>
+                                        <!--end::Col-->
+                                    @endforeach
                                 </div>
                                 <!--end::Row-->
                             </div>
@@ -238,4 +119,4 @@
                 </div>
                 <!--end::Sidebar-->
 
-                
+                </div>

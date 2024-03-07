@@ -1820,15 +1820,15 @@ function dinamikaHargaAvg($sekarang,$kemarin){
         $html .= '';
     }else{
         if ($sekarang > $kemarin){
-            $html .= '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>'
+            $html .= '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i> Kenaikan Sebesar '
             .presentaseKenaikan($sekarang,$kemarin).
             '</span>';
         }elseif ($sekarang < $kemarin){
-            $html .= '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>'
+            $html .= '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i> Penurunan Sebesar '
             .presentasePenurunan($sekarang,$kemarin).
             '</span>';
         }elseif($sekarang == $kemarin){
-            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-success me-2"></i>';
+            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-success me-2"></i> Harga Tetap';
         }
 
     }
@@ -1855,10 +1855,10 @@ function dinamikaHarga($id,$tgl){
     $dt = new \Carbon\Carbon($tgl);
     $tanggal = $dt->format('Y-m-d');
     $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
-    $komoditas = Komoditas::where('id',$id)->where('detail_tgl',$tanggal)->Avg('harga_publish');
+    $komoditas = Komoditas::where('id',$id)->where('detail_tgl',$tanggal)->first();
     $komoditas_sebelum = Komoditas::where('pasar_id',$komoditas->pasar_id)
     ->where('komoditas_id',$komoditas->komoditas_id)
-    ->where('detail_tgl',$tanggal_sebelum)->Avg('harga_publish');
+    ->where('detail_tgl',$tanggal_sebelum)->first();
     $html='';
     if(empty($komoditas_sebelum)){
         $html .= '';

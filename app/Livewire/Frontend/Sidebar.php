@@ -2,6 +2,7 @@
 namespace App\Livewire\Frontend;
 use Livewire\Component;
 use App\Models\transaksi\Komoditas as Model;
+use App\Models\referensi\RefKomoditas;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -12,16 +13,17 @@ use Storage;
 class Sidebar extends Component
 {
     use WithPagination;
-    public $komoditas_id;
+    public $komoditas_id = 89;
     public $komoditas_sekarang;
     public $komoditas_kemarin;
+    public $list_komoditas;
     
-    #[Layout('components.layouts.keenthemes.frontend.app')]
+    // #[Layout('components.layouts.keenthemes.frontend.app')]
     
     public function mount()
     {
-        
-        $this->komoditas_id = 89;
+        // $komoditasId = RefKomoditas::where('prioritas',1)->first();
+        // $this->komoditas_id = $komoditasId->id;
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
@@ -41,13 +43,23 @@ class Sidebar extends Component
             ->where('detail_tgl',$tanggal_sebelum)->first();
         }
 
+        $this->list_komoditas = RefKomoditas::where('prioritas',1)->limit(9)->get();
+
         $this->komoditas_sekarang   = empty($komoditas) ? $before_komoditas : $komoditas;
         $this->komoditas_kemarin    = $komoditas_sebelum;
     }
     
     public function render()
     {
-        return view('livewire.frontend.sidebar');
+        // return view('livewire.frontend.sidebar');
+        return view('livewire.frontend.sidebar')
+        ->extends('components.layouts.keenthemes.frontend.app');
+        
+    }
+
+    public function setKomoditas($komoditasId){
+        $this->komoditas_id = $komoditasId;
+        $this->mount();
     }
     
     // private function resetInput()
