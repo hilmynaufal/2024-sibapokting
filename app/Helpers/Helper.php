@@ -66,7 +66,7 @@ function menu($role)
     ->whereHas('menu', function ($query) {
         return $query->where([['parent_id', '=', 0], ['is_active', '=', 1], ['is_delete', '=', 0]]);
     })
-    ->where('role_id', '=', $role)->where('jenis_menu', 'Backend')
+    ->where('role_id', '=', $role)
     ->get()
     ->sortBy(function ($query) {
         return $query->menu->posisi;
@@ -1814,14 +1814,51 @@ function setIconMenu($id){
                                                 return $html;
                                             }
 // SIBAPOKTING
+function dinamikaHargaAvg($sekarang,$kemarin){
+    $html='';
+    if(empty($kemarin)){
+        $html .= '';
+    }else{
+        if ($sekarang > $kemarin){
+            $html .= '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>'
+            .presentaseKenaikan($sekarang,$kemarin).
+            '</span>';
+        }elseif ($sekarang < $kemarin){
+            $html .= '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>'
+            .presentasePenurunan($sekarang,$kemarin).
+            '</span>';
+        }elseif($sekarang == $kemarin){
+            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-success me-2"></i>';
+        }
+
+    }
+    return $html;
+}
+function dinamikaHargaAvgNilai($sekarang,$kemarin){
+    $html='';
+    if(empty($kemarin)){
+        $html = 0;
+    }else{
+        if ($sekarang > $kemarin){
+            $html = presentaseKenaikan($sekarang,$kemarin);
+        }elseif ($sekarang < $kemarin){
+            $html = presentasePenurunan($sekarang,$kemarin);
+        }elseif($sekarang == $kemarin){
+            $html = 0;
+        }
+
+    }
+    return $html;
+}
+
 function dinamikaHarga($id,$tgl){
     $dt = new \Carbon\Carbon($tgl);
     $tanggal = $dt->format('Y-m-d');
     $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
-    $komoditas = Komoditas::where('id',$id)->where('detail_tgl',$tanggal)->first();
+    $komoditas = Komoditas::where('id',$id)->where('detail_tgl',$tanggal)->Avg('harga_publish');
     $komoditas_sebelum = Komoditas::where('pasar_id',$komoditas->pasar_id)
     ->where('komoditas_id',$komoditas->komoditas_id)
-    ->where('detail_tgl',$tanggal_sebelum)->first();
+    ->where('detail_tgl',$tanggal_sebelum)->Avg('harga_publish');
     $html='';
     if(empty($komoditas_sebelum)){
         $html .= '';
@@ -1972,6 +2009,16 @@ function topPangan($id){
         'komoditas' => empty($komoditas) ? $before_komoditas : $komoditas,
         'komoditas_sebelum' => $komoditas_sebelum
     ];
+}
+
+function avgHarga($komoditas,$pasar,$tgl){
+    if($pasar == 0){
+        $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->Avg('harga_publish');
+    }else{
+        $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->where('pasar_id',$pasar)->Avg('harga_publish');
+    }
+
+    return round($avg_komoditas);
 }
                                           
                                             

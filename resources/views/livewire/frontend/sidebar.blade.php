@@ -22,15 +22,15 @@
                             <!--begin::Progress-->
                             <div class="d-flex align-items-center flex-column w-100 mb-6">
                                 <div class="d-flex justify-content-between fw-bolder fs-6 text-gray-800  w-100 mt-auto mb-3">
-                                    <span>{{$komoditas->}}</span>
+                                    <span>{{$komoditas_sekarang->tokomoditas->namakomoditas}}</span>
                                 </div>
 
                                 <div class="w-100 bg-light-primary rounded mb-2" style="height: 24px">
-                                    <div class="bg-primary rounded" role="progressbar" style="height: 24px; width: 37%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="bg-primary rounded" role="progressbar" style="height: 24px; width: {{ dinamikaHargaAvgNilai(avgHarga($komoditas_sekarang->komoditas_id,0,$komoditas_sekarang->detail_tgl),avgHarga($komoditas_kemarin->komoditas_id,0,$komoditas_kemarin->detail_tgl)) }}" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
 
                                 <div class="fw-semibold fs-7 text-primary w-100 mt-auto">
-                                    <span>reached 37% of your target</span>
+                                    <span>{!! dinamikaHargaAvg(avgHarga($komoditas_sekarang->komoditas_id,0,$komoditas_sekarang->detail_tgl),avgHarga($komoditas_kemarin->komoditas_id,0,$komoditas_kemarin->detail_tgl)) !!}</span>
                                 </div>
                             </div>
                             <!--end::Progress-->
@@ -40,22 +40,22 @@
                                 <!--begin::Stat-->
                                 <div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 me-6">
                                     <!--begin::Date-->
-                                    <span class="fs-6 text-gray-500 fw-bold">Budget</span>
+                                    <span class="fs-6 text-gray-500 fw-bold">Sekarang</span>
                                     <!--end::Date-->
 
                                     <!--begin::Label-->
-                                    <div class="fs-2 fw-bold text-success">$14,350</div>
+                                    <div class="fs-2 fw-bold text-success">{{rupiah(avgHarga($komoditas_sekarang->komoditas_id,0,$komoditas_sekarang->detail_tgl),0)}}</div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Stat-->
                                 <!--begin::Stat-->
                                 <div class="border border-gray-300 border-dashed rounded min-w-100px w-100 py-2 px-4 ">
                                     <!--begin::Date-->
-                                    <span class="fs-6 text-gray-500 fw-bold">Spent</span>
+                                    <span class="fs-6 text-gray-500 fw-bold">Kemarin</span>
                                     <!--end::Date-->
 
                                     <!--begin::Label-->
-                                    <div class="fs-2 fw-bold text-danger">$8,029</div>
+                                    <div class="fs-2 fw-bold text-danger">{{rupiah(avgHarga($komoditas_kemarin->komoditas_id,0,$komoditas_kemarin->detail_tgl),0)}}</div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Stat-->

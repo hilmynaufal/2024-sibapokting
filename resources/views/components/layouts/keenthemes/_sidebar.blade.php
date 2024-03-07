@@ -19,10 +19,7 @@
                             <!--begin::Info-->
                             <span class="d-flex flex-column align-items-start flex-grow-1">
                                 <span class="fs-5 fw-bold text-white text-uppercase" data-kt-element="title">
-                                    SIBEDAS
-                                </span>
-                                <span class="fs-7 fw-bold text-gray-700 lh-sm" data-kt-element="desc">
-                                    Tangguh
+                                    Sibapokting
                                 </span>
                             </span>
                             <!--end::Info-->

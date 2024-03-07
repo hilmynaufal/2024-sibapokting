@@ -13,34 +13,25 @@ class Sidebar extends Component
 {
     use WithPagination;
     public $komoditas_id;
+    public $komoditas_sekarang;
+    public $komoditas_kemarin;
     
     #[Layout('components.layouts.keenthemes.frontend.app')]
     
     public function mount()
     {
-        $this->komoditas_id = 88;
-        // $dt = new \Carbon\Carbon(now());
-        // $tanggal = $dt->format('Y-m-d');
-        // $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
-        // $komoditas = Komoditas::with('toKomoditas')->where('detail_tgl',$tanggal)->first();
-        // $komoditas_sebelum = Komoditas::where('pasar_id',$komoditas->pasar_id)
-        // ->where('komoditas_id',$komoditas->komoditas_id)
-        // ->where('detail_tgl',$tanggal_sebelum)->first();
-        // return [
-        //     'komoditas' => $komoditas,
-        //     'komoditas_sebelum' => $komoditas_sebelum
-        // ];
-    }
-    
-    public function render()
-    {
+        
+        $this->komoditas_id = 89;
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
         $tanggal_sebelum_1 = date('Y-m-d',strtotime($tanggal_sebelum . "-1 days"));
-        $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)->first();
+        $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)
+                    ->where('komoditas_id',$this->komoditas_id)->first();
         if(empty($komoditas)){
-            $before_komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal_sebelum)->first();
+            $before_komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal_sebelum)
+            ->where('komoditas_id',$this->komoditas_id)->first();
+            
             $komoditas_sebelum = Model::where('pasar_id',$before_komoditas->pasar_id)
             ->where('komoditas_id',$before_komoditas->komoditas_id)
             ->where('detail_tgl',$tanggal_sebelum)->first();
@@ -49,11 +40,14 @@ class Sidebar extends Component
             ->where('komoditas_id',$komoditas->komoditas_id)
             ->where('detail_tgl',$tanggal_sebelum)->first();
         }
-        
-        return view('livewire.frontend.sidebar',[
-            'komoditas' => empty($komoditas) ? $before_komoditas : $komoditas,
-            'komoditas_sebelum' => $komoditas_sebelum
-        ]);
+
+        $this->komoditas_sekarang   = empty($komoditas) ? $before_komoditas : $komoditas;
+        $this->komoditas_kemarin    = $komoditas_sebelum;
+    }
+    
+    public function render()
+    {
+        return view('livewire.frontend.sidebar');
     }
     
     // private function resetInput()
