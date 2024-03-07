@@ -42,9 +42,11 @@
                                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                                     data-kt-menu-placement="bottom-start"
                                     class="menu-item {{trim($__env->yieldContent('utama')) == $item->menu ? 'show here' : ''}} menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
-                                        <!--begin:Menu link--><span class="menu-link"><span
-                                                class="menu-title">{{$item->menu}}</span><span
-                                                class="menu-arrow d-lg-none"></span></span>
+                                        <!--begin:Menu link-->
+                                                    <span class="menu-link">
+                                                        <span class="menu-title">{{$item->menu}}</span>
+                                                        <span class="menu-arrow d-lg-none"></span>
+                                                    </span>
                                         <!--end:Menu link-->
                                         <!--begin:Menu sub-->
                                         <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">

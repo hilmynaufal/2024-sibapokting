@@ -22,7 +22,7 @@
                             <!--begin::Progress-->
                             <div class="d-flex align-items-center flex-column w-100 mb-6">
                                 <div class="d-flex justify-content-between fw-bolder fs-6 text-gray-800  w-100 mt-auto mb-3">
-                                    <span>{{topPangan($komoditas_id)['komoditas']->tokomoditas->namakomoditas}}</span>
+                                    <span>{{$komoditas->}}</span>
                                 </div>
 
                                 <div class="w-100 bg-light-primary rounded mb-2" style="height: 24px">

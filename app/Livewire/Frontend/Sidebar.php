@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 
-class Home extends Component
+class Sidebar extends Component
 {
     use WithPagination;
     public $komoditas_id;
@@ -34,15 +34,26 @@ class Home extends Component
     
     public function render()
     {
-        // $dt = new \Carbon\Carbon(now());
-        // $tanggal = $dt->format('Y-m-d');
-        // $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
-        // $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)->first();
-        // $komoditas_sebelum = Model::where('pasar_id',$komoditas->pasar_id)
-        // ->where('komoditas_id',$komoditas->komoditas_id)
-        // ->where('detail_tgl',$tanggal_sebelum)->first();
+        $dt = new \Carbon\Carbon(now());
+        $tanggal = $dt->format('Y-m-d');
+        $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
+        $tanggal_sebelum_1 = date('Y-m-d',strtotime($tanggal_sebelum . "-1 days"));
+        $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)->first();
+        if(empty($komoditas)){
+            $before_komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal_sebelum)->first();
+            $komoditas_sebelum = Model::where('pasar_id',$before_komoditas->pasar_id)
+            ->where('komoditas_id',$before_komoditas->komoditas_id)
+            ->where('detail_tgl',$tanggal_sebelum)->first();
+        }else{  
+            $komoditas_sebelum = Model::where('pasar_id',$komoditas->pasar_id)
+            ->where('komoditas_id',$komoditas->komoditas_id)
+            ->where('detail_tgl',$tanggal_sebelum)->first();
+        }
         
-        return view('livewire.frontend.home');
+        return view('livewire.frontend.sidebar',[
+            'komoditas' => empty($komoditas) ? $before_komoditas : $komoditas,
+            'komoditas_sebelum' => $komoditas_sebelum
+        ]);
     }
     
     // private function resetInput()
