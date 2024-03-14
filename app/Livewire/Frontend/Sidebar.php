@@ -33,10 +33,17 @@ class Sidebar extends Component
         if(empty($komoditas)){
             $before_komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal_sebelum)
             ->where('komoditas_id',$this->komoditas_id)->first();
-            
-            $komoditas_sebelum = Model::where('pasar_id',$before_komoditas->pasar_id)
-            ->where('komoditas_id',$before_komoditas->komoditas_id)
-            ->where('detail_tgl',$tanggal_sebelum)->first();
+            if(empty($before_komoditas->pasar_id)){
+                $befores_komoditas = Model::with('toKomoditas')->orderBy('detail_tgl','desc')
+                ->where('komoditas_id',$this->komoditas_id)->first();
+                $komoditas_sebelum = Model::where('pasar_id',$befores_komoditas->pasar_id)
+                ->where('komoditas_id',$befores_komoditas->komoditas_id)
+                ->where('detail_tgl',$tanggal_sebelum)->first(); 
+            }else{
+                $komoditas_sebelum = Model::where('pasar_id',$before_komoditas->pasar_id)
+                ->where('komoditas_id',$before_komoditas->komoditas_id)
+                ->where('detail_tgl',$tanggal_sebelum)->first();
+            }
         }else{  
             $komoditas_sebelum = Model::where('pasar_id',$komoditas->pasar_id)
             ->where('komoditas_id',$komoditas->komoditas_id)

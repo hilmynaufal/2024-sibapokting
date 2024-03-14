@@ -20,7 +20,7 @@ data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="tru
                     <div class="flex-column-fluid px-4 px-lg-8 py-4" id="kt_app_sidebar_nav">
                         <!--begin::Nav wrapper-->
                         <div id="kt_app_sidebar_nav_wrapper" class="d-flex flex-column hover-scroll-y pe-4 me-n4" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar, #kt_app_sidebar_nav"
-                            data-kt-scroll-offset="5px" style="min-height: 354px;">
+                            data-kt-scroll-offset="5px" style="height: 500px;">
                             <!--begin::Progress-->
                             <div class="d-flex align-items-center flex-column w-100 mb-6">
                                 <div class="d-flex justify-content-between fw-bolder fs-6 text-gray-800  w-100 mt-auto mb-3">
