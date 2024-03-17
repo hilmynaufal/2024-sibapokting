@@ -145,44 +145,97 @@ Home
                                 <!--end::Header-->
 
                                 <!--begin::Body-->
-                                <div class="card-body">
-                                    <div class="card overflow-hidden h-md-50 mb-5 col-md-3">
-                                        <!--begin::Card body-->
-                                        <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
-                                            <!--begin::Statistics-->
-                                            <div class="mb-4 px-9">
-                                                <!--begin::Info-->
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <!--begin::Currency-->
-                                                    <span
-                                                        class="fs-4 fw-semibold text-gray-500 align-self-start me-1>">$</span>
-                                                    <!--end::Currency-->
-
-
-                                                    <!--begin::Value-->
-                                                    <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1">69,700</span>
-                                                    <!--end::Value-->
-
-                                                    <!--begin::Label-->
-                                                    <span class="badge badge-light-success fs-base">
-                                                        <i class="ki-outline ki-arrow-up fs-5 text-success ms-n1"></i>
-                                                        2.2% </span>
-
-                                                    <!--end::Label-->
+                                <div class="card-body" >
+                                    <div class="row g-5 g-xl-10" wire:ignore>
+                                        @foreach ($model as $index => $item)
+                                        <div class="col-md-3">
+                                            <!--begin::Card widget 11-->
+                                            <div class="card card-flush h-xl-100" style="background-color: #BFDDE3">
+                                                <!--begin::Header-->
+                                                <div class="card-header flex-nowrap pt-5">
+                                                    <!--begin::Title-->
+                                                    <h3 class="card-title align-items-start flex-column">
+                                                        <span
+                                                            class="card-label fw-bold fs-4 text-gray-800">Dogecoin</span>
+                                                        <span class="mt-1 fw-semibold fs-7" style="color: ">0.12,045 USD
+                                                            for
+                                                            1 DOGE</span>
+                                                    </h3>
+                                                    <!--end::Title-->
                                                 </div>
-                                                <!--end::Info-->
+                                                <!--end::Header-->
 
-                                                <!--begin::Description-->
-                                                <span class="fs-6 fw-semibold text-gray-500">Total Online Sales</span>
-                                                <!--end::Description-->
+                                                <!--begin::Body-->
+                                                <div class="card-body text-center pt-5">
+                                                    <!--begin::Image-->
+                                                    <img src="{{ asset('backend/themes/assets/media/svg/shapes/dogecoin.svg');}}"
+                                                        class="h-125px mb-5" alt="">
+                                                    <!--end::Image-->
+
+                                                    <!--begin::Section-->
+                                                    <div class="text-start">
+                                                        <span class="d-block fw-bold fs-1 text-gray-800">4703.7589
+                                                            DOGE</span>
+                                                        <span class="mt-1 fw-semibold fs-3" style="color: ">503,005,56
+                                                            USD</span>
+                                                    </div>
+                                                    <!--end::Section-->
+                                                </div>
+                                                <!--end::Body-->
                                             </div>
-                                            <!--end::Statistics-->
+                                            <!--end::Card widget 11-->
 
-                                            <!--begin::Chart-->
-                                            <div id="spark1" class="min-h-auto"></div>
-                                            <!--end::Chart-->
+
                                         </div>
-                                        <!--end::Card body-->
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div
+                                            class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
+                                            <div class="dataTables_length" id="kt_ecommerce_products_table_length">
+                                                <label><select name="kt_ecommerce_products_table_length"
+                                                        aria-controls="kt_ecommerce_products_table"
+                                                        class="form-select form-select-sm form-select-solid" wire:model.live="perpage">
+                                                        <option value="10">10</option>
+                                                        <option value="25">25</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                    </select></label></div>
+                                        </div>
+                                        <div
+                                            class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                                            <div class="dataTables_paginate paging_simple_numbers"
+                                                id="kt_ecommerce_products_table_paginate">
+                                                <ul class="pagination">
+                                                    <li class="paginate_button page-item previous disabled"
+                                                        id="kt_ecommerce_products_table_previous"><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="0"
+                                                            tabindex="0" class="page-link"><i class="previous"></i></a>
+                                                    </li>
+                                                    <li class="paginate_button page-item active"><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="1"
+                                                            tabindex="0" class="page-link">1</a></li>
+                                                    <li class="paginate_button page-item "><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="2"
+                                                            tabindex="0" class="page-link">2</a></li>
+                                                    <li class="paginate_button page-item "><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="3"
+                                                            tabindex="0" class="page-link">3</a></li>
+                                                    <li class="paginate_button page-item "><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="4"
+                                                            tabindex="0" class="page-link">4</a></li>
+                                                    <li class="paginate_button page-item "><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="5"
+                                                            tabindex="0" class="page-link">5</a></li>
+                                                    <li class="paginate_button page-item next"
+                                                        id="kt_ecommerce_products_table_next"><a href="#"
+                                                            aria-controls="kt_ecommerce_products_table" data-dt-idx="6"
+                                                            tabindex="0" class="page-link"><i class="next"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--end: Card Body-->
@@ -203,75 +256,6 @@ Home
 
     @push('js')
     <script>
-        
-        var randomizeArray = function (arg) {
-        var array = arg.slice();
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        while (0 !== currentIndex) {
-
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-        }
-        // data for the sparklines that appear below header area
-        var sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46];
-
-        // the default colorPalette for this dashboard
-        //var colorPalette = ['#01BFD6', '#5564BE', '#F7A600', '#EDCD24', '#F74F58'];
-        var colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0']
-        
-        var spark1 = {
-            chart: {
-                id: 'sparkline1',
-                group: 'sparklines',
-                type: 'area',
-                height: 160,
-                sparkline: {
-                enabled: true
-                },
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            fill: {
-                opacity: 1,
-            },
-            series: [{
-                name: 'Sales',
-                data: randomizeArray(sparklineData)
-            }],
-            labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-            yaxis: {
-                min: 0
-            },
-            xaxis: {
-                type: 'datetime',
-            },
-            colors: ['#DCE6EC'],
-            title: {
-                text: '$424,652',
-                offsetX: 30,
-                style: {
-                fontSize: '24px',
-                cssClass: 'apexcharts-yaxis-title'
-                }
-            },
-            subtitle: {
-                text: 'Sales',
-                offsetX: 30,
-                style: {
-                fontSize: '14px',
-                cssClass: 'apexcharts-yaxis-title'
-                }
-            }
-        }
-        new ApexCharts(document.querySelector("#spark1"), spark1).render();
+        $("#kt_daterangepicker_1").flatpickr();
     </script>
     @endpush
