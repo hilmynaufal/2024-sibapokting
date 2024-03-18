@@ -22,38 +22,7 @@ class Sidebar extends Component
     
     public function mount()
     {
-        // $komoditasId = RefKomoditas::where('prioritas',1)->first();
-        // $this->komoditas_id = $komoditasId->id;
-        $dt = new \Carbon\Carbon(now());
-        $tanggal = $dt->format('Y-m-d');
-        $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
-        $tanggal_sebelum_1 = date('Y-m-d',strtotime($tanggal_sebelum . "-1 days"));
-        $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)
-                    ->where('komoditas_id',$this->komoditas_id)->first();
-        if(empty($komoditas)){
-            $before_komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal_sebelum)
-            ->where('komoditas_id',$this->komoditas_id)->first();
-            if(empty($before_komoditas->pasar_id)){
-                $befores_komoditas = Model::with('toKomoditas')->orderBy('detail_tgl','desc')
-                ->where('komoditas_id',$this->komoditas_id)->first();
-                $komoditas_sebelum = Model::where('pasar_id',$befores_komoditas->pasar_id)
-                ->where('komoditas_id',$befores_komoditas->komoditas_id)
-                ->where('detail_tgl',$tanggal_sebelum)->first(); 
-            }else{
-                $komoditas_sebelum = Model::where('pasar_id',$before_komoditas->pasar_id)
-                ->where('komoditas_id',$before_komoditas->komoditas_id)
-                ->where('detail_tgl',$tanggal_sebelum)->first();
-            }
-        }else{  
-            $komoditas_sebelum = Model::where('pasar_id',$komoditas->pasar_id)
-            ->where('komoditas_id',$komoditas->komoditas_id)
-            ->where('detail_tgl',$tanggal_sebelum)->first();
-        }
-
-        $this->list_komoditas = RefKomoditas::where('prioritas',1)->limit(9)->get();
-
-        $this->komoditas_sekarang   = empty($komoditas) ? $before_komoditas : $komoditas;
-        $this->komoditas_kemarin    = $komoditas_sebelum;
+       
     }
     
     public function render()
