@@ -2,8 +2,10 @@
 namespace App\Livewire\Frontend;
 use Livewire\Component;
 use App\Models\transaksi\Komoditas as Model;
+use App\Models\Referensi\RefPasar;
 use App\Models\referensi\RefKomoditas;
 use App\Models\website\RefBanner;
+use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -13,7 +15,8 @@ use Storage;
 
 class Home extends Component
 {
-    use WithPagination;
+    use WithPagination,WithoutUrlPagination;
+    protected $paginationTheme = 'bootstrap';
     public $listBannerTop;
     public $listBannerActive;
     public $search = '';
@@ -23,6 +26,7 @@ class Home extends Component
     public $komoditas_sekarang;
     public $komoditas_kemarin;
     public $list_komoditas;
+    public $list_pasar;
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
     
@@ -30,13 +34,12 @@ class Home extends Component
     {
         $this->listBannerTop = RefBanner::where('kategori','Header')->orderBy('id','asc')->get();
         $this->listBannerActive = RefBanner::where('kategori','Header')->orderBy('id','asc')->first();  
-        // $this->search = $dt->format('Y-m-d');
-
-
-         // $komoditasId = RefKomoditas::where('prioritas',1)->first();
-        // $this->komoditas_id = $komoditasId->id;
+        
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
+        $this->search = '2024-03-14';
+        // $this->search = $dt->format('Y-m-d');
+
         $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
         $tanggal_sebelum_1 = date('Y-m-d',strtotime($tanggal_sebelum . "-1 days"));
         $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)
@@ -62,17 +65,25 @@ class Home extends Component
         }
 
         $this->list_komoditas = RefKomoditas::where('prioritas',1)->limit(9)->get();
+        $this->list_pasar = RefPasar::get();
 
         $this->komoditas_sekarang   = empty($komoditas) ? $before_komoditas : $komoditas;
         $this->komoditas_kemarin    = $komoditas_sebelum;
+
+        $data = Model::count();
+        if ($data) {
+            $this->id = $data + 1;
+        } else {
+            $this->id = 1;
+        }
     }
     
     public function render()
     {
-        $query = Model::query();
-        $query->when($this->search != "", function ($q) {
-            return $q->where('detail_tgl','=', $this->search);
-        });
+        $query = RefKomoditas::query();
+        // $query->when($this->search != "", function ($q) {
+        //     return $q->where('detail_tgl','=', $this->search);
+        // });
         $rows = $query->paginate($this->perpage);
         
         return view('livewire.frontend.home', [

@@ -263,8 +263,17 @@ Home
                                     <div class="card-toolbar">
                                         <div class="mb-0">
                                             <label class="form-label">Pilih Tanggal</label>
-                                            <input class="form-control form-control-solid" placeholder="Pick date rage"
-                                                id="kt_daterangepicker_1" wire:model.live="search" />
+                                            <div class="w-200 mw-350px" wire:ignore >
+                                                <select x-init="$($el).select2();
+                                                $($el).on('change', function() {
+                                                    $wire.set('search', $($el).val());
+                                                })" wire:model.live="search"  name="search" id="search" class="form-control form-control-lg form-select-solid">
+                                                    <option value="">Semua Pasar</option>
+                                                    @foreach($list_pasar as $pasar)
+                                                    <option value="{{$pasar->id}}">{{$pasar->namapasar}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--end::Toolbar-->
@@ -282,127 +291,17 @@ Home
                                                         <!--begin::Wrapper-->
                                                         <div class="me-3">
                                                             <!--begin::Icon-->
-                                                            <img src="/metronic8/demo23/assets/media/stock/ecommerce/210.png"
-                                                                class="w-50px ms-n1 me-1" alt="">
+                                                            <div class="symbol symbol-70px">
+                                                                <img src="{{ Storage::disk('public')->url($item->gambar) }}" alt="">
+                                                            </div>
                                                             <!--end::Icon-->
 
                                                             <!--begin::Title-->
-                                                            <a href="/metronic8/demo23/apps/ecommerce/catalog/edit-product.html"
-                                                                class="text-gray-800 text-hover-primary fw-bold">Elephant
-                                                                1802</a>
+                                                            <a class="text-gray-800 text-hover-primary fw-bold">{{$item->namakomoditas}}</a>
                                                             <!--end::Title-->
                                                         </div>
                                                         <!--end::Wrapper-->
 
-                                                        <!--begin::Action-->
-                                                        <div class="m-0">
-                                                            <!--begin::Menu-->
-                                                            <button
-                                                                class="btn btn-icon btn-color-gray-500 btn-active-color-primary justify-content-end"
-                                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                                                data-kt-menu-overflow="true">
-
-                                                                <i class="ki-outline ki-dots-square fs-1"></i>
-                                                            </button>
-
-                                                            <!--begin::Menu 2-->
-                                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
-                                                                data-kt-menu="true">
-                                                                <!--begin::Menu item-->
-                                                                <div class="menu-item px-3">
-                                                                    <div
-                                                                        class="menu-content fs-6 text-gray-900 fw-bold px-3 py-4">
-                                                                        Quick Actions</div>
-                                                                </div>
-                                                                <!--end::Menu item-->
-
-                                                                <!--begin::Menu separator-->
-                                                                <div class="separator mb-3 opacity-75"></div>
-                                                                <!--end::Menu separator-->
-
-                                                                <!--begin::Menu item-->
-                                                                <div class="menu-item px-3">
-                                                                    <a href="#" class="menu-link px-3">
-                                                                        New Ticket
-                                                                    </a>
-                                                                </div>
-                                                                <!--end::Menu item-->
-
-                                                                <!--begin::Menu item-->
-                                                                <div class="menu-item px-3">
-                                                                    <a href="#" class="menu-link px-3">
-                                                                        New Customer
-                                                                    </a>
-                                                                </div>
-                                                                <!--end::Menu item-->
-
-                                                                <!--begin::Menu item-->
-                                                                <div class="menu-item px-3" data-kt-menu-trigger="hover"
-                                                                    data-kt-menu-placement="right-start">
-                                                                    <!--begin::Menu item-->
-                                                                    <a href="#" class="menu-link px-3">
-                                                                        <span class="menu-title">New Group</span>
-                                                                        <span class="menu-arrow"></span>
-                                                                    </a>
-                                                                    <!--end::Menu item-->
-
-                                                                    <!--begin::Menu sub-->
-                                                                    <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                                                        <!--begin::Menu item-->
-                                                                        <div class="menu-item px-3">
-                                                                            <a href="#" class="menu-link px-3">
-                                                                                Admin Group
-                                                                            </a>
-                                                                        </div>
-                                                                        <!--end::Menu item-->
-
-                                                                        <!--begin::Menu item-->
-                                                                        <div class="menu-item px-3">
-                                                                            <a href="#" class="menu-link px-3">
-                                                                                Staff Group
-                                                                            </a>
-                                                                        </div>
-                                                                        <!--end::Menu item-->
-
-                                                                        <!--begin::Menu item-->
-                                                                        <div class="menu-item px-3">
-                                                                            <a href="#" class="menu-link px-3">
-                                                                                Member Group
-                                                                            </a>
-                                                                        </div>
-                                                                        <!--end::Menu item-->
-                                                                    </div>
-                                                                    <!--end::Menu sub-->
-                                                                </div>
-                                                                <!--end::Menu item-->
-
-                                                                <!--begin::Menu item-->
-                                                                <div class="menu-item px-3">
-                                                                    <a href="#" class="menu-link px-3">
-                                                                        New Contact
-                                                                    </a>
-                                                                </div>
-                                                                <!--end::Menu item-->
-
-                                                                <!--begin::Menu separator-->
-                                                                <div class="separator mt-3 opacity-75"></div>
-                                                                <!--end::Menu separator-->
-
-                                                                <!--begin::Menu item-->
-                                                                <div class="menu-item px-3">
-                                                                    <div class="menu-content px-3 py-3">
-                                                                        <a class="btn btn-primary  btn-sm px-4" href="#">
-                                                                            Generate Reports
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <!--end::Menu item-->
-                                                            </div>
-                                                            <!--end::Menu 2-->
-
-                                                            <!--end::Menu-->
-                                                        </div>
-                                                        <!--end::Action-->
                                                     </div>
                                                     <!--end::Info-->
 
