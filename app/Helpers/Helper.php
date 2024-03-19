@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\MRole;
 use App\Models\Status;
 use App\Models\RefSetting;
+use App\Models\Referensi\RefPasar;
 use App\Models\Activity;
 use App\Models\Transaksi\Komoditas;
 use App\Models\Transaksi\Barang;
@@ -1506,7 +1507,7 @@ function setIconMenu($id){
                                                     return $teks; // Kembalikan teks asli jika panjangnya sudah kurang dari atau sama dengan panjang maksimal
                                                 } else {
                                                     // Potong teks dan tambahkan "..." (titik-titik) sebagai penanda bahwa teks telah dipotong
-                                                    return substr($teks, 0, $panjang_maksimal - 3) . '...';
+                                                    return substr($teks, 0, $panjang_maksimal - 3) ;
                                                 }
                                             }
                                             
@@ -2012,13 +2013,19 @@ function topPangan($id){
 }
 
 function avgHarga($komoditas,$pasar,$tgl){
-    if($pasar == 0){
+    if(empty($pasar)){
         $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->Avg('harga_publish');
     }else{
         $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->where('pasar_id',$pasar)->Avg('harga_publish');
     }
 
     return round($avg_komoditas);
+}
+
+function getNamaPasar($pasar){
+    $data = RefPasar::where('id',$pasar)->first();
+
+    return $data->namapasar;
 }
                                           
                                             

@@ -252,8 +252,13 @@ Home
                                 <div class="card-header pt-7">
                                     <!--begin::Title-->
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="card-label fw-bold text-gray-800">Harga Rata-Rata Komoditas
-                                            Kabupaten Bandung</span>
+                                        <span class="card-label fw-bold text-gray-800">
+                                            @if(empty($search))
+                                                Harga Rata-Rata Komoditas Kabupaten Bandung
+                                            @else
+                                                Harga Komoditas {{getNamaPasar($search)}} Kabupaten Bandung
+                                            @endif
+                                        </span>
 
                                         <span class="text-gray-500 mt-1 fw-semibold fs-6">{{now()}}</span>
                                     </h3>
@@ -261,8 +266,14 @@ Home
 
                                     <!--begin::Toolbar-->
                                     <div class="card-toolbar">
-                                        <div class="mb-0">
+                                        <div class="mb-0" style="margin-right:4px;">
                                             <label class="form-label">Pilih Tanggal</label>
+                                            <div class="w-200 mw-350px">
+                                                <input class="form-control form-control-lg" wire:model.live="date" name="date" id="kt_datepicker_1"/>
+                                            </div>
+                                        </div>
+                                        <div class="mb-0">
+                                            <label class="form-label">Pilih Pasar</label>
                                             <div class="w-200 mw-350px" wire:ignore >
                                                 <select x-init="$($el).select2();
                                                 $($el).on('change', function() {
@@ -285,7 +296,7 @@ Home
                                     <div class="row g-5 g-xl-10">
                                             @foreach ($model as $index => $item)
                                             <div class="col-sm-6 col-xl-4">
-                                                <div class="border border-dashed border-gray-300 rounded px-7 py-3 mb-6">
+                                                <div class="border border-dashed border-gray-300 rounded px-7 py-3">
                                                     <!--begin::Info-->
                                                     <div class="d-flex flex-stack mb-3">
                                                         <!--begin::Wrapper-->
@@ -297,7 +308,7 @@ Home
                                                             <!--end::Icon-->
 
                                                             <!--begin::Title-->
-                                                            <a class="text-gray-800 text-hover-primary fw-bold">{{$item->namakomoditas}}</a>
+                                                            <a class="text-gray-800 text-hover-primary fw-bold">{{limitasiKarakter($item->namakomoditas,25)}}</a>
                                                             <!--end::Title-->
                                                         </div>
                                                         <!--end::Wrapper-->
@@ -309,9 +320,9 @@ Home
                                                     <div class="d-flex flex-stack">
                                                         <!--begin::Name-->
                                                         <span class="text-gray-500 fw-bold">To:
-                                                            <a href="/metronic8/demo23/apps/ecommerce/sales/details.html"
+                                                            <div
                                                                 class="text-gray-800 text-hover-primary fw-bold">
-                                                                Jason Bourne </a>
+                                                                {{rupiah(avgHarga($item->id,$search,$date),0)}} </div>
                                                         </span>
                                                         <!--end::Name-->
 
@@ -368,6 +379,8 @@ Home
 
 @push('js')
 <script>
-    $("#kt_daterangepicker_1").flatpickr();
+$( document ).ready(function() {
+    $("#kt_datepicker_1").flatpickr();
+});
 </script>
 @endpush

@@ -20,6 +20,7 @@ class Home extends Component
     public $listBannerTop;
     public $listBannerActive;
     public $search = '';
+    public $date = '';
     public $perpage = 12;
     
     public $komoditas_id = 89;
@@ -37,7 +38,8 @@ class Home extends Component
         
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
-        $this->search = '2024-03-14';
+        $this->date = $tanggal;
+        $this->date_before = date('Y-m-d',strtotime($this->date . "-1 days"));;
         // $this->search = $dt->format('Y-m-d');
 
         $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
