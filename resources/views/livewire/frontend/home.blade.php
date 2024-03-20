@@ -296,7 +296,8 @@ Home
                                     <div class="row g-5 g-xl-10">
                                             @foreach ($model as $index => $item)
                                             <div class="col-sm-6 col-xl-4">
-                                                <div class="border border-dashed border-gray-300 rounded px-7 py-3">
+                                                <div class="border border-dashed border-gray-300 rounded px-7 py-3  ribbon ribbon-top">
+                                                        <div class="ribbon-label bg-primary">HET : {{rupiah($item->het,0)}}</div>
                                                     <!--begin::Info-->
                                                     <div class="d-flex flex-stack mb-3">
                                                         <!--begin::Wrapper-->
@@ -313,21 +314,19 @@ Home
                                                         </div>
                                                         <!--end::Wrapper-->
 
+
                                                     </div>
                                                     <!--end::Info-->
 
                                                     <!--begin::Customer-->
                                                     <div class="d-flex flex-stack">
                                                         <!--begin::Name-->
-                                                        <span class="text-gray-500 fw-bold">Saat ini:
+                                                        <span class="text-gray-500 fw-bold">
+                                                            Saat ini:
                                                             <div
                                                                 class="text-gray-800 text-hover-primary fw-bold">
                                                                 {{rupiah(avgHarga($item->id,$search,$date),0)}} </div>
-                                                        </span>
-                                                        <!--end::Name-->
-
-                                                        <!--begin::Name-->
-                                                        <span class="text-gray-500 fw-bold">Sebelumnya:
+                                                            Sebelumnya:
                                                             <div
                                                                 class="text-gray-800 text-hover-primary fw-bold">
                                                                 {{rupiah(avgHarga($item->id,$search,$date_before),0)}} </div>
@@ -336,7 +335,7 @@ Home
 
                                                         <!--begin::Label-->
                                                         {!!
-                                                            dinamikaHargaAvg(avgHarga($item->id,$search,$date),avgHarga($item->id,$search,$date_before))
+                                                            dinamikaHargaAvgIcon(avgHarga($item->id,$search,$date),avgHarga($item->id,$search,$date_before))
                                                         !!}
                                                         <!--end::Label-->
                                                     </div>
@@ -377,6 +376,59 @@ Home
                         <!--end::Col-->
                     </div>
                     <!--end::Row-->
+
+                    
+                    <!--begin::Row-->
+                    <div class="row g-2 g-xl-12">
+                        <!--begin::Col-->
+                        <div class="col-xl-12">
+                            <!--begin::Table widget 6-->
+                            <div class="card card-flush h-md-100">
+                                <!--begin::Header-->
+                                <div class="card-header pt-7">
+                                    <!--begin::Title-->
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="card-label fw-bold text-gray-800">
+                                        Perkembangan Harga Pangan Pokok Strategis
+                                        </span>
+                                    </h3>
+                                    <!--end::Title-->
+
+                                    <!--begin::Toolbar-->
+                                    <div class="card-toolbar">
+                                        <div class="mb-0">
+                                            <label class="form-label">Pilih Pasar</label>
+                                            <div class="w-200 mw-350px" wire:ignore >
+                                                <select x-init="$($el).select2();
+                                                $($el).on('change', function() {
+                                                    $wire.set('searchPasar', $($el).val());
+                                                })" wire:model.live="searchPasar"  name="searchPasar" id="searchPasar" class="form-control form-control-lg form-select-solid">
+                                                    <option value="">Semua Pasar</option>
+                                                    @foreach($list_pasar as $pasar)
+                                                    <option value="{{$pasar->id}}">{{$pasar->namapasar}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </div>
+                                <!--end::Header-->
+
+                                <!--begin::Body-->
+                                <div class="card-body">
+                                    <div class="row g-5 g-xl-10">
+                                        <div id="chart">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end: Card Body-->
+                            </div>
+                            <!--end::Table widget 6-->
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Row-->
                 </div>
             </div>
             <!--end::Content container-->
@@ -392,5 +444,37 @@ Home
 $( document ).ready(function() {
     $("#kt_datepicker_1").flatpickr();
 });
+
+        var options = {
+            colors: ["#FF1654", "#247BA0"],
+            series: [{
+            name: '2023',
+            data: {{$arrChart2023}}
+        }, {
+            name: '2024',
+            data: [11, 32, 45, 32, 34, 52, 41]
+        }],
+        chart: {
+            height: 350,
+            type: 'area'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+            categories: [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Okt","Nov","Des"]
+        },
+        tooltip: {
+            x: {
+                format: 'dd/MM/yy HH:mm'
+            },
+        },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
 </script>
 @endpush

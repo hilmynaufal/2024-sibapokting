@@ -1835,6 +1835,27 @@ function dinamikaHargaAvg($sekarang,$kemarin){
     }
     return $html;
 }
+
+function dinamikaHargaAvgIcon($sekarang,$kemarin){
+    $html='';
+    if(empty($kemarin)){
+        $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
+    }else{
+        if ($sekarang > $kemarin){
+            $html .= '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>Naik '
+            .presentaseKenaikan($sekarang,$kemarin).
+            '</span>';
+        }elseif ($sekarang < $kemarin){
+            $html .= '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>Turun '
+            .presentasePenurunan($sekarang,$kemarin).
+            '</span>';
+        }elseif($sekarang == $kemarin){
+            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
+        }
+
+    }
+    return $html;
+}
 function dinamikaHargaAvgNilai($sekarang,$kemarin){
     $html='';
     if(empty($kemarin)){
@@ -1879,6 +1900,7 @@ function dinamikaHarga($id,$tgl){
     }
     return $html;
 }
+
 
 function hargaSelisih($komoditas,$pasar,$harga,$tgl){
     $dt = new \Carbon\Carbon($tgl);

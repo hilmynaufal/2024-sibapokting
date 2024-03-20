@@ -20,6 +20,7 @@ class Home extends Component
     public $listBannerTop;
     public $listBannerActive;
     public $search = '';
+    public $searchPasar = '';
     public $date = '';
     public $date_before;
     public $perpage = 12;
@@ -29,6 +30,8 @@ class Home extends Component
     public $komoditas_kemarin;
     public $list_komoditas;
     public $list_pasar;
+
+    public $arrChart2023 = [];
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
     
