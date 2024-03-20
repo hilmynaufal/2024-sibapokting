@@ -1818,7 +1818,7 @@ function setIconMenu($id){
 function dinamikaHargaAvg($sekarang,$kemarin){
     $html='';
     if(empty($kemarin)){
-        $html .= '';
+        $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i> Harga Tetap </span>';
     }else{
         if ($sekarang > $kemarin){
             $html .= '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i> Kenaikan Sebesar '
@@ -1829,7 +1829,7 @@ function dinamikaHargaAvg($sekarang,$kemarin){
             .presentasePenurunan($sekarang,$kemarin).
             '</span>';
         }elseif($sekarang == $kemarin){
-            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-success me-2"></i> Harga Tetap';
+            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i> Harga Tetap </span>';
         }
 
     }

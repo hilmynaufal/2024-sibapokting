@@ -319,15 +319,25 @@ Home
                                                     <!--begin::Customer-->
                                                     <div class="d-flex flex-stack">
                                                         <!--begin::Name-->
-                                                        <span class="text-gray-500 fw-bold">To:
+                                                        <span class="text-gray-500 fw-bold">Saat ini:
                                                             <div
                                                                 class="text-gray-800 text-hover-primary fw-bold">
                                                                 {{rupiah(avgHarga($item->id,$search,$date),0)}} </div>
                                                         </span>
                                                         <!--end::Name-->
 
+                                                        <!--begin::Name-->
+                                                        <span class="text-gray-500 fw-bold">Sebelumnya:
+                                                            <div
+                                                                class="text-gray-800 text-hover-primary fw-bold">
+                                                                {{rupiah(avgHarga($item->id,$search,$date_before),0)}} </div>
+                                                        </span>
+                                                        <!--end::Name-->
+
                                                         <!--begin::Label-->
-                                                        <span class="badge badge-light-success">Delivered</span>
+                                                        {!!
+                                                            dinamikaHargaAvg(avgHarga($item->id,$search,$date),avgHarga($item->id,$search,$date_before))
+                                                        !!}
                                                         <!--end::Label-->
                                                     </div>
                                                     <!--end::Customer-->

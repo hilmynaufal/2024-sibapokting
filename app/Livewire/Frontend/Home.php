@@ -21,6 +21,7 @@ class Home extends Component
     public $listBannerActive;
     public $search = '';
     public $date = '';
+    public $date_before;
     public $perpage = 12;
     
     public $komoditas_id = 89;
@@ -83,9 +84,7 @@ class Home extends Component
     public function render()
     {
         $query = RefKomoditas::query();
-        // $query->when($this->search != "", function ($q) {
-        //     return $q->where('detail_tgl','=', $this->search);
-        // });
+        
         $rows = $query->paginate($this->perpage);
         
         return view('livewire.frontend.home', [
