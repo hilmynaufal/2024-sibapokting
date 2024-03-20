@@ -31,7 +31,7 @@ class Home extends Component
     public $list_komoditas;
     public $list_pasar;
 
-    public $arrChart2023 = [];
+    public $arrChart2023 = [12,12,121,12,12,32,32];
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
     

@@ -449,7 +449,7 @@ $( document ).ready(function() {
             colors: ["#FF1654", "#247BA0"],
             series: [{
             name: '2023',
-            data: {{$arrChart2023}}
+            data: {!! json_encode($arrChart2023) !!}
         }, {
             name: '2024',
             data: [11, 32, 45, 32, 34, 52, 41]
