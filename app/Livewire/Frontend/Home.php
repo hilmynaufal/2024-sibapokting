@@ -12,6 +12,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+use DB;
 
 class Home extends Component
 {
@@ -20,7 +21,8 @@ class Home extends Component
     public $listBannerTop;
     public $listBannerActive;
     public $search = '';
-    public $searchPasar = '';
+    public $searchPasar = 8;
+    public $searchKomoditas = 89;
     public $date = '';
     public $date_before;
     public $perpage = 12;
@@ -31,7 +33,7 @@ class Home extends Component
     public $list_komoditas;
     public $list_pasar;
 
-    public $arrChart2023 = [12,12,121,12,12,32,32];
+    public $arrChart2023;
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
     
@@ -40,11 +42,23 @@ class Home extends Component
         $this->listBannerTop = RefBanner::where('kategori','Header')->orderBy('id','asc')->get();
         $this->listBannerActive = RefBanner::where('kategori','Header')->orderBy('id','asc')->first();  
         
+        $komoditas_month = Model::select(
+            DB::raw("pasar_id"),
+            DB::raw("komoditas_id"),
+            DB::raw("AVG(harga_publish) as data"),
+            DB::raw("to_char(detail_tgl, 'mm')"))
+        ->whereYear('detail_tgl', '=', 2024)
+        ->where('pasar_id',$this->searchPasar)
+        ->where('komoditas_id',$this->searchKomoditas)
+        ->groupBy(DB::raw("to_char(detail_tgl, 'mm')"),'pasar_id','komoditas_id')
+        ->get();
+        dd($komoditas_month);
+        $this->arrChart2023 = $komoditas_month;
+
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $this->date = $tanggal;
-        $this->date_before = date('Y-m-d',strtotime($this->date . "-1 days"));;
-        // $this->search = $dt->format('Y-m-d');
+        $this->date_before = date('Y-m-d',strtotime($this->date . "-1 days"));
 
         $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
         $tanggal_sebelum_1 = date('Y-m-d',strtotime($tanggal_sebelum . "-1 days"));

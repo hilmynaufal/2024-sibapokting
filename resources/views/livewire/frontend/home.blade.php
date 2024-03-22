@@ -410,6 +410,21 @@ Home
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="mb-0">
+                                            <label class="form-label">Pilih Komoditas</label>
+                                            <div class="w-200 mw-350px" wire:ignore >
+                                                <select x-init="$($el).select2();
+                                                $($el).on('change', function() {
+                                                    $wire.set('searchKomoditas', $($el).val());
+                                                })" wire:model.live="searchKomoditas"  name="searchKomoditas" id="searchKomoditas" class="form-control form-control-lg form-select-solid">
+                                                    <option value="">Semua Komoditas</option>
+                                                    @foreach($list_pasar as $pasar)
+                                                    <option value="{{$pasar->id}}">{{$pasar->namapasar}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!--end::Toolbar-->
                                 </div>
@@ -418,6 +433,7 @@ Home
                                 <!--begin::Body-->
                                 <div class="card-body">
                                     <div class="row g-5 g-xl-10">
+                                        {{$arrChart2023}}
                                         <div id="chart">
                                         </div>
                                     </div>
