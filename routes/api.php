@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ use App\Models\DisposisiLaporan;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('dataChart', [ChartController::class,'dataChart']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -31,30 +31,19 @@ class Home extends Component
     public $komoditas_sekarang;
     public $komoditas_kemarin;
     public $list_komoditas;
+    public $list_komoditas_search;
     public $list_pasar;
 
-    public $arrChart2023;
+    public $chart2023 = array();
+    public $chart2024 = array();
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
-    
+
     public function mount()
     {
         $this->listBannerTop = RefBanner::where('kategori','Header')->orderBy('id','asc')->get();
         $this->listBannerActive = RefBanner::where('kategori','Header')->orderBy('id','asc')->first();  
         
-        $komoditas_month = Model::select(
-            DB::raw("pasar_id"),
-            DB::raw("komoditas_id"),
-            DB::raw("AVG(harga_publish) as data"),
-            DB::raw("to_char(detail_tgl, 'mm')"))
-        ->whereYear('detail_tgl', '=', 2024)
-        ->where('pasar_id',$this->searchPasar)
-        ->where('komoditas_id',$this->searchKomoditas)
-        ->groupBy(DB::raw("to_char(detail_tgl, 'mm')"),'pasar_id','komoditas_id')
-        ->get();
-        dd($komoditas_month);
-        $this->arrChart2023 = $komoditas_month;
-
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $this->date = $tanggal;
@@ -86,6 +75,7 @@ class Home extends Component
 
         $this->list_komoditas = RefKomoditas::where('prioritas',1)->limit(9)->get();
         $this->list_pasar = RefPasar::get();
+        $this->list_komoditas_search = RefKomoditas::get();
 
         $this->komoditas_sekarang   = empty($komoditas) ? $before_komoditas : $komoditas;
         $this->komoditas_kemarin    = $komoditas_sebelum;
@@ -101,7 +91,6 @@ class Home extends Component
     public function render()
     {
         $query = RefKomoditas::query();
-        
         $rows = $query->paginate($this->perpage);
         
         return view('livewire.frontend.home', [
@@ -113,6 +102,7 @@ class Home extends Component
         $this->komoditas_id = $komoditasId;
         $this->mount();
     }
+
     
     
     

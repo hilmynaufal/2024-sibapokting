@@ -4,6 +4,7 @@ Home
 @section('utama')
 Home
 @stop
+
 <div>
     <div id="kt_app_sidebar" class="app-sidebar  flex-column " data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
         data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="300px"
@@ -399,10 +400,7 @@ Home
                                         <div class="mb-0">
                                             <label class="form-label">Pilih Pasar</label>
                                             <div class="w-200 mw-350px" wire:ignore >
-                                                <select x-init="$($el).select2();
-                                                $($el).on('change', function() {
-                                                    $wire.set('searchPasar', $($el).val());
-                                                })" wire:model.live="searchPasar"  name="searchPasar" id="searchPasar" class="form-control form-control-lg form-select-solid">
+                                                <select x-init="$($el).select2();"  wire:model="searchPasar"name="searchPasar" id="searchPasar" class="form-control form-control-lg form-select-solid">
                                                     <option value="">Semua Pasar</option>
                                                     @foreach($list_pasar as $pasar)
                                                     <option value="{{$pasar->id}}">{{$pasar->namapasar}}</option>
@@ -414,13 +412,10 @@ Home
                                         <div class="mb-0">
                                             <label class="form-label">Pilih Komoditas</label>
                                             <div class="w-200 mw-350px" wire:ignore >
-                                                <select x-init="$($el).select2();
-                                                $($el).on('change', function() {
-                                                    $wire.set('searchKomoditas', $($el).val());
-                                                })" wire:model.live="searchKomoditas"  name="searchKomoditas" id="searchKomoditas" class="form-control form-control-lg form-select-solid">
+                                                <select x-init="$($el).select2();" wire:model="searchKomoditas" name="searchKomoditas" id="searchKomoditas" class="form-control form-control-lg form-select-solid">
                                                     <option value="">Semua Komoditas</option>
-                                                    @foreach($list_pasar as $pasar)
-                                                    <option value="{{$pasar->id}}">{{$pasar->namapasar}}</option>
+                                                    @foreach($list_komoditas_search as $kom)
+                                                    <option value="{{$kom->id}}">{{$kom->namakomoditas}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -433,7 +428,6 @@ Home
                                 <!--begin::Body-->
                                 <div class="card-body">
                                     <div class="row g-5 g-xl-10">
-                                        {{$arrChart2023}}
                                         <div id="chart">
                                         </div>
                                     </div>
@@ -457,40 +451,119 @@ Home
 
 @push('js')
 <script>
+    
+  var options = {
+    series: [],
+    chart: {
+      height: 400,
+      type: "area",
+      zoom: {
+        enabled: false
+      },
+      toolbar: {
+        show: false
+      }
+    },
+    markers: {
+      show: true,
+      size: 6
+    },
+    dataLabels: {
+      enabled: false
+    },
+    legend: {
+      show: true,
+      showForSingleSeries: true,
+      position: "top",
+      horizontalAlign: "right"
+    },
+    stroke: {
+      curve: "smooth",
+      linecap: "round"
+    },
+    grid: {
+      row: {
+        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+        opacity: 0.5
+      }
+    },
+    xaxis: {
+        categories: [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Okt","Nov","Des"]
+    }
+  };
 $( document ).ready(function() {
     $("#kt_datepicker_1").flatpickr();
+
+    var settings = {
+        "url": {!! json_encode(url('/')) !!}+"/api/dataChart?pasar="+$('#searchPasar').val() +"&komoditas="+$('#searchKomoditas').val(),
+        "method": "GET",
+        "timeout": 0,
+    };
+
+    $.ajax(settings).done(function (response) {
+        chart.updateSeries([
+            {
+                name: '2022',
+                data: response['data22']
+            },{
+                name: '2023',
+                data: response['data23']
+            },{
+                name: '2024',
+                data: response['data24']
+            }
+        ])
+    });
+});
+        
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+
+$("#searchKomoditas").on("change", function() {
+    var settings = {
+        "url": {!! json_encode(url('/')) !!}+"/api/dataChart?pasar="+$('#searchPasar').val() +"&komoditas="+$('#searchKomoditas').val(),
+        "method": "GET",
+        "timeout": 0,
+    };
+
+    $.ajax(settings).done(function (response) {
+        chart.updateSeries([
+            {
+                name: '2022',
+                data: response['data22']
+            },{
+                name: '2023',
+                data: response['data23']
+            },{
+                name: '2024',
+                data: response['data24']
+            }
+        ])
+    });
 });
 
-        var options = {
-            colors: ["#FF1654", "#247BA0"],
-            series: [{
-            name: '2023',
-            data: {!! json_encode($arrChart2023) !!}
-        }, {
-            name: '2024',
-            data: [11, 32, 45, 32, 34, 52, 41]
-        }],
-        chart: {
-            height: 350,
-            type: 'area'
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth'
-        },
-        xaxis: {
-            categories: [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Okt","Nov","Des"]
-        },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy HH:mm'
-            },
-        },
-        };
+$("#searchPasar").on("change", function() {
+    var settings = {
+        "url": {!! json_encode(url('/')) !!}+"/api/dataChart?pasar="+$('#searchPasar').val() +"&komoditas="+$('#searchKomoditas').val(),
+        "method": "GET",
+        "timeout": 0,
+    };
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+    $.ajax(settings).done(function (response) {
+        chart.updateSeries([
+            {
+                name: '2022',
+                data: response['data22']
+            },{
+                name: '2023',
+                data: response['data23']
+            },{
+                name: '2024',
+                data: response['data24']
+            }
+        ])
+    });
+});
+
 </script>
 @endpush

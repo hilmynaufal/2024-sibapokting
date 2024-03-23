@@ -1817,7 +1817,7 @@ function setIconMenu($id){
 // SIBAPOKTING
 function dinamikaHargaAvg($sekarang,$kemarin){
     $html='';
-    if(empty($kemarin)){
+    if(empty($kemarin) || empty($sekarang)){
         $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i> Harga Tetap </span>';
     }else{
         if ($sekarang > $kemarin){
@@ -1838,7 +1838,7 @@ function dinamikaHargaAvg($sekarang,$kemarin){
 
 function dinamikaHargaAvgIcon($sekarang,$kemarin){
     $html='';
-    if(empty($kemarin)){
+    if(empty($kemarin) || empty($sekarang)){
         $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
     }else{
         if ($sekarang > $kemarin){
@@ -1858,7 +1858,7 @@ function dinamikaHargaAvgIcon($sekarang,$kemarin){
 }
 function dinamikaHargaAvgNilai($sekarang,$kemarin){
     $html='';
-    if(empty($kemarin)){
+    if(empty($kemarin) || empty($sekarang)){
         $html = 0;
     }else{
         if ($sekarang > $kemarin){
@@ -1882,7 +1882,7 @@ function dinamikaHarga($id,$tgl){
     ->where('komoditas_id',$komoditas->komoditas_id)
     ->where('detail_tgl',$tanggal_sebelum)->first();
     $html='';
-    if(empty($komoditas_sebelum)){
+    if(empty($komoditas_sebelum) || empty($komoditas)){
         $html .= '';
     }else{
         if ($komoditas->harga_publish > $komoditas_sebelum->harga_publish){
