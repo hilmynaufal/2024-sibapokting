@@ -54,7 +54,8 @@
                                             @foreach(menuChildUtama($item->id) as $value)
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
-                                                <!--begin:Menu link--><a class="menu-link {{trim($__env->yieldContent('submenu')) == $value->menu ? 'active' : ''}}"
+                                                <!--begin:Menu link-->
+                                                <a href="{{url($value->url)}}" class="menu-link {{trim($__env->yieldContent('submenu')) == $value->menu ? 'active' : ''}}"
                                                     data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
                                                     data-bs-placement="right">
                                                     <span class="menu-title">{{$value->menu}}</span></a>
@@ -68,7 +69,7 @@
                                     <!--end:Menu item-->
                                     @else
                                     <!--begin:Menu item-->
-                                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                                    <a href="{{url($item->url)}}" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                                         data-kt-menu-placement="bottom-start"
                                         class="menu-item {{trim($__env->yieldContent('utama')) == $item->menu ? 'show here' : ''}} menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                         <!--begin:Menu link-->
@@ -77,7 +78,7 @@
                                             <span class="menu-arrow d-lg-none"></span>
                                         </span>
                                         <!--end:Menu link-->
-                                    </div>
+                                    </a>
                                     <!--end:Menu item-->
                                     @endif
                                 @endforeach

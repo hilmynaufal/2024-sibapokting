@@ -81,6 +81,7 @@ function menuUtama()
 {
     $menu = RefMenu::where([['parent_id', '=', 0], ['is_active', '=', 1], ['is_delete', '=', 0]])
     ->where('jenis_menu', 'Front')
+    ->orderBy('posisi','asc')
     ->get();
     
     return $menu;

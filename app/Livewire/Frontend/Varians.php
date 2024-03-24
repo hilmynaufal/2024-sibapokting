@@ -25,7 +25,7 @@ class Varians extends Component
     public $searchKomoditas = 89;
     public $date = '';
     public $date_before;
-    public $perpage = 12;
+    public $perpage = 1000;
     
     public $komoditas_id = 89;
     public $komoditas_sekarang;
@@ -41,13 +41,13 @@ class Varians extends Component
 
     public function mount()
     {
-       
+        $this->list_komoditas_search = RefKomoditas::get();
     }
     
     public function render()
     {
         $query = RefKomoditas::query();
-        $rows = $query->paginate($this->perpage);
+        $rows = $query->orderBy('namakomoditas','asc')->paginate($this->perpage);
         
         return view('livewire.frontend.varians', [
           'model'=> $rows

@@ -17,6 +17,7 @@ use App\Http\Controllers\api\UserController;
 
 
 Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
+Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 
 Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
 Route::get('/auth', App\Livewire\Auth\Login::class)->name('login.auth');
