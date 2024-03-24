@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Storage;
 use DB;
 
-class Home extends Component
+class Varians extends Component
 {
     use WithPagination,WithoutUrlPagination;
     protected $paginationTheme = 'bootstrap';
@@ -23,7 +23,7 @@ class Home extends Component
     public $search = '';
     public $searchPasar = 8;
     public $searchKomoditas = 89;
-    public $date;
+    public $date = '';
     public $date_before;
     public $perpage = 12;
     
@@ -41,17 +41,7 @@ class Home extends Component
 
     public function mount()
     {
-        $this->listBannerTop = RefBanner::where('kategori','Header')->orderBy('id','asc')->get();
-        $this->listBannerActive = RefBanner::where('kategori','Header')->orderBy('id','asc')->first();  
-        
-        $dt = new \Carbon\Carbon(now());
-        $tanggal = $dt->format('Y-m-d');
-        $this->date = $tanggal;
-        $this->date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
-
-        $this->list_pasar = RefPasar::get();
-        $this->list_komoditas_search = RefKomoditas::get();
-
+       
     }
     
     public function render()
@@ -59,24 +49,9 @@ class Home extends Component
         $query = RefKomoditas::query();
         $rows = $query->paginate($this->perpage);
         
-        return view('livewire.frontend.home', [
+        return view('livewire.frontend.varians', [
           'model'=> $rows
         ]);
     }
 
-    public function setKomoditas($komoditasId){
-        $this->komoditas_id = $komoditasId;
-        $this->mount();
-    }
-
-    public function updatedDate(){
-        $dt = new \Carbon\Carbon($this->date);
-        $tanggal = $dt->format('Y-m-d');
-            
-        $this->date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
-    }
-
-    
-    
-    
 }

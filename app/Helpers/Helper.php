@@ -128,7 +128,6 @@ function menuChild($parent, $role)
 function MenuChildern($id)
 {
     $model = RefMenu::select('id', 'menu', 'url', 'posisi', 'parent_id')
-    ->where('jenis_menu', 'Backend')
     ->where([['is_active', '=', 1], ['parent_id', '=', $id]]);
     if ($model->get()) {
         return $model;
@@ -141,7 +140,6 @@ function MenuChildern($id)
 function MenuChildernList($id)
 {
     $model = RefMenu::select('id', 'menu', 'url', 'posisi', 'parent_id')
-    ->where('jenis_menu', 'Backend')
     ->where([['is_active', '=', 1], ['parent_id', '=', $id]])->get();
     return $model;
 }
