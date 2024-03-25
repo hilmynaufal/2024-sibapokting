@@ -20,28 +20,30 @@ class Varians extends Component
     protected $paginationTheme = 'bootstrap';
     public $listBannerTop;
     public $listBannerActive;
-    public $search = '';
-    public $searchPasar = 8;
-    public $searchKomoditas = 89;
-    public $date = '';
-    public $date_before;
     public $perpage = 1000;
     
-    public $komoditas_id = 89;
-    public $komoditas_sekarang;
-    public $komoditas_kemarin;
-    public $list_komoditas;
+    public $komoditas = 89;
     public $list_komoditas_search;
     public $list_pasar;
 
-    public $chart2023 = array();
-    public $chart2024 = array();
+    public $date_komoditas;
+    public $kategori=[];
+
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
 
     public function mount()
     {
+        $dt = new \Carbon\Carbon(now());
+        $tanggal = $dt->format('Y-m-d');
+        $this->date_komoditas = $tanggal;
+
         $this->list_komoditas_search = RefKomoditas::get();
+        $this->list_pasar = RefPasar::orderBy('id','asc')->get();
+
+        foreach($this->list_pasar as $pasar){
+            array_push($this->kategori,$pasar->namapasar);
+        }
     }
     
     public function render()
@@ -53,5 +55,6 @@ class Varians extends Component
           'model'=> $rows
         ]);
     }
+
 
 }

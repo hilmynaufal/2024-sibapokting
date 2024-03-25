@@ -17,6 +17,10 @@ class ChartController extends Controller
     public $chart2023 = array();
     public $chart2024 = array();
 
+    public $barNow = array();
+    public $barBefore = array();
+
+
     public function dataChart(Request $request){
         $kom2022 = Model::select(
             DB::raw("pasar_id"),
@@ -67,6 +71,38 @@ class ChartController extends Controller
             'data22' => $this->chart2022,
             'data23' => $this->chart2023,
             'data24' => $this->chart2024,
+        ]);
+    }
+
+    public function komoditasBar(Request $request){
+
+        $dt = new \Carbon\Carbon($request->date);
+        $tanggal = $dt->format('Y-m-d');
+        $date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
+
+
+        $pasar_id = RefPasar::orderBy('id','asc')->get();
+        foreach($pasar_id as $valPasar){
+            $now = Model::where('detail_tgl',$request->date)
+            ->where('komoditas_id',$request->komoditas)
+            ->where('pasar_id',$valPasar['id'])
+            ->first();
+
+            $before = Model::where('detail_tgl',$date_before)
+            ->where('komoditas_id',$request->komoditas)
+            ->where('pasar_id',$valPasar['id'])
+            ->first();
+
+            $harga = empty($now->harga_publish) ? 0 : $now->harga_publish;
+            $harga_sebelumnya = empty($before->harga_publish) ? 0 : $before->harga_publish;
+
+            array_push($this->barNow, round($harga));
+            array_push($this->barBefore, round($harga_sebelumnya));
+        }
+
+        return response()->json([
+            'price_now' => $this->barNow,
+            'price_before' => $this->barBefore
         ]);
     }
 }

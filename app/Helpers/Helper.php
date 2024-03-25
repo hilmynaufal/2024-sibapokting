@@ -6,6 +6,7 @@ use App\Models\MRole;
 use App\Models\Status;
 use App\Models\RefSetting;
 use App\Models\Referensi\RefPasar;
+use App\Models\Referensi\RefKomoditas;
 use App\Models\Activity;
 use App\Models\Transaksi\Komoditas;
 use App\Models\Transaksi\Barang;
@@ -2047,6 +2048,12 @@ function getNamaPasar($pasar){
     $data = RefPasar::where('id',$pasar)->first();
 
     return $data->namapasar;
+}
+
+function getKomoditas($komoditas){
+    $data = RefKomoditas::where('id',$komoditas)->first();
+
+    return $data;
 }
                                           
                                             

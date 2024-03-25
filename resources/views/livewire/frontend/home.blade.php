@@ -258,7 +258,6 @@ Home
                                             <label class="form-label">Pilih Komoditas</label>
                                             <div class="w-200 mw-350px" wire:ignore >
                                                 <select x-init="$($el).select2();" wire:model="searchKomoditas" name="searchKomoditas" id="searchKomoditas" class="form-control form-control-lg form-select-solid">
-                                                    <option value="">Semua Komoditas</option>
                                                     @foreach($list_komoditas_search as $kom)
                                                     <option value="{{$kom->id}}">{{$kom->namakomoditas}}</option>
                                                     @endforeach

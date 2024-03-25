@@ -33,8 +33,8 @@ Varians Komoditas
                                     <div class="mb-0">
                                         <label class="form-label">Pilih Komoditas</label>
                                         <div class="w-200 mw-350px" wire:ignore>
-                                            <select x-init="$($el).select2();" wire:model="searchKomoditas"
-                                                name="searchKomoditas" id="searchKomoditas"
+                                            <select x-init="$($el).select2();" onchange="changeBar()" wire:model="komoditas"
+                                                name="komoditas" id="komoditas"
                                                 class="form-control form-control-sm form-select-solid">
                                                 <option value="">Semua Komoditas</option>
                                                 @foreach($list_komoditas_search as $kom)
@@ -47,8 +47,8 @@ Varians Komoditas
                                         <label class="form-label">Pilih Tanggal</label>
                                         <div class="w-200 mw-350px position-relative">
                                             <!--begin::Input-->
-                                            <input class="form-control form-control-sm" wire:model.live="date"
-                                                name="date" id="kt_datepicker_1" />
+                                            <input class="form-control form-control-sm" onchange="changeBar()" wire:model="date_komoditas"
+                                                name="date_komoditas" id="date_komoditas" />
                                             <!--end::Input-->
 
                                             <!--begin::CVV icon-->
@@ -74,8 +74,8 @@ Varians Komoditas
                                     <div class="me-md-2">
                                         <!--begin::Statistics-->
                                         <div class="d-flex mb-2">
-                                            <span class="fs-4 fw-semibold text-gray-500 me-1">$</span>
-                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">12,706</span>
+                                            <span class="fs-4 fw-semibold text-gray-500 me-1">Rp</span>
+                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(getKomoditas($komoditas)->het,0)}}</span>
                                         </div>
                                         <!--end::Statistics-->
 
@@ -90,8 +90,8 @@ Varians Komoditas
                                         class="border-start-dashed border-end-dashed border-start border-end border-gray-300 px-5 ps-md-10 pe-md-7 me-md-5">
                                         <!--begin::Statistics-->
                                         <div class="d-flex mb-2">
-                                            <span class="fs-4 fw-semibold text-gray-500 me-1">$</span>
-                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">8,035</span>
+                                            <span class="fs-4 fw-semibold text-gray-500 me-1">Rp</span>
+                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2"></span>
 
                                             <!--begin::Label-->
                                             <span class="badge badge-light-success fs-base">
@@ -130,7 +130,7 @@ Varians Komoditas
                                 <!--end::Items-->
 
                                 <!--begin::Chart-->
-                                <div id="bar">
+                                <div id="bar" wire:ignore>
                                 </div>
                                 <!--end::Chart-->
                             </div>
@@ -139,7 +139,7 @@ Varians Komoditas
                             <div class="card-body d-flex justify-content-between flex-column pb-0 px-0 pt-1">
 
                                 <!--begin::Chart-->
-                                <div id="line">
+                                <div id="line" wire:ignore>
                                 </div>
                                 <!--end::Chart-->
                             </div>
@@ -170,22 +170,19 @@ Varians Komoditas
 
                             <!--begin::Body-->
                             <div class="card-body py-3">
-                                    <!--begin::Table container-->
-                                    <table class="table table-row-dashed align-middle gs-0 gy-4">
-                                        <!--begin::Table head-->
-                                        <thead>
-                                            <tr class="fs-7 fw-bold border-0 text-gray-500">
-                                                <th class="min-w-150px">Variant</th>
-                                                <th class="min-w-80px text-end pe-0">TGL KMR</th>
-                                                <th class="min-w-80px text-end pe-0">TGL SKR</th>
-                                                <th class="text-end min-w-50px">PERUBAHAN</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
                                 <div class="hover-scroll h-750px">
                                     <!--begin::Table-->
                                     <table class="table table-row-dashed align-middle gs-0 gy-4">
                                         <!--end::Table head-->
+                                        <!--begin::Table head-->
+                                        <thead>
+                                            <tr class="fs-7 fw-bold border-0 text-gray-500">
+                                                <th class="min-w-150px">Variant</th>
+                                                <th class="min-w-80px text-start pe-0">TGL KMR</th>
+                                                <th class="min-w-80px text-start pe-0">TGL SKR</th>
+                                                <th class="text-start min-w-50px">PERUBAHAN</th>
+                                            </tr>
+                                        </thead>
                                         <!--begin::Table body-->
                                         <tbody>
                                             @foreach ($model as $index => $item)
@@ -238,16 +235,7 @@ Varians Komoditas
 @push('js')
 <script>
     var options = {
-        series: [{
-            name: 'Net Profit',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-        }, {
-            name: 'Revenue',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-        }, {
-            name: 'Free Cash Flow',
-            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-        }],
+        series: [],
         chart: {
             type: 'bar',
             height: 350
@@ -268,11 +256,11 @@ Varians Komoditas
             colors: ['transparent']
         },
         xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            categories: {!! json_encode($this->kategori) !!},
         },
         yaxis: {
             title: {
-                text: '$ (thousands)'
+                text: 'Rp (Rupiah)'
             }
         },
         fill: {
@@ -281,7 +269,7 @@ Varians Komoditas
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return "$ " + val + " thousands"
+                    return "Rp " + val
                 }
             }
         }
@@ -329,11 +317,50 @@ Varians Komoditas
     var chart2 = new ApexCharts(document.querySelector("#line"), options2);
     chart2.render();
     $(document).ready(function () {
-        $("#kt_datepicker_1").flatpickr({
+        $("#date_komoditas").flatpickr({
             "setDate": new Date(),
             "autoclose": true
         });
+        var settings = {
+            "url": {!! json_encode(url('/')) !!}+"/api/komoditasBar?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+            chart.updateSeries([
+                {
+                    name: 'Harga Sekarang',
+                    data: response['price_now']
+                }, {
+                    name: 'Harga Sebelumnya',
+                    data: response['price_before']
+                }
+            ])
+        });
 
     });
+
+    function changeBar(){
+        @this.set('komoditas', $('#komoditas').val());
+
+        var settings = {
+            "url": {!! json_encode(url('/')) !!}+"/api/komoditasBar?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+            chart.updateSeries([
+                {
+                    name: 'Harga Sekarang',
+                    data: response['price_now']
+                }, {
+                    name: 'Harga Sebelumnya',
+                    data: response['price_before']
+                }
+            ])
+        });
+    }
 </script>
 @endpush
