@@ -160,22 +160,18 @@ Varians Komoditas
                             <div class="card-header pt-5">
                                 <!--begin::Title-->
                                 <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-gray-800">Top Performing Pages</span>
-
-                                    <span class="text-gray-500 pt-1 fw-semibold fs-6">Counted in Millions</span>
+                                    <span class="card-label fw-bold text-gray-800">PERBANDINGAN HARGA BAHAN POKOK</span>
                                 </h3>
                                 <!--end::Title-->
-
-                                <!--begin::Toolbar-->
-                                <div class="card-toolbar">
-                                    <a href="#" class="btn btn-sm btn-light">PDF Report</a>
-                                </div>
-                                <!--end::Toolbar-->
                             </div>
                             <!--end::Header-->
-
                             <!--begin::Body-->
                             <div class="card-body py-3">
+                                <div class="row col-md-12">
+                                    <div class="col-md-6">Hello</div>
+                                    <div class="col-md-6">Hello</div>
+                                </div>
+
                                 <div class="hover-scroll h-750px">
                                     <!--begin::Table-->
                                     <table class="table table-row-dashed align-middle gs-0 gy-4">
@@ -345,11 +341,6 @@ Varians Komoditas
                     data: response['price_before']
                 }
             ]);
-            // chart.updateOptions({
-            //     xaxis: {
-            //         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-            //     },
-            // });
         });
 
 
@@ -396,6 +387,25 @@ Varians Komoditas
                     data: response['price_before']
                 }
             ])
+        });
+
+        var settings1 = {
+            "url": {!! json_encode(url('/')) !!}+"/api/komoditasLine?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
+            "method": "GET",
+            "timeout": 0,
+        };
+        $.ajax(settings1).done(function (response) {
+            chart2.updateSeries([
+                {
+                    name: 'Tanggal',
+                    data: response['price_before']
+                }
+            ]);
+            chart2.updateOptions({
+                xaxis: {
+                    categories: response['categori']
+                },
+            });
         });
     }
 
