@@ -20,7 +20,7 @@ class Varians extends Component
     protected $paginationTheme = 'bootstrap';
     public $listBannerTop;
     public $listBannerActive;
-    public $perpage = 1000;
+    public $perpage = 100;
     
     public $komoditas = 89;
     public $list_komoditas_search;
@@ -29,6 +29,10 @@ class Varians extends Component
     public $date_komoditas;
     public $date_komoditas_before;
     public $kategori=[];
+
+    public $pasar_tabel;
+    public $date_start;
+    public $date_end;
 
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
@@ -43,6 +47,10 @@ class Varians extends Component
         $this->list_komoditas_search = RefKomoditas::get();
         $this->list_pasar = RefPasar::orderBy('id','asc')->get();
 
+        $this->pasar_tabel = 0;
+        $this->date_start = date('Y-m-d',strtotime($tanggal . "-1 days"));
+        $this->date_end =  $tanggal;
+
         foreach($this->list_pasar as $pasar){
             array_push($this->kategori,$pasar->namapasar);
         }
@@ -52,7 +60,6 @@ class Varians extends Component
     {
         $query = RefKomoditas::query();
         $rows = $query->orderBy('namakomoditas','asc')->paginate($this->perpage);
-        
         return view('livewire.frontend.varians', [
           'model'=> $rows
         ]);

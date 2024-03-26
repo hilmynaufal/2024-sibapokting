@@ -127,4 +127,75 @@ class ChartController extends Controller
         ]);
 
     }
+
+    public function chartPasarStatistik(Request $request)
+    {
+        $pasar  = $request->pasar;
+        $tgl_start = $request->tgl_start;      
+        $tgl_end = $request->tgl_end;      
+
+        if ($pasar == 'semua') {
+            $namapasar = '';
+                $show = DB::table("t_siba_komoditas")
+                ->select(
+                    DB::raw("komoditas_id"),
+                    DB::raw("kondisi"),
+                    DB::raw("namakomoditas"),
+                    DB::raw('AVG(harga_publish) as total'),
+                    DB::raw('AVG(harga_dinamik) as total_kemaren')
+                )
+                ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
+                ->where('detail_tgl', $tgl_end)
+                ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas','kondisi')
+                ->orderBy('namakomoditas','asc')
+                ->get();
+                
+        } else {
+            // $namapasar = $pasar;
+            $show = DB::table("t_siba_komoditas")
+            ->select(
+                DB::raw("komoditas_id"),
+                DB::raw("kondisi"),
+                DB::raw("namakomoditas"),
+                DB::raw('AVG(harga_publish) as total'),
+                DB::raw('AVG(harga_dinamik) as total_kemaren')
+            )
+            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
+            ->where('pasar_id', $pasar)
+            ->where('detail_tgl', $tgl_end)
+            ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas','kondisi')
+            ->orderBy('namakomoditas','asc')
+            ->get();
+        }
+
+        $data = [];
+        $kondisi ="";
+        $persen ="";
+        $harga_sebelum ="";
+        foreach ($show as $i) {
+                                                if($i->kondisi == 'turun'){
+                                                    $kondisi = 'turun';
+                                                    $persen = (($i->total-($i->total+$i->total_kemaren))/$i->total*100);
+                                                    $harga_sebelum = $i->total+$i->total_kemaren;
+                                                }else if($i->kondisi  == 'naik'){
+                                                    $kondisi = 'naik';
+                                                    $persen = (($i->total-($i->total-$i->total_kemaren))/$i->total*100);
+                                                    $harga_sebelum = $i->total-$i->total_kemaren;
+                                                }else{
+                                                    $kondisi = 'stabil';
+                                                    $persen = 0;
+                                                    $harga_sebelum = $i->total;
+                                                    
+                                                }       
+
+            $data[] =[
+                'id'=>ucfirst(strtolower($i->namakomoditas)), 
+                'harga_before'=>'Rp '.number_format($harga_sebelum,0,',','.'), 
+                'harga'=>'Rp '.number_format($i->total,0,',','.') ,
+                'persen'=>round(ltrim($persen,'-'), 2).'%' ,
+                'kondisi'=>$kondisi];
+        }
+        return  json_encode(["data" => $data]);
+
+    }
 }

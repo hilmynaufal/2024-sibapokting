@@ -2075,6 +2075,19 @@ function avgHarga($komoditas,$pasar,$tgl){
     return round($avg_komoditas);
 }
 
+function avgHargaResult($komoditas,$pasar,$tgl){
+    if(empty($pasar)){
+        $avg_komoditas = Komoditas::selectRaw('komoditas_id, avg(harga_publish) as harga')
+        ->where('detail_tgl',$tgl)
+        ->groupBy('komoditas_id')->get();
+    }else{
+        $avg_komoditas = Komoditas::selectRaw('komoditas_id, avg(harga_publish) as harga')->where('detail_tgl',$tgl)->where('pasar_id',$pasar)
+        ->groupBy('komoditas_id')->get();
+    }
+
+    dd($avg_komoditas);
+}
+
 function getNamaPasar($pasar){
     $data = RefPasar::where('id',$pasar)->first();
 

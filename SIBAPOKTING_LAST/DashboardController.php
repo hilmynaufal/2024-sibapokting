@@ -982,17 +982,6 @@ class DashboardController extends Controller
 
         if ($pasar == 'semua') {
             $namapasar = '';
-            // $avg = DB::table('detail')
-            //     ->join('komoditas', 'komoditas.id', '=', 'detail.komoditas_id')
-            //     ->select(
-            //         'detail.*',
-            //         'komoditas.*',
-            //         DB::raw('AVG(harga_publish) as total'),
-            //         DB::raw('AVG(harga_dinamik) as total_kemaren')
-            //     )
-            //     ->where('detail.detail_tgl', $year)
-            //     ->groupBy('komoditas_id')
-            //     ->get();
                 $show = DB::table("detail")
                 ->select(
                     'detail.*',
@@ -1007,17 +996,7 @@ class DashboardController extends Controller
                 ->groupBy('komoditas_id')
 
                 ->get();
-                // $show = DB::table("detail")
-                // ->select("namakomoditas","satuan","namapasar","detail.harga_publish",
-                //           DB::raw("(SELECT harga_publish FROM detail t2
-                //           WHERE t2.komoditas_id = detail.komoditas_id 
-                //           AND t2.pasar_id = detail.pasar_id
-                //           AND detail_tgl = '$tgl_start') as harga_kemaren"))
-                // ->join('komoditas', 'komoditas.id', '=', 'detail.komoditas_id')
-                // ->join('pasar', 'pasar.id', '=', 'detail.pasar_id')
-                // ->where('pasar_id', $pasar)
-                // ->where('detail_tgl', $tgl_end)
-                // ->get();
+                
         } else {
             // $namapasar = $pasar;
             $show = DB::table("detail")
@@ -1035,10 +1014,6 @@ class DashboardController extends Controller
 
             ->get();
         }
-
-
-
-       
 
         $data = [];
         $kondisi ="";
@@ -1060,25 +1035,6 @@ class DashboardController extends Controller
                                                     
                                                 }       
 
-            // if(empty($i->harga_kemaren)){
-            //     $harga_kemaren = 0;
-            //     if($i->harga_publish ==  $harga_kemaren){
-            //         $status = '<img src="https://ews.kemendag.go.id/sp2kp-landing/images/markers/harga-c.png">';
-            //     }else if($i->harga_publish >  $harga_kemaren){
-            //         $status = '<img src="https://ews.kemendag.go.id/sp2kp-landing/images/markers/harga-a.png">';
-            //     }else if($i->harga_publish <  $harga_kemaren){
-            //         $status = '<img src="https://ews.kemendag.go.id/sp2kp-landing/images/markers/harga-d.png">';
-            //     }
-            // }else{
-            //     $harga_kemaren = $i->harga_kemaren;
-            //     if($i->harga_publish ==  $i->harga_kemaren){
-            //         $status = '<img src="https://ews.kemendag.go.id/sp2kp-landing/images/markers/harga-c.png">';
-            //     }else if($i->harga_publish >  $i->harga_kemaren){
-            //         $status = '<img src="https://ews.kemendag.go.id/sp2kp-landing/images/markers/harga-a.png">';
-            //     }else if($i->harga_publish <  $i->harga_kemaren){
-            //         $status = '<img src="https://ews.kemendag.go.id/sp2kp-landing/images/markers/harga-d.png">';
-            //     }
-           
             $data[] = [ucfirst(strtolower($i->namakomoditas))  ,$i->satuan, 'Rp '.number_format($harga_sebelum,2,',','.'), 'Rp '.number_format($i->total,2,',','.') ,round($persen, 2).'%' ,$kondisi];
         }
         return $data;
