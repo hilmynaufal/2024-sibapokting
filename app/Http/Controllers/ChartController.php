@@ -10,6 +10,9 @@ use App\Models\transaksi\Komoditas as Model;
 use App\Models\Referensi\RefPasar;
 use App\Models\referensi\RefKomoditas;
 use DB;
+use DateTime;
+use DatePeriod;
+use DateInterval;
 
 class ChartController extends Controller
 {
@@ -20,6 +23,8 @@ class ChartController extends Controller
     public $barNow = array();
     public $barBefore = array();
 
+    public $priceList = array();
+    public $dateList = array();
 
     public function dataChart(Request $request){
         $kom2022 = Model::select(
@@ -104,5 +109,22 @@ class ChartController extends Controller
             'price_now' => $this->barNow,
             'price_before' => $this->barBefore
         ]);
+    }
+
+    public function komoditasLine(Request $request){
+        $dt = new \Carbon\Carbon($request->date);
+        $end_date = $dt->format('Y-m-d');
+        $date = date('Y-m-d',strtotime($end_date . "-20 days"));
+        while (strtotime($date) <= strtotime($end_date)) {
+            array_push($this->dateList,TglIndoBulan($date));
+            array_push($this->priceList,avgHarga($request->komoditas,0,$date));
+            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
+        }
+
+        return response()->json([
+            'categori' => $this->dateList,
+            'price_before' => $this->priceList
+        ]);
+
     }
 }

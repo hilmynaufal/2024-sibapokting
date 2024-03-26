@@ -196,6 +196,15 @@ function setIconMenu($id){
                 $tahun = $dt->formatLocalized('%Y');
                 return $tgl . ' ' . $bulan . ' ' . $tahun;
             }
+
+            function TglIndoBulan($tgl)
+            {
+                $dt = new  \Carbon\Carbon($tgl);
+                setlocale(LC_TIME, 'IND');
+                $bulan = Bulan($tgl);
+                $tgl = $dt->formatLocalized('%e');
+                return $tgl . ' ' . $bulan;
+            }
             
             function TglIndoHari($tgl)
             {
@@ -1856,6 +1865,28 @@ function dinamikaHargaAvgIcon($sekarang,$kemarin){
     }
     return $html;
 }
+
+function dinamikaHargaAvgVariant($sekarang,$kemarin){
+    $html='';
+    if(empty($kemarin) || empty($sekarang)){
+        $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0% </span>';
+    }else{
+        if ($sekarang > $kemarin){
+            $html .= '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>'
+            .presentaseKenaikan($sekarang,$kemarin).
+            '</span>';
+        }elseif ($sekarang < $kemarin){
+            $html .= '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>'
+            .presentasePenurunan($sekarang,$kemarin).
+            '</span>';
+        }elseif($sekarang == $kemarin){
+            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%</span>';
+        }
+
+    }
+    return $html;
+}
+
 function dinamikaHargaAvgNilai($sekarang,$kemarin){
     $html='';
     if(empty($kemarin) || empty($sekarang)){

@@ -91,17 +91,17 @@ Varians Komoditas
                                         <!--begin::Statistics-->
                                         <div class="d-flex mb-2">
                                             <span class="fs-4 fw-semibold text-gray-500 me-1">Rp</span>
-                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2"></span>
+                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(avgHarga($komoditas,0,$date_komoditas),0)}}</span>
 
                                             <!--begin::Label-->
-                                            <span class="badge badge-light-success fs-base">
-                                                <i class="ki-outline ki-black-up fs-7 text-success ms-n1"></i> 4.5%
-                                            </span>
+                                            {!!
+                                                dinamikaHargaAvgVariant(avgHarga($komoditas,0,$date_komoditas),avgHarga($komoditas,0,$date_komoditas_before))
+                                            !!}
                                             <!--end::Label-->
                                         </div>
                                         <!--end::Statistics-->
                                         <!--begin::Description-->
-                                        <span class="fs-6 fw-semibold text-gray-500">Harga tanggal sekarang</span>
+                                        <span class="fs-6 fw-semibold text-gray-500">Rata" {{tglIndo($date_komoditas)}}</span>
                                         <!--end::Description-->
                                     </div>
                                     <!--end::Item-->
@@ -111,18 +111,18 @@ Varians Komoditas
                                         <!--begin::Statistics-->
                                         <div class="d-flex align-items-center mb-2">
                                             <!--begin::Currency-->
-                                            <span class="fs-4 fw-semibold text-gray-500 align-self-start me-1">$</span>
+                                            <span class="fs-4 fw-semibold text-gray-500 align-self-start me-1">Rp</span>
                                             <!--end::Currency-->
 
                                             <!--begin::Value-->
-                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">4,684</span>
+                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(avgHarga($komoditas,0,$date_komoditas_before),0)}}</span>
                                             <!--end::Value-->
 
                                         </div>
                                         <!--end::Statistics-->
 
                                         <!--begin::Description-->
-                                        <span class="fs-6 fw-semibold text-gray-500">Harga tanggal kemaren</span>
+                                        <span class="fs-6 fw-semibold text-gray-500">Rata" {{tglIndo($date_komoditas_before)}}</span>
                                         <!--end::Description-->
                                     </div>
                                     <!--end::Item-->
@@ -137,7 +137,13 @@ Varians Komoditas
                             <!--end::Card body-->
                             <!--begin::Card body-->
                             <div class="card-body d-flex justify-content-between flex-column pb-0 px-0 pt-1">
-
+                                <!--begin::Title-->
+                                
+                                <!--begin::Header-->
+                                <div class="card-header py-5">
+                                    <h3 class="card-title fw-bold text-gray-800">PERKEMBANGAN HARGA {{getKomoditas($komoditas)->namakomoditas}}</h3>
+                                </div>
+                                <!--end::Title-->
                                 <!--begin::Chart-->
                                 <div id="line" wire:ignore>
                                 </div>
@@ -177,7 +183,7 @@ Varians Komoditas
                                         <!--begin::Table head-->
                                         <thead>
                                             <tr class="fs-7 fw-bold border-0 text-gray-500">
-                                                <th class="min-w-150px">Variant</th>
+                                                <th class="min-w-150px">VARIANT</th>
                                                 <th class="min-w-80px text-start pe-0">TGL KMR</th>
                                                 <th class="min-w-80px text-start pe-0">TGL SKR</th>
                                                 <th class="text-start min-w-50px">PERUBAHAN</th>
@@ -282,26 +288,22 @@ Varians Komoditas
 
 
     var options2 = {
-        series: [{
-            name: "Desktops",
-            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        }],
-        chart: {
-            height: 350,
-            type: 'line',
-            zoom: {
-                enabled: false
-            }
+        series: [],
+        chart:{
+          type: 'area',
+          stacked: false,
+          height: 350,
+          zoom: {
+            enabled: true,
+            type: 'x',  
+            autoScaleYaxis: true
+        }
         },
         dataLabels: {
             enabled: false
         },
         stroke: {
-            curve: 'straight'
-        },
-        title: {
-            text: 'Product Trends by Month',
-            align: 'left'
+            curve: 'smooth'
         },
         grid: {
             row: {
@@ -310,7 +312,13 @@ Varians Komoditas
             },
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            categories: [],
+        },
+        yaxis: {
+            title: {
+                text: 'Rp (Rupiah)'
+            },
+            showForNullSeries: true,
         }
     };
 
@@ -336,13 +344,41 @@ Varians Komoditas
                     name: 'Harga Sebelumnya',
                     data: response['price_before']
                 }
-            ])
+            ]);
+            // chart.updateOptions({
+            //     xaxis: {
+            //         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            //     },
+            // });
+        });
+
+
+
+        var settings1 = {
+            "url": {!! json_encode(url('/')) !!}+"/api/komoditasLine?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
+            "method": "GET",
+            "timeout": 0,
+        };
+        $.ajax(settings1).done(function (response) {
+            chart2.updateSeries([
+                {
+                    name: 'Tanggal',
+                    data: response['price_before']
+                }
+            ]);
+            chart2.updateOptions({
+                xaxis: {
+                    categories: response['categori']
+                },
+            });
         });
 
     });
 
     function changeBar(){
         @this.set('komoditas', $('#komoditas').val());
+        @this.set('date_komoditas', $('#date_komoditas').val());
+        @this.set('date_komoditas_before', formatDateBefore($('#date_komoditas').val()));
 
         var settings = {
             "url": {!! json_encode(url('/')) !!}+"/api/komoditasBar?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
@@ -361,6 +397,21 @@ Varians Komoditas
                 }
             ])
         });
+    }
+
+    function formatDateBefore(date) {
+        var d = new Date(date);
+        var days = d.getDate() - 1;
+        var month = '' + (d.getMonth() + 1),
+            day = '' + days,
+            year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 </script>
 @endpush

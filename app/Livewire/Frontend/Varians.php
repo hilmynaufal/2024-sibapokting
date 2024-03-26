@@ -27,6 +27,7 @@ class Varians extends Component
     public $list_pasar;
 
     public $date_komoditas;
+    public $date_komoditas_before;
     public $kategori=[];
 
 
@@ -37,6 +38,7 @@ class Varians extends Component
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $this->date_komoditas = $tanggal;
+        $this->date_komoditas_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
 
         $this->list_komoditas_search = RefKomoditas::get();
         $this->list_pasar = RefPasar::orderBy('id','asc')->get();
