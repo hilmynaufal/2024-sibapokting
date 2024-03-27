@@ -134,25 +134,52 @@ class ChartController extends Controller
         $tgl_start = $request->tgl_start;      
         $tgl_end = $request->tgl_end;      
 
-        if ($pasar == 'semua') {
+        if ($pasar == '') {
             $namapasar = '';
                 $show = DB::table("t_siba_komoditas")
                 ->select(
                     DB::raw("komoditas_id"),
-                    DB::raw("kondisi"),
+                    DB::raw("namakomoditas"),
+                    DB::raw('AVG(harga_publish) as total'),
+                    DB::raw('AVG(harga_dinamik) as total_kemaren')
+                )
+                ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
+                ->where('detail_tgl', $tgl_start)
+                ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas')
+                ->orderBy('namakomoditas','asc')
+                ->get();
+
+                $show1 = DB::table("t_siba_komoditas")
+                ->select(
+                    DB::raw("komoditas_id"),
                     DB::raw("namakomoditas"),
                     DB::raw('AVG(harga_publish) as total'),
                     DB::raw('AVG(harga_dinamik) as total_kemaren')
                 )
                 ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
                 ->where('detail_tgl', $tgl_end)
-                ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas','kondisi')
+                ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas')
                 ->orderBy('namakomoditas','asc')
                 ->get();
                 
         } else {
             // $namapasar = $pasar;
             $show = DB::table("t_siba_komoditas")
+            ->select(
+                DB::raw("komoditas_id"),
+                DB::raw("kondisi"),
+                DB::raw("namakomoditas"),
+                DB::raw('AVG(harga_publish) as total'),
+                DB::raw('AVG(harga_dinamik) as total_kemaren')
+            )
+            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
+            ->where('pasar_id', $pasar)
+            ->where('detail_tgl', $tgl_start)
+            ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas','kondisi')
+            ->orderBy('namakomoditas','asc')
+            ->get();
+
+            $show1 = DB::table("t_siba_komoditas")
             ->select(
                 DB::raw("komoditas_id"),
                 DB::raw("kondisi"),
@@ -173,25 +200,34 @@ class ChartController extends Controller
         $persen ="";
         $harga_sebelum ="";
         foreach ($show as $i) {
-                                                if($i->kondisi == 'turun'){
-                                                    $kondisi = 'turun';
-                                                    $persen = (($i->total-($i->total+$i->total_kemaren))/$i->total*100);
-                                                    $harga_sebelum = $i->total+$i->total_kemaren;
-                                                }else if($i->kondisi  == 'naik'){
-                                                    $kondisi = 'naik';
-                                                    $persen = (($i->total-($i->total-$i->total_kemaren))/$i->total*100);
-                                                    $harga_sebelum = $i->total-$i->total_kemaren;
-                                                }else{
-                                                    $kondisi = 'stabil';
-                                                    $persen = 0;
-                                                    $harga_sebelum = $i->total;
-                                                    
-                                                }       
+            foreach($show1 as $k){
+                if($i->komoditas_id == $k->komoditas_id){
+                    if($i->total > $k->total){
+                        $kondisi = 'naik';
+                        $persen = (($i->total-$k->total)/$i->total*100);
+                        $harga_sekarang = $k->total;
+                        $harga_sebelum = $i->total;
+                    }else if($i->total < $k->total){
+                        $kondisi = 'turun';
+                        $persen = (($k->total-$i->total)/$i->total*100);
+                        $harga_sekarang = $k->total;
+                        $harga_sebelum = $i->total;
+                    }else{
+                        $kondisi = 'stabil';
+                        $persen = 0;
+                        $harga_sekarang = $k->total;
+                        $harga_sebelum = $i->total;
+                        
+                    }
+                }
+                
+            }
+                                                       
 
             $data[] =[
                 'id'=>ucfirst(strtolower($i->namakomoditas)), 
-                'harga_before'=>'Rp '.number_format($harga_sebelum,0,',','.'), 
-                'harga'=>'Rp '.number_format($i->total,0,',','.') ,
+                'price_start'=>'Rp '.number_format($harga_sekarang,0,',','.'), 
+                'price_end'=>'Rp '.number_format($harga_sebelum,0,',','.') ,
                 'persen'=>round(ltrim($persen,'-'), 2).'%' ,
                 'kondisi'=>$kondisi];
         }

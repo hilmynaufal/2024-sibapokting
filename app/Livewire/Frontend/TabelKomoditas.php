@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Storage;
 use DB;
 
-class Varians extends Component
+class TabelKomoditas extends Component
 {
     use WithPagination,WithoutUrlPagination;
     protected $paginationTheme = 'bootstrap';
@@ -28,10 +28,7 @@ class Varians extends Component
     public $list_komoditas_search;
     public $list_pasar;
 
-    public $date_komoditas;
-    public $date_komoditas_before;
     public $kategori=[];
-
     public $pasar_tabel;
     public $date_start;
     public $date_end;
@@ -43,15 +40,12 @@ class Varians extends Component
     {
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
-        $this->date_komoditas = $tanggal;
-        $this->date_komoditas_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
+        $this->date_start = date('Y-m-d',strtotime($tanggal . "-1 days"));
+        $this->date_end = $tanggal;
 
         $this->list_komoditas_search = RefKomoditas::get();
         $this->list_pasar = RefPasar::orderBy('id','asc')->get();
 
-        $this->pasar_tabel = 0;
-        $this->date_start = date('Y-m-d',strtotime($tanggal . "-1 days"));
-        $this->date_end =  $tanggal;
 
         foreach($this->list_pasar as $pasar){
             array_push($this->kategori,$pasar->namapasar);
@@ -60,26 +54,7 @@ class Varians extends Component
     
     public function render()
     {
-        $show1 = DB::table("t_siba_komoditas")
-            ->select(
-                DB::raw("komoditas_id"),
-                DB::raw("namakomoditas"),
-                DB::raw('AVG(harga_publish) as total'),
-                DB::raw('AVG(harga_dinamik) as total_kemaren')
-            )
-            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-            // ->where('pasar_id', 2)
-            ->where('detail_tgl', '2024-03-20')
-            ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas')
-            ->orderBy('namakomoditas','asc')
-            ->get();
-
-        dd($show1);
-        // $query = RefKomoditas::query();
-        // $rows = $query->orderBy('namakomoditas','asc')->paginate($this->perpage);
-        return view('livewire.frontend.varians', [
-          'model'=> $rows
-        ]);
+        return view('livewire.frontend.tabel-komoditas');
     }
 
 
