@@ -55,108 +55,69 @@ class TabelKomoditas extends Component
     
     public function render()
     {
-        $pasar  = $this->pasar_tabel;
+        $pasar = $this->pasar_tabel;
         $tgl_start = $this->start;      
-        $tgl_end = $this->end;      
+        $tgl_end = $this->end;
+
+        $baseQuery = DB::table("t_siba_komoditas")
+            ->select(
+                DB::raw("komoditas_id"),
+                DB::raw("namakomoditas"),
+                DB::raw('AVG(harga_publish) as total'),
+                DB::raw('AVG(harga_dinamik) as total_kemaren')
+            )
+            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id');
 
         if ($pasar == '') {
-            $namapasar = '';
-                $show = DB::table("t_siba_komoditas")
-                ->select(
-                    DB::raw("komoditas_id"),
-                    DB::raw("namakomoditas"),
-                    DB::raw('AVG(harga_publish) as total'),
-                    DB::raw('AVG(harga_dinamik) as total_kemaren')
-                )
-                ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-                ->where('detail_tgl', $tgl_start)
-                ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas')
-                ->orderBy('namakomoditas','asc')
-                ->get();
-
-                $show1 = DB::table("t_siba_komoditas")
-                ->select(
-                    DB::raw("komoditas_id"),
-                    DB::raw("namakomoditas"),
-                    DB::raw('AVG(harga_publish) as total'),
-                    DB::raw('AVG(harga_dinamik) as total_kemaren')
-                )
-                ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-                ->where('detail_tgl', $tgl_end)
-                ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas')
-                ->orderBy('namakomoditas','asc')
-                ->get();
-                
+            $show = clone $baseQuery;
+            $show->where('detail_tgl', $tgl_start)
+                ->groupBy('t_siba_komoditas.komoditas_id', 'namakomoditas')
+                ->orderBy('namakomoditas', 'asc');
+            $show1 = clone $baseQuery;
+            $show1->where('detail_tgl', $tgl_end)
+                ->groupBy('t_siba_komoditas.komoditas_id', 'namakomoditas')
+                ->orderBy('namakomoditas', 'asc');
         } else {
-            // $namapasar = $pasar;
-            $show = DB::table("t_siba_komoditas")
-            ->select(
-                DB::raw("komoditas_id"),
-                DB::raw("kondisi"),
-                DB::raw("namakomoditas"),
-                DB::raw('AVG(harga_publish) as total'),
-                DB::raw('AVG(harga_dinamik) as total_kemaren')
-            )
-            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-            ->where('pasar_id', $pasar)
-            ->where('detail_tgl', $tgl_start)
-            ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas','kondisi')
-            ->orderBy('namakomoditas','asc')
-            ->get();
-
-            $show1 = DB::table("t_siba_komoditas")
-            ->select(
-                DB::raw("komoditas_id"),
-                DB::raw("kondisi"),
-                DB::raw("namakomoditas"),
-                DB::raw('AVG(harga_publish) as total'),
-                DB::raw('AVG(harga_dinamik) as total_kemaren')
-            )
-            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-            ->where('pasar_id', $pasar)
-            ->where('detail_tgl', $tgl_end)
-            ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas','kondisi')
-            ->orderBy('namakomoditas','asc')
-            ->get();
+            $show = clone $baseQuery;
+            $show->where('pasar_id', $pasar)
+                ->where('detail_tgl', $tgl_start)
+                ->groupBy('t_siba_komoditas.komoditas_id', 'namakomoditas', 'kondisi')
+                ->orderBy('namakomoditas', 'asc');
+            $show1 = clone $baseQuery;
+            $show1->where('pasar_id', $pasar)
+                ->where('detail_tgl', $tgl_end)
+                ->groupBy('t_siba_komoditas.komoditas_id', 'namakomoditas', 'kondisi')
+                ->orderBy('namakomoditas', 'asc');
         }
 
+        $show = $show->get();
+        $show1 = $show1->get();
+
         $data = [];
-        $kondisi ="";
-        $persen ="";
-        $harga_sebelum ="";
         foreach ($show as $i) {
-            foreach($show1 as $k){
-                if($i->komoditas_id == $k->komoditas_id){
-                    if($i->total > $k->total){
-                        $kondisi = 'turun';
-                        $persen = (($i->total-$k->total)/$i->total*100);
-                        $harga_sekarang = $k->total;
-                        $harga_sebelum = $i->total;
-                    }else if($i->total < $k->total){
-                        $kondisi = 'naik';
-                        $persen = (($k->total-$i->total)/$i->total*100);
-                        $harga_sekarang = $k->total;
-                        $harga_sebelum = $i->total;
-                    }else{
-                        $kondisi = 'stabil';
-                        $persen = 0;
-                        $harga_sekarang = $k->total;
-                        $harga_sebelum = $i->total;
-                        
-                    }
+            $k = $show1->where('komoditas_id', $i->komoditas_id)->first();
+
+            if ($k) {
+                if ($i->total > $k->total) {
+                    $kondisi = 'turun';
+                } else if ($i->total < $k->total) {
+                    $kondisi = 'naik';
+                } else {
+                    $kondisi = 'stabil';
                 }
-                
+
+                $persen = $i->total != 0 ? abs(($k->total - $i->total) / $i->total * 100) : 0;
+                $harga_sekarang_conversi = empty($k->total) ? 0 : $k->total;
+                $harga_sebelum_conversi = empty($i->total) ? 0 : $i->total;
+
+                $data[] = [
+                    'nama' => ucfirst(strtolower($i->namakomoditas)),
+                    'price_end' => 'Rp ' . number_format($harga_sekarang_conversi, 0, ',', '.'),
+                    'price_start' => 'Rp ' . number_format($harga_sebelum_conversi, 0, ',', '.'),
+                    'persen' => round($persen, 2) . '%',
+                    'kondisi' => $kondisi
+                ];
             }
-                                                       
-            $harga_sekarang_conversi = empty($harga_sekarang) ? 0 : $harga_sekarang;
-            $harga_sebelum_conversi = empty($harga_sebelum) ? 0 : $harga_sebelum;
-            $persen_conversi = empty($persen) ? 0 : $persen;
-            $data[] =[
-                'nama'=>ucfirst(strtolower($i->namakomoditas)), 
-                'price_end'=>'Rp '.number_format($harga_sekarang_conversi,0,',','.'), 
-                'price_start'=>'Rp '.number_format($harga_sebelum_conversi,0,',','.') ,
-                'persen'=>round(ltrim($persen_conversi,'-'), 2).'%' ,
-                'kondisi'=>$kondisi];
         }
         return view('livewire.frontend.tabel-komoditas', [
             'model'=> $data
