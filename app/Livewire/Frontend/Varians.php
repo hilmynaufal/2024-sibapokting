@@ -60,23 +60,8 @@ class Varians extends Component
     
     public function render()
     {
-        $show1 = DB::table("t_siba_komoditas")
-            ->select(
-                DB::raw("komoditas_id"),
-                DB::raw("namakomoditas"),
-                DB::raw('AVG(harga_publish) as total'),
-                DB::raw('AVG(harga_dinamik) as total_kemaren')
-            )
-            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-            // ->where('pasar_id', 2)
-            ->where('detail_tgl', '2024-03-20')
-            ->groupBy('t_siba_komoditas.komoditas_id','namakomoditas')
-            ->orderBy('namakomoditas','asc')
-            ->get();
-
-        dd($show1);
-        // $query = RefKomoditas::query();
-        // $rows = $query->orderBy('namakomoditas','asc')->paginate($this->perpage);
+        $query = RefKomoditas::query();
+        $rows = $query->orderBy('namakomoditas','asc')->paginate($this->perpage);
         return view('livewire.frontend.varians', [
           'model'=> $rows
         ]);

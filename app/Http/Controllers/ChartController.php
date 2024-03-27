@@ -202,21 +202,21 @@ class ChartController extends Controller
         foreach ($show as $i) {
             foreach($show1 as $k){
                 if($i->komoditas_id == $k->komoditas_id){
-                    if($i->total > $k->total){
-                        $kondisi = 'naik';
-                        $persen = (($i->total-$k->total)/$i->total*100);
-                        $harga_sekarang = $k->total;
-                        $harga_sebelum = $i->total;
-                    }else if($i->total < $k->total){
+                    if($k->total > $i->total){
                         $kondisi = 'turun';
                         $persen = (($k->total-$i->total)/$i->total*100);
-                        $harga_sekarang = $k->total;
-                        $harga_sebelum = $i->total;
+                        $harga_sekarang = $i->total;
+                        $harga_sebelum = $k->total;
+                    }else if($k->total < $i->total){
+                        $kondisi = 'naik';
+                        $persen = (($i->total-$k->total)/$i->total*100);
+                        $harga_sekarang = $i->total;
+                        $harga_sebelum = $k->total;
                     }else{
                         $kondisi = 'stabil';
                         $persen = 0;
-                        $harga_sekarang = $k->total;
-                        $harga_sebelum = $i->total;
+                        $harga_sekarang = $i->total;
+                        $harga_sebelum = $k->total;
                         
                     }
                 }
@@ -226,8 +226,8 @@ class ChartController extends Controller
 
             $data[] =[
                 'id'=>ucfirst(strtolower($i->namakomoditas)), 
-                'price_start'=>'Rp '.number_format($harga_sekarang,0,',','.'), 
-                'price_end'=>'Rp '.number_format($harga_sebelum,0,',','.') ,
+                'price_end'=>'Rp '.number_format($harga_sekarang,0,',','.'), 
+                'price_start'=>'Rp '.number_format($harga_sebelum,0,',','.') ,
                 'persen'=>round(ltrim($persen,'-'), 2).'%' ,
                 'kondisi'=>$kondisi];
         }

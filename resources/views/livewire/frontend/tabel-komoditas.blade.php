@@ -30,8 +30,8 @@
                 <label class="form-label">Tanggal Awal</label>
                 <div class="w-200 mw-350px position-relative">
                     <!--begin::Input-->
-                    <input class="form-control form-control-sm" wire:model.live="date_start" name="date_start"
-                        id="date_start" />
+                    <input class="form-control form-control-sm" wire:model="start" name="start"
+                        id="start" />
                     <!--end::Input-->
 
                     <!--begin::CVV icon-->
@@ -46,8 +46,7 @@
                 <label class="form-label">Tanggal Akhir</label>
                 <div class="w-200 mw-350px position-relative">
                     <!--begin::Input-->
-                    <input class="form-control form-control-sm" wire:model.live="date_end" name="date_end"
-                        id="date_end" />
+                    <input class="form-control form-control-sm" wire:model.live="end" name="end" id="end" />
                     <!--end::Input-->
 
                     <!--begin::CVV icon-->
@@ -59,85 +58,67 @@
                 </div>
             </div>
         </div>
-        <!--begin::Table-->
-        <table id="perbandinganHarga" class="table table-row-dashed align-middle gs-0 gy-4">
-            <!--end::Table head-->
-            <!--begin::Table head-->
-            <thead>
-                <tr class="fs-7 fw-bold border-0 text-gray-500">
-                    <th class="min-w-150px">VARIANT</th>
-                    <th class="min-w-80px text-start pe-0">{{tglIndoBulan($date_start)}}</th>
-                    <th class="min-w-80px text-start pe-0">{{tglIndoBulan($date_end)}}</th>
-                    <th class="text-start min-w-50px">PERUBAHAN</th>
-                </tr>
-            </thead>
-            <!--begin::Table body-->
-            <tbody>
-
-            </tbody>
-            <!--end::Table body-->
-        </table>
-        <!--end::Table-->
-        <!--end::Table container-->
+        <div class="hover-scroll h-750px">
+            <!--begin::Table-->
+            <table class="table table-row-dashed align-middle gs-0 gy-4">
+                <!--end::Table head-->
+                <!--begin::Table head-->
+                <thead>
+                    <tr class="fs-7 fw-bold border-0 text-gray-500">
+                        <th class="min-w-150px">VARIANT</th>
+                        <th class="min-w-80px text-start pe-0">{{tglIndoBulan($start)}}</th>
+                        <th class="min-w-80px text-start pe-0">{{tglIndoBulan($end)}}</th>
+                        <th class="text-start min-w-50px">PERUBAHAN</th>
+                    </tr>
+                </thead>
+                <!--begin::Table body-->
+                <tbody>
+                    @forelse ($model as $index => $item)
+                    <tr>
+                        <td>
+                            <span
+                                class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item['nama']}}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item['price_start']}}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item['price_end']}}</span>
+                        </td>
+                        
+                        <td>
+                                @if($item['kondisi'] == 'naik')
+                                    <span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>
+                                        {{$item['persen']}}
+                                    </span>
+                                @elseif($item['kondisi'] == 'turun')
+                                    <span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>
+                                        {{$item['persen']}}
+                                    </span>
+                                @elseif($item['kondisi'] == 'stabil')
+                                    <span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%</span>
+                                @else
+                                    <span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%</span>
+                                @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr class="odd">
+                        <td valign="top" colspan="8" class="text-center dataTables_empty">Data Tidak Ditemukan</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+                <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+        </div>
     </div>
     <!--end::Body-->
 </div>
 
 @push('js')
 <script>
-    $(document).ready(function () {
-        changeTabel();
-    });
-
-
-    function changeTabel() {
-
-        $("#perbandinganHarga").DataTable({
-            scrollX: true,
-            scrollY: 700,
-            responsive: true,
-            searching: false,
-            processing: true,
-            serverSide: true,
-            info: false,
-            ordering: false,
-            paging: false,
-            "ajax": {
-                "url": {!!json_encode(url('/')) !!} + "/api/tabelKomoditas?pasar=2&tgl_start=2024-03-20&tgl_end=2024-03-15",
-                "type": "GET"
-            },
-            "columns": [{
-                    "data": "id",
-                },
-                {
-                    "data": "harga_sebelum"
-                },
-                {
-                    "data": "harga"
-                },
-                {
-                    "data": "kondisi",
-                    render: function (data, type, row, meta) {
-                        if (data == 'naik') {
-                            return '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>' +
-                                row.persen +
-                                '</span>';
-                        } else if (data == 'turun') {
-                            return '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>' +
-                                row.persen +
-                                '</span>';
-                        } else if (data == 'stabil') {
-                            return '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%</span>';
-                        }
-                    }
-                }
-                //
-            ],
-            order: [
-                [1, 'asc']
-            ]
-        });
-    }
-
 </script>
 @endpush

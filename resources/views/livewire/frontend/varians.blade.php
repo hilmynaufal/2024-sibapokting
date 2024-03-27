@@ -68,66 +68,33 @@ Varians Komoditas
 
                             <!--begin::Card body-->
                             <div class="card-body d-flex justify-content-between flex-column pb-0 px-0 pt-1">
-                                <!--begin::Items-->
                                 <div class="d-flex flex-wrap d-grid gap-5 px-9 mb-5">
-                                    <!--begin::Item-->
                                     <div class="me-md-2">
-                                        <!--begin::Statistics-->
                                         <div class="d-flex mb-2">
                                             <span class="fs-4 fw-semibold text-gray-500 me-1">Rp</span>
                                             <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(getKomoditas($komoditas)->het,0)}}</span>
                                         </div>
-                                        <!--end::Statistics-->
-
-                                        <!--begin::Description-->
                                         <span class="fs-6 fw-semibold text-gray-500">Harga Eceran Tertinggi</span>
-                                        <!--end::Description-->
                                     </div>
-                                    <!--end::Item-->
-
-                                    <!--begin::Item-->
+                                    <div class="m-0">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="fs-4 fw-semibold text-gray-500 align-self-start me-1">Rp</span>
+                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(avgHarga($komoditas,0,$date_komoditas_before),0)}}</span>
+                                        </div>
+                                        <span class="fs-6 fw-semibold text-gray-500">Rata" {{tglIndo($date_komoditas_before)}}</span>
+                                    </div>
                                     <div
                                         class="border-start-dashed border-end-dashed border-start border-end border-gray-300 px-5 ps-md-10 pe-md-7 me-md-5">
-                                        <!--begin::Statistics-->
                                         <div class="d-flex mb-2">
                                             <span class="fs-4 fw-semibold text-gray-500 me-1">Rp</span>
                                             <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(avgHarga($komoditas,0,$date_komoditas),0)}}</span>
-
-                                            <!--begin::Label-->
                                             {!!
                                                 dinamikaHargaAvgVariant(avgHarga($komoditas,0,$date_komoditas),avgHarga($komoditas,0,$date_komoditas_before))
                                             !!}
-                                            <!--end::Label-->
                                         </div>
-                                        <!--end::Statistics-->
-                                        <!--begin::Description-->
                                         <span class="fs-6 fw-semibold text-gray-500">Rata" {{tglIndo($date_komoditas)}}</span>
-                                        <!--end::Description-->
                                     </div>
-                                    <!--end::Item-->
-
-                                    <!--begin::Item-->
-                                    <div class="m-0">
-                                        <!--begin::Statistics-->
-                                        <div class="d-flex align-items-center mb-2">
-                                            <!--begin::Currency-->
-                                            <span class="fs-4 fw-semibold text-gray-500 align-self-start me-1">Rp</span>
-                                            <!--end::Currency-->
-
-                                            <!--begin::Value-->
-                                            <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{nilai(avgHarga($komoditas,0,$date_komoditas_before),0)}}</span>
-                                            <!--end::Value-->
-
-                                        </div>
-                                        <!--end::Statistics-->
-
-                                        <!--begin::Description-->
-                                        <span class="fs-6 fw-semibold text-gray-500">Rata" {{tglIndo($date_komoditas_before)}}</span>
-                                        <!--end::Description-->
-                                    </div>
-                                    <!--end::Item-->
                                 </div>
-                                <!--end::Items-->
 
                                 <!--begin::Chart-->
                                 <div id="bar" wire:ignore>
@@ -257,11 +224,11 @@ Varians Komoditas
             "setDate": new Date(),
             "autoclose": true
         });
-        $("#date_start").flatpickr({
+        $("#start").flatpickr({
             "setDate": new Date(),
             "autoclose": true
         });
-        $("#date_end").flatpickr({
+        $("#end").flatpickr({
             "setDate": new Date(),
             "autoclose": true
         });
@@ -309,52 +276,6 @@ Varians Komoditas
     });
 
 
-    function changeTabel(){
-        
-        $("#perbandinganHarga").DataTable({
-                scrollX: true,
-                scrollY: 700,
-                responsive: true,
-                searching: false,
-                processing: true,
-                serverSide: true,
-                info: false,
-                ordering: false,
-                paging: false,
-                "ajax": {
-                    "url": {!! json_encode(url('/')) !!}+"/api/tabelKomoditas?pasar=2&tgl_start=2024-03-20&tgl_end=2024-03-15",
-                    "type": "GET"
-                },
-                "columns": [{
-                        "data": "id",
-                    },
-                    {
-                        "data": "harga_before"
-                    },
-                    {
-                        "data": "harga"
-                    },
-                    {
-                        "data": "kondisi",
-                        render: function(data, type, row, meta) {
-                            if(data == 'naik'){
-                                return '<span class="badge badge-light-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>'
-                                        + row.persen +
-                                        '</span>';
-                            }else if(data == 'turun'){
-                                return '<span class="badge badge-light-success"><i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>'
-                                        + row.persen +
-                                        '</span>';
-                            }else if(data == 'stabil'){
-                                return '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%</span>';
-                            }
-                        }
-                    }
-                    //
-                ],
-                order: [[1, 'asc']]
-            });
-    }
     function changeBar(){
         @this.set('komoditas', $('#komoditas').val());
         @this.set('date_komoditas', $('#date_komoditas').val());
