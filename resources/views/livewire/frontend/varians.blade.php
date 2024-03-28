@@ -102,6 +102,7 @@ Varians Komoditas
                                 <!--end::Chart-->
                             </div>
                             <!--end::Card body-->
+                            
                             <!--begin::Card body-->
                             <div class="card-body d-flex justify-content-between flex-column pb-0 px-0 pt-1">
                                 <!--begin::Title-->

@@ -69,7 +69,7 @@
                                     <!--end:Menu item-->
                                     @else
                                     <!--begin:Menu item-->
-                                    <a href="{{url($item->url)}}" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                                    <a href="{{url($item->url)}}"
                                         data-kt-menu-placement="bottom-start"
                                         class="menu-item {{trim($__env->yieldContent('utama')) == $item->menu ? 'show here' : ''}} menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                                         <!--begin:Menu link-->

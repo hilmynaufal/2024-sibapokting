@@ -45,9 +45,14 @@ class RentangHarga extends Component
         $this->start = date('Y-m-d',strtotime($tanggal . "-15 days"));
         $this->end = $tanggal;
 
-        $komoditas = 89;
-        $tgl_start = '2024-03-01';
-        $tgl_end = '2024-03-05';
+        $this->list_komoditas_search = RefKomoditas::get();
+    }
+
+    public function render()
+    {
+        $komoditas = $this->komoditas;
+        $tgl_start = $this->start;
+        $tgl_end = $this->end;
 
         $show = Model::with('toPasar')->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
         ->where('komoditas_id', $komoditas)
@@ -107,11 +112,10 @@ class RentangHarga extends Component
             ],
             'data' => $data
         ];
-    }
 
-    public function render()
-    {
-        return view('livewire.frontend.rentang-harga');
+        return view('livewire.frontend.rentang-harga',[
+            'jsonData' => $this->jsonData
+        ]);
     }
 
     public function updatedStart(){
@@ -122,6 +126,10 @@ class RentangHarga extends Component
     public function updatedEnd(){
         $dt = new \Carbon\Carbon($this->end);
         $this->end = $dt->format('Y-m-d');
+    }
+
+    public function updatedKomoditas(){
+        $this->komoditas = $this->komoditas;
     }
 
 
