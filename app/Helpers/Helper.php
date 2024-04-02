@@ -2066,13 +2066,36 @@ function topPangan($id){
 }
 
 function avgHarga($komoditas,$pasar,$tgl){
-    if(empty($pasar)){
-        $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->Avg('harga_publish');
-    }else{
-        $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->where('pasar_id',$pasar)->Avg('harga_publish');
-    }
+    $raw_date = $tgl;
+    $date_parts = explode('-', $raw_date);
 
-    return round($avg_komoditas);
+    $year = (int)$date_parts[0];
+    $month = (int)$date_parts[1];
+    $day = (int)$date_parts[2];
+    if (checkdate($month, $day, $year)) {
+        $date = $raw_date;
+        if(empty($pasar)){
+            $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->Avg('harga_publish');
+        }else{
+            $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',$tgl)->where('pasar_id',$pasar)->Avg('harga_publish');
+        }
+        return round($avg_komoditas);
+    } else {
+        if(empty($pasar)){
+            $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',getLastDayOfMonth($year, $month - 1))->Avg('harga_publish');
+        }else{
+            $avg_komoditas = Komoditas::where('komoditas_id',$komoditas)->where('detail_tgl',getLastDayOfMonth($year, $month - 1))->where('pasar_id',$pasar)->Avg('harga_publish');
+        }
+        return round($avg_komoditas);
+    }
+    
+}
+
+function getLastDayOfMonth($year, $month) {
+    // Membuat objek DateTime untuk tanggal pertama dalam bulan
+    $date = new DateTime("$year-$month-01");
+    $date->modify('last day of this month');
+    return $date->format('Y-m-d');
 }
 
 function avgHargaResult($komoditas,$pasar,$tgl){

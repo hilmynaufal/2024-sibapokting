@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid as Generator;
+use App\Models\User;
 
 use Auth;
 
@@ -58,5 +59,9 @@ class RefArticles extends Model
 
     public function toKategori(){
         return $this->hasOne(RefKategori::class, 'id','kategori');
+    }
+
+    public function toUser(){
+        return $this->hasOne(User::class, 'id','created_id');
     }
 }

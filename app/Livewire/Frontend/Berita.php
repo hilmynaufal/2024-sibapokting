@@ -1,7 +1,7 @@
 <?php
 namespace App\Livewire\Frontend;
 use Livewire\Component;
-use App\Models\transaksi\Komoditas as Model;
+use App\Models\website\RefArticles as Model;
 use App\Models\Referensi\RefPasar;
 use App\Models\referensi\RefKomoditas;
 use App\Models\website\RefBanner;
@@ -18,7 +18,7 @@ use DB;
 use DateTime;
 use DateInterval;
 
-class Varians extends Component
+class Berita extends Component
 {
     use WithPagination,WithoutUrlPagination;
     protected $paginationTheme = 'bootstrap';
@@ -27,8 +27,8 @@ class Varians extends Component
     public $perpage = 100;
     
     public $komoditas = 89;
-    public $list_komoditas_search;
-    public $list_pasar;
+    public $list_berita;
+    public $first_berita;
 
     public $date_komoditas;
     public $date_komoditas_before;
@@ -43,27 +43,16 @@ class Varians extends Component
 
     public function mount()
     {
-        $dt = new \Carbon\Carbon('2024-04-01');
-        $tanggal = $dt->format('Y-m-d');
-        $this->date_komoditas = $tanggal;
-        $this->date_komoditas_before = (new DateTime($tanggal))->sub(new DateInterval('P1D'))->format('Y-m-d');
-        $this->list_komoditas_search = RefKomoditas::get();
-        $this->list_pasar = RefPasar::orderBy('id','asc')->get();
-
-        $this->pasar_tabel = 0;
-        $this->date_start = (new DateTime($tanggal))->sub(new DateInterval('P1D'))->format('Y-m-d');
-        $this->date_end =  $tanggal;
-
-        foreach($this->list_pasar as $pasar){
-            array_push($this->kategori,$pasar->namapasar);
-        }
+        $this->first_berita = Model::where('status','PUBLISED')->orderBy('created_at','asc')->first();
+        $this->list_berita = Model::where('status','PUBLISED')->orderBy('created_at','asc')->skip(1)->limit(3)->get();
+        // dd($this->list_berita);
     }
     
     public function render()
     {
-        $query = RefKomoditas::query();
-        $rows = $query->orderBy('namakomoditas','asc')->paginate($this->perpage);
-        return view('livewire.frontend.varians', [
+        $query = Model::query();
+        $rows = $query->orderBy('judul','asc')->paginate($this->perpage);
+        return view('livewire.frontend.berita', [
           'model'=> $rows
         ]);
     }
