@@ -1,5 +1,5 @@
 @section('title')
-Home
+Berita
 @stop
 @section('utama')
 Informasi

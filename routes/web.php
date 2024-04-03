@@ -16,7 +16,7 @@ use App\Http\Controllers\api\UserController;
 */
 
 
-Route::get('home', App\Livewire\Frontend\Home::class)->name('home');
+Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
 Route::get('berita', App\Livewire\Frontend\Berita::class)->name('berita');

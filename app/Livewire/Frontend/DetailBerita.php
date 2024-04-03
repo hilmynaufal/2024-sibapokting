@@ -36,8 +36,7 @@ class DetailBerita extends Component
     public $kategori=[];
 
     public $pasar_tabel;
-    public $date_start;
-    public $date_end;
+    public $detail;
 
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
@@ -46,7 +45,10 @@ class DetailBerita extends Component
     {
         $idBerita = Crypt::decrypt($id);
         $this->detail = Model::where('id',$idBerita)->where('status','PUBLISED')->orderBy('created_at','asc')->first();
-        $this->list_berita = Model::where('id','!=',$idBerita)->where('status','PUBLISED')->orderBy('created_at','asc')->limit(3)->get();
+        $jmlHit = $this->detail->hit;
+        $this->detail->hit = $jmlHit + 1;
+        $this->detail->update();
+        $this->list_berita = Model::where('id','!=',$idBerita)->where('status','PUBLISED')->orderBy('created_at','asc')->limit(5)->get();
 
     }
     
