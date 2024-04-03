@@ -17,8 +17,9 @@ use Storage;
 use DB;
 use DateTime;
 use DateInterval;
+use Illuminate\Support\Facades\Crypt;
 
-class Berita extends Component
+class DetailBerita extends Component
 {
     use WithPagination,WithoutUrlPagination;
     protected $paginationTheme = 'bootstrap';
@@ -41,19 +42,17 @@ class Berita extends Component
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
 
-    public function mount()
+    public function mount($id)
     {
-        $this->first_berita = Model::where('status','PUBLISED')->orderBy('created_at','asc')->first();
-        $this->list_berita = Model::where('status','PUBLISED')->orderBy('created_at','asc')->skip(1)->limit(3)->get();
+        $idBerita = Crypt::decrypt($id);
+        $this->detail = Model::where('id',$idBerita)->where('status','PUBLISED')->orderBy('created_at','asc')->first();
+        $this->list_berita = Model::where('id','!=',$idBerita)->where('status','PUBLISED')->orderBy('created_at','asc')->limit(3)->get();
+
     }
     
     public function render()
     {
-        $query = Model::query();
-        $rows = $query->where('status','PUBLISED')->orderBy('created_at','asc')->skip(4)->paginate($this->perpage);
-        return view('livewire.frontend.berita', [
-          'model'=> $rows
-        ]);
+        return view('livewire.frontend.detail-berita');
     }
 
 

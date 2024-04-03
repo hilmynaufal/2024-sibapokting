@@ -7,6 +7,7 @@
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
     <script src="{{ asset('frontend/assets/plugins/global/plugins.bundle.js')}}"></script>
     <script src="{{ asset('frontend/assets/js/scripts.bundle.js')}}"></script>
+    <script src="{{ asset('backend/themes/assets/plugins/custom/fslightbox/fslightbox.bundle.js'); }}"></script>
     <!--end::Global Javascript Bundle-->
 
     <!--begin::Vendors Javascript(used for this page only)-->

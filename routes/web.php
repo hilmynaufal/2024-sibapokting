@@ -20,6 +20,7 @@ Route::get('home', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
 Route::get('berita', App\Livewire\Frontend\Berita::class)->name('berita');
+Route::get('beritadetail/{id}', App\Livewire\Frontend\DetailBerita::class)->name('beritadetail');
 
 Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
 Route::get('/auth', App\Livewire\Auth\Login::class)->name('login.auth');
