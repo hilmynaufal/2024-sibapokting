@@ -29,27 +29,28 @@ class Sidebar extends Component
         $tanggal_sebelum = date('Y-m-d',strtotime($tanggal . "-1 days"));
         $tanggal_sebelum_1 = date('Y-m-d',strtotime($tanggal_sebelum . "-1 days"));
         $komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal)
-                    ->where('komoditas_id',$this->komoditas_id)->first();
+                    ->where('komoditas_id',$this->komoditas_id)->where('pasar_id',2)->first();
+
         if(empty($komoditas)){
             $before_komoditas = Model::with('toKomoditas')->where('detail_tgl',$tanggal_sebelum)
             ->where('komoditas_id',$this->komoditas_id)->first();
             if(empty($before_komoditas->pasar_id)){
                 $befores_komoditas = Model::with('toKomoditas')->orderBy('detail_tgl','desc')
                 ->where('komoditas_id',$this->komoditas_id)->first();
-                $komoditas_sebelum = Model::where('pasar_id',$befores_komoditas->pasar_id)
+                $komoditas_sebelum = Model::where('pasar_id',2)
                 ->where('komoditas_id',$befores_komoditas->komoditas_id)
                 ->where('detail_tgl',$tanggal_sebelum)->first(); 
             }else{
-                $komoditas_sebelum = Model::where('pasar_id',$before_komoditas->pasar_id)
+                $komoditas_sebelum = Model::where('pasar_id',2)
                 ->where('komoditas_id',$before_komoditas->komoditas_id)
                 ->where('detail_tgl',$tanggal_sebelum)->first();
             }
         }else{  
-            $komoditas_sebelum = Model::where('pasar_id',$komoditas->pasar_id)
+            $komoditas_sebelum = Model::where('pasar_id',2)
             ->where('komoditas_id',$komoditas->komoditas_id)
-            ->where('detail_tgl',$tanggal_sebelum)->first();
-        }
+            ->where('detail_tgl',$tanggal_sebelum_1)->first();
 
+        }
         $this->list_komoditas = RefKomoditas::where('prioritas',1)->limit(9)->get();
         $this->komoditas_sekarang   = empty($komoditas) ? $before_komoditas : $komoditas;
         $this->komoditas_kemarin    = $komoditas_sebelum;
