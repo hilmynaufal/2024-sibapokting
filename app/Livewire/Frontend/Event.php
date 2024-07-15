@@ -6,28 +6,28 @@ use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 
-class Berita extends Component
+class Event extends Component
 {
     use WithPagination,WithoutUrlPagination;
     protected $paginationTheme = 'bootstrap';
     public $perpage = 6;
-    public $list_berita;
-    public $first_berita;
+    public $list_event;
+    public $first_event;
 
 
     #[Layout('components.layouts.keenthemes.frontend.app')]
 
     public function mount()
     {
-        $this->first_berita = Model::where('status','PUBLISED')->where('kategori',1)->orderBy('created_at','asc')->first();
-        $this->list_berita = Model::where('status','PUBLISED')->where('kategori',1)->orderBy('created_at','asc')->skip(1)->limit(3)->get();
+        $this->first_event = Model::where('status','PUBLISED')->where('kategori',2)->orderBy('created_at','asc')->first();
+        $this->list_event = Model::where('status','PUBLISED')->where('kategori',2)->orderBy('created_at','asc')->skip(1)->limit(3)->get();
     }
     
     public function render()
     {
         $query = Model::query();
-        $rows = $query->where('status','PUBLISED')->where('kategori',1)->orderBy('created_at','asc')->skip(4)->paginate($this->perpage);
-        return view('livewire.frontend.berita', [
+        $rows = $query->where('status','PUBLISED')->where('kategori',2)->orderBy('created_at','asc')->skip(4)->paginate($this->perpage);
+        return view('livewire.frontend.event', [
           'model'=> $rows
         ]);
     }

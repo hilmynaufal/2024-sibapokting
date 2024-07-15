@@ -1,11 +1,11 @@
 @section('title')
-Berita
+Event
 @stop
 @section('utama')
 Informasi
 @stop
 @section('submenu')
-Berita
+Event
 @stop
 
 <div>
@@ -25,7 +25,7 @@ Berita
                             <!--begin::Section-->
                             <div class="mb-17">
                                 <!--begin::Title-->
-                                <h3 class="text-gray-900 mb-7">Berita Terbaru</h3>
+                                <h3 class="text-gray-900 mb-7">Event Terbaru</h3>
                                 <!--end::Title-->
 
                                 <!--begin::Separator-->
@@ -42,9 +42,9 @@ Berita
                                             <!--begin::Video-->
                                             <div class="mb-3">
                                                 <a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-                                                    href="{{Storage::disk('public')->url($first_berita->gambar)}}">
+                                                    href="{{Storage::disk('public')->url($first_event->gambar)}}">
                                                     <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                        style="height: 266px;background-image:url('{{Storage::disk('public')->url($first_berita->gambar)}}">
+                                                        style="height: 266px;background-image:url('{{Storage::disk('public')->url($first_event->gambar)}}">
                                                     </div>
                                                     <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
                                                         <i class="ki-outline ki-eye fs-3x text-white"></i>
@@ -56,17 +56,17 @@ Berita
                                             <!--begin::Body-->
                                             <div class="mb-5">
                                                 <!--begin::Title-->
-                                                <a href="{{route('beritadetail',[Crypt::encrypt($first_berita->id)])}}" 
+                                                <a href="{{route('eventdetail',[Crypt::encrypt($first_event->id)])}}" 
                                                     class="fs-2 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">
-                                                    {{$first_berita->judul}}
+                                                    {{$first_event->judul}}
                                                 </a>
                                                 <!--end::Title-->
 
                                                 <!--begin::Text-->
                                                 <div class="fw-semibold fs-5 text-gray-600 text-gray-900 mt-4">
-                                                    {!!strlen($first_berita->konten) > 300 ?
-                                                    substr($first_berita->konten, 0, 300) . '...' :
-                                                    $first_berita->konten;!!}
+                                                    {!!strlen($first_event->konten) > 300 ?
+                                                    substr($first_event->konten, 0, 300) . '...' :
+                                                    $first_event->konten;!!}
                                                 </div>
                                                 <!--end::Text-->
                                             </div>
@@ -78,28 +78,28 @@ Berita
                                                 <div class="d-flex align-items-center pe-2">
                                                     <!--begin::Text-->
                                                     <div class="fs-5 fw-bold">
-                                                        <a class="text-gray-700 text-hover-primary">{{$first_berita->toUser->nama}}</a>
+                                                        <a class="text-gray-700 text-hover-primary">{{$first_event->toUser->nama}}</a>
 
                                                         <span class="text-muted">on
-                                                            {{tglIndo($first_berita->created_at)}}</span>
+                                                            {{tglIndo($first_event->created_at)}}</span>
                                                     </div>
                                                     <!--end::Text-->
                                                 </div>
                                                 <!--end::Item-->
 
                                                 <!--begin::Label-->
-                                                @if($first_berita->kategori == 1)
+                                                @if($first_event->kategori == 1)
                                                 <span
-                                                    class="badge badge-light-primary fw-bold my-2">{{$first_berita->toKategori->nama}}</span>
-                                                @elseif($first_berita->kategori == 2)
+                                                    class="badge badge-light-primary fw-bold my-2">{{$first_event->toKategori->nama}}</span>
+                                                @elseif($first_event->kategori == 2)
                                                 <span
-                                                    class="badge badge-light-success fw-bold my-2">{{$first_berita->toKategori->nama}}</span>
-                                                @elseif($first_berita->kategori == 3)
+                                                    class="badge badge-light-success fw-bold my-2">{{$first_event->toKategori->nama}}</span>
+                                                @elseif($first_event->kategori == 3)
                                                 <span
-                                                    class="badge badge-light-warning fw-bold my-2">{{$first_berita->toKategori->nama}}</span>
-                                                @elseif($first_berita->kategori == 4)
+                                                    class="badge badge-light-warning fw-bold my-2">{{$first_event->toKategori->nama}}</span>
+                                                @elseif($first_event->kategori == 4)
                                                 <span
-                                                    class="badge badge-light-danger fw-bold my-2">{{$first_berita->toKategori->nama}}</span>
+                                                    class="badge badge-light-danger fw-bold my-2">{{$first_event->toKategori->nama}}</span>
                                                 @endif
                                                 <!--end::Label-->
                                             </div>
@@ -111,22 +111,22 @@ Berita
 
                                     <!--begin::Col-->
                                     <div class="col-md-6 justify-content-between d-flex flex-column">
-                                        @foreach($list_berita as $berita)
+                                        @foreach($list_event as $event)
                                         <!--begin::Post-->
                                         <div class="ps-lg-6 mb-16 mt-md-0 mt-17">
                                             <!--begin::Body-->
                                             <div class="mb-6">
                                                 <!--begin::Title-->
-                                                <a href="{{route('beritadetail',[Crypt::encrypt($berita->id)])}}" 
+                                                <a href="{{route('eventdetail',[Crypt::encrypt($event->id)])}}" 
                                                     class="fw-bold text-gray-900 mb-4 fs-2 lh-base text-hover-primary">
-                                                    {{$berita->judul}}
+                                                    {{$event->judul}}
                                                 </a>
                                                 <!--end::Title-->
 
                                                 <!--begin::Text-->
                                                 <div class="fw-semibold fs-5 mt-4 text-gray-600 text-gray-900">
-                                                    {!! strlen($berita->konten) > 100 ? substr($berita->konten, 0, 100)
-                                                    . '...' : $berita->konten !!}
+                                                    {!! strlen($event->konten) > 100 ? substr($event->konten, 0, 100)
+                                                    . '...' : $event->konten !!}
                                                 </div>
                                                 <!--end::Text-->
                                             </div>
@@ -140,28 +140,28 @@ Berita
                                                     <!--begin::Text-->
                                                     <div class="fs-5 fw-bold">
                                                         <a href="#"
-                                                            class="text-gray-700 text-hover-primary">{{$berita->toUser->nama}}</a>
+                                                            class="text-gray-700 text-hover-primary">{{$event->toUser->nama}}</a>
 
                                                         <span class="text-muted">on
-                                                            {{tglIndo($berita->created_at)}}</span>
+                                                            {{tglIndo($event->created_at)}}</span>
                                                     </div>
                                                     <!--end::Text-->
                                                 </div>
                                                 <!--end::Item-->
 
                                                 <!--begin::Label-->
-                                                @if($berita->kategori == 1)
+                                                @if($event->kategori == 1)
                                                 <span
-                                                    class="badge badge-light-primary fw-bold my-2">{{$berita->toKategori->nama}}</span>
-                                                @elseif($berita->kategori == 2)
+                                                    class="badge badge-light-primary fw-bold my-2">{{$event->toKategori->nama}}</span>
+                                                @elseif($event->kategori == 2)
                                                 <span
-                                                    class="badge badge-light-success fw-bold my-2">{{$berita->toKategori->nama}}</span>
-                                                @elseif($berita->kategori == 3)
+                                                    class="badge badge-light-success fw-bold my-2">{{$event->toKategori->nama}}</span>
+                                                @elseif($event->kategori == 3)
                                                 <span
-                                                    class="badge badge-light-warning fw-bold my-2">{{$berita->toKategori->nama}}</span>
-                                                @elseif($berita->kategori == 4)
+                                                    class="badge badge-light-warning fw-bold my-2">{{$event->toKategori->nama}}</span>
+                                                @elseif($event->kategori == 4)
                                                 <span
-                                                    class="badge badge-light-danger fw-bold my-2">{{$berita->toKategori->nama}}</span>
+                                                    class="badge badge-light-danger fw-bold my-2">{{$event->toKategori->nama}}</span>
                                                 @endif
                                                 <!--end::Label-->
                                             </div>
@@ -213,7 +213,7 @@ Berita
                                             <!--begin::Body-->
                                             <div class="m-0">
                                                 <!--begin::Title-->
-                                                <a href="{{route('beritadetail',[Crypt::encrypt($item->id)])}}" 
+                                                <a href="{{route('eventdetail',[Crypt::encrypt($item->id)])}}" 
                                                     class="fs-4 text-gray-900 fw-bold text-hover-primary text-gray-900 lh-base">
                                                     {{strlen($item->judul) > 50 ? substr($item->judul, 0, 50)
                                                         . '...' : $item->judul}} </a>
@@ -234,28 +234,28 @@ Berita
                                                         <!--begin::Text-->
                                                         <div class="fw-bold">
                                                             <a href=""
-                                                                class="text-gray-700 text-hover-primary">{{$berita->toUser->nama}}</a>
+                                                                class="text-gray-700 text-hover-primary">{{$event->toUser->nama}}</a>
 
                                                             <span class="text-muted">on
-                                                                {{tglIndo($berita->created_at)}}</span>
+                                                                {{tglIndo($event->created_at)}}</span>
                                                         </div>
                                                         <!--end::Text-->
                                                     </div>
                                                     <!--end::Item-->
 
                                                     <!--begin::Label-->
-                                                    @if($berita->kategori == 1)
+                                                    @if($event->kategori == 1)
                                                     <span
-                                                        class="badge badge-light-primary fw-small my-2">{{$berita->toKategori->nama}}</span>
-                                                    @elseif($berita->kategori == 2)
+                                                        class="badge badge-light-primary fw-small my-2">{{$event->toKategori->nama}}</span>
+                                                    @elseif($event->kategori == 2)
                                                     <span
-                                                        class="badge badge-light-success fw-small my-2">{{$berita->toKategori->nama}}</span>
-                                                    @elseif($berita->kategori == 3)
+                                                        class="badge badge-light-success fw-small my-2">{{$event->toKategori->nama}}</span>
+                                                    @elseif($event->kategori == 3)
                                                     <span
-                                                        class="badge badge-light-warning fw-small my-2">{{$berita->toKategori->nama}}</span>
-                                                    @elseif($berita->kategori == 4)
+                                                        class="badge badge-light-warning fw-small my-2">{{$event->toKategori->nama}}</span>
+                                                    @elseif($event->kategori == 4)
                                                     <span
-                                                        class="badge badge-light-danger fw-small my-2">{{$berita->toKategori->nama}}</span>
+                                                        class="badge badge-light-danger fw-small my-2">{{$event->toKategori->nama}}</span>
                                                     @endif
                                                     <!--end::Label-->
                                                 </div>
