@@ -1,59 +1,58 @@
 <div>
-    
-                            <!--begin::Card-->
-                            <div class="card mb-4 bg-light text-center ">
-                                <!--begin::Body-->
-                                <div class="card-body py-12">
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/facebook-4.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
+    <!--begin::Card-->
+    <div class="card mb-4 bg-light text-center ">
+        <!--begin::Body-->
+        <div class="card-body py-12">
+            <!--begin::Icon-->
+            <div class="d-flex gap-4 gap-lg-13">
+                <!--begin::Item-->
+                <div class="d-flex flex-column">
+                    <!--begin::Number-->
+                    <span class="text fw-bold fs-3 mb-1">{{ nilai($all,0) }}</span>
+                    <!--end::Number-->
 
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/instagram-2-1.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
+                    <!--begin::Section-->
+                    <div class="text opacity-50 fw-bold">Semua Pengunjung</div>
+                    <!--end::Section-->
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="d-flex flex-column">
+                    <!--begin::Number-->
+                    <span class="text fw-bold fs-3 mb-1">{{ nilai($month,0) }}</span>
+                    <!--end::Number-->
 
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/github.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
+                    <!--begin::Section-->
+                    <div class="text opacity-50 fw-bold">Pengunjung bulan ini</div>
+                    <!--end::Section-->
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="d-flex flex-column">
+                    <!--begin::Number-->
+                    <span class="text fw-bold fs-3 mb-1">{{ nilai($week,0) }}</span>
+                    <!--end::Number-->
 
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/behance.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
+                    <!--begin::Section-->
+                    <div class="text opacity-50 fw-bold">Pengunjung minggu ini</div>
+                    <!--end::Section-->
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="d-flex flex-column">
+                    <!--begin::Number-->
+                    <span class="text fw-bold fs-3 mb-1">{{ nilai($now,0) }}</span>
+                    <!--end::Number-->
 
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/pinterest-p.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
+                    <!--begin::Section-->
+                    <div class="text opacity-50 fw-bold">Pengunjung hari ini</div>
+                    <!--end::Section-->
+                </div>
+                <!--end::Item-->
 
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/twitter.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
-
-                                    <!--begin::Icon-->
-                                    <a href="#" class="mx-4">
-                                        <img src="/metronic8/demo30/assets/media/svg/brand-logos/dribbble-icon-1.svg"
-                                            class="h-30px my-2" alt="">
-                                    </a>
-                                    <!--end::Icon-->
-                                </div>
-                                <!--end::Body-->
-                            </div>
-                            <!--end::Card-->    
+            </div>
+        </div>
+        <!--end::Body-->
+    </div>
+    <!--end::Card-->
 </div>

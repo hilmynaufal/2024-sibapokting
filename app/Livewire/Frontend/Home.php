@@ -56,10 +56,8 @@ class Home extends Component
     }
     
     public function render(){
-        $visitor = RefSetting::find(1);
-        if($visitor){
-            $visitor->visit()->withIP()->withSession()->withUser();
-        }
+
+        $this->show(1);
         $query = RefKomoditas::query();
         $rows = $query->paginate($this->perpage);
         
@@ -80,8 +78,11 @@ class Home extends Component
         $this->date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
     }
 
-    public function show(RefSetting $visitor){
-        $visitor->visit()->withIP()->withSession()->withUser();
+    public function show($visitorId){
+        $visitor = RefSetting::find($visitorId);
+        if($visitor){
+            $visitor->visit()->hourlyIntervals()->withIP()->withSession()->withUser();
+        }
     }
     
     

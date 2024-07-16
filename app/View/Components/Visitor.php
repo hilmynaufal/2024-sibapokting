@@ -22,7 +22,13 @@ class Visitor extends Component
      */
     public function render(): View|Closure|string
     {
-        $visitor = Model::query()->popularThisWeek()->get();
-        return view('components.visitor',compact('visitor'));
+        $data = [
+            'all' => Model::query()->withTotalVisitCount()->first()->visit_count_total,
+            'month' => Model::query()->popularThisMonth()->first()->visit_count_total,
+            'week' => Model::query()->popularThisWeek()->first()->visit_count_total,
+            'now' => Model::query()->popularToday()->first()->visit_count_total
+        ];
+
+        return view('components.visitor', $data);
     }
 }
