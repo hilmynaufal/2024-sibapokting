@@ -100,9 +100,7 @@
 
                                     <!--begin::Content-->
                                     <div id="kt_app_content" class="app-content  flex-column-fluid ">
-                    
-                                                        {{$slot}}
-                               
+                                        {{$slot}}
                                     </div>
 
                                     <!--end::Content container-->

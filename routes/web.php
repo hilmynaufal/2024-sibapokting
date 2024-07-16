@@ -20,9 +20,11 @@ Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
 Route::get('berita', App\Livewire\Frontend\Berita::class)->name('berita');
+Route::get('galeri', App\Livewire\Frontend\Galeri::class)->name('galeri');
 Route::get('event', App\Livewire\Frontend\Event::class)->name('event');
 Route::get('beritadetail/{id}', App\Livewire\Frontend\DetailBerita::class)->name('beritadetail');
 Route::get('eventdetail/{id}', App\Livewire\Frontend\DetailEvent::class)->name('eventdetail');
+Route::get('galeridetail/{id}', App\Livewire\Frontend\DetailGaleri::class)->name('galeridetail');
 
 Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
 Route::get('/auth', App\Livewire\Auth\Login::class)->name('login.auth');

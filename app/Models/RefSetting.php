@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Coderflex\Laravisit\Concerns\CanVisit;
+use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Support\Facades\Auth;
 
-class RefSetting extends Model
+class RefSetting extends Model implements CanVisit
 {
+    use HasVisits;
     use HasFactory;
     
     protected $connection = 'pgsql';

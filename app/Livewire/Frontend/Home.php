@@ -4,6 +4,7 @@ use Livewire\Component;
 use App\Models\transaksi\Komoditas as Model;
 use App\Models\Referensi\RefPasar;
 use App\Models\referensi\RefKomoditas;
+use App\Models\RefSetting;
 use App\Models\website\RefBanner;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -54,8 +55,11 @@ class Home extends Component
 
     }
     
-    public function render()
-    {
+    public function render(){
+        $visitor = RefSetting::find(1);
+        if($visitor){
+            $visitor->visit()->withIP()->withSession()->withUser();
+        }
         $query = RefKomoditas::query();
         $rows = $query->paginate($this->perpage);
         
@@ -76,7 +80,9 @@ class Home extends Component
         $this->date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
     }
 
-    
+    public function show(RefSetting $visitor){
+        $visitor->visit()->withIP()->withSession()->withUser();
+    }
     
     
 }

@@ -283,6 +283,10 @@ Home
                         <!--end::Col-->
                     </div>
                     <!--end::Row-->
+
+                    <div class="row g-2 g-xl-12">
+                        <x-visitor/>
+                    </div>
                 </div>
             </div>
             <!--end::Content container-->

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca3ffa8a31077a860327cfd47659fef5",
+    "content-hash": "5a556edcce67e7dd2b6d965a341f414b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -188,6 +188,155 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "coderflexx/laravel-presenter",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coderflexx/laravel-presenter.git",
+                "reference": "7111d179708e9b8bbca63a7336e9e290bf8c2c5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coderflexx/laravel-presenter/zipball/7111d179708e9b8bbca63a7336e9e290bf8c2c5e",
+                "reference": "7111d179708e9b8bbca63a7336e9e290bf8c2c5e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.75|^9.0|^10.0|^11.0",
+                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0|^8.1",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.10|^6.1|^7.0|^8.1",
+                "nunomaduro/larastan": "^1.0|^2.0",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^1.22|^2.34",
+                "pestphp/pest-plugin-laravel": "^1.3|^2.3",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5|^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Coderflex\\LaravelPresenter\\LaravelPresenterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coderflex\\LaravelPresenter\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Coderflex",
+                    "email": "oussama@coderflex.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Write Clean/Reusable Code with Presenters.",
+            "homepage": "https://github.com/coderflexx/laravel-presenter",
+            "keywords": [
+                "coderflex",
+                "laravel",
+                "laravel-presenter"
+            ],
+            "support": {
+                "issues": "https://github.com/coderflexx/laravel-presenter/issues",
+                "source": "https://github.com/coderflexx/laravel-presenter/tree/v2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/coderflex",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-16T16:02:20+00:00"
+        },
+        {
+            "name": "coderflexx/laravisit",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coderflexx/laravisit.git",
+                "reference": "81d2138a3faa78b2b8835c9c07fd1a2dc67340ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coderflexx/laravisit/zipball/81d2138a3faa78b2b8835c9c07fd1a2dc67340ea",
+                "reference": "81d2138a3faa78b2b8835c9c07fd1a2dc67340ea",
+                "shasum": ""
+            },
+            "require": {
+                "coderflexx/laravel-presenter": "^2.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "jaybizzle/crawler-detect": "^1.2",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.0|^8.0",
+                "nunomaduro/larastan": "^1.0|^2.0",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^1.22|^2.34",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5|^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Coderflex\\Laravisit\\LaravisitServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coderflex\\Laravisit\\": "src",
+                    "Coderflex\\Laravisit\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "oussama sid",
+                    "email": "oussama@coderflex.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package to keep track of your pages & understand your audience",
+            "homepage": "https://github.com/coderflexx/laravisit",
+            "keywords": [
+                "coderflex",
+                "laravel",
+                "laravisit"
+            ],
+            "support": {
+                "issues": "https://github.com/coderflexx/laravisit/issues",
+                "source": "https://github.com/coderflexx/laravisit/tree/v2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/coderflex",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-18T22:06:33+00:00"
         },
         {
             "name": "composer/semver",
@@ -1518,6 +1667,58 @@
                 "source": "https://github.com/jantinnerezo/livewire-alert/tree/v3.0.2"
             },
             "time": "2024-03-10T10:47:39+00:00"
+        },
+        {
+            "name": "jaybizzle/crawler-detect",
+            "version": "v1.2.119",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JayBizzle/Crawler-Detect.git",
+                "reference": "275002e22b0333c15a7c6792fdae5d5deefc9ef0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/275002e22b0333c15a7c6792fdae5d5deefc9ef0",
+                "reference": "275002e22b0333c15a7c6792fdae5d5deefc9ef0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.5|^6.5|^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jaybizzle\\CrawlerDetect\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Beech",
+                    "email": "m@rkbee.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CrawlerDetect is a PHP class for detecting bots/crawlers/spiders via the user agent",
+            "homepage": "https://github.com/JayBizzle/Crawler-Detect/",
+            "keywords": [
+                "crawler",
+                "crawler detect",
+                "crawler detector",
+                "crawlerdetect",
+                "php crawler detect"
+            ],
+            "support": {
+                "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.119"
+            },
+            "time": "2024-06-07T07:58:43+00:00"
         },
         {
             "name": "laravel/framework",
@@ -10412,5 +10613,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
