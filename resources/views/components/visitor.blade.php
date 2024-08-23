@@ -3,56 +3,68 @@
     <div class="card mb-4 bg-light text-center ">
         <!--begin::Body-->
         <div class="card-body py-12">
-            <!--begin::Icon-->
-            <div class="d-flex gap-4 gap-lg-13">
+            <div class="d-flex flex-wrap d-grid gap-5 px-9 mb-5">   
                 <!--begin::Item-->
-                <div class="d-flex flex-column">
-                    <!--begin::Number-->
-                    <span class="text fw-bold fs-3 mb-1">{{ nilai($all,0) }}</span>
-                    <!--end::Number-->
-
-                    <!--begin::Section-->
-                    <div class="text opacity-50 fw-bold">Semua Pengunjung</div>
-                    <!--end::Section-->
+                <div class="me-md-2">   
+                    <!--begin::Statistics-->
+                    <div class="d-flex mb-2">
+                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ nilai($all,0) }}</span>                
+                    </div>
+                    <!--end::Statistics-->
+    
+                    <!--begin::Description-->
+                    <span class="fs-6 fw-semibold text-gray-500">Semua Pengunjung</span>
+                    <!--end::Description-->
+                </div>
+                <!--end::Item-->
+    
+                <!--begin::Item-->
+                <div class="border-start-dashed border-start border-gray-300 px-5 ps-md-10 pe-md-7 me-md-5">   
+                    <!--begin::Statistics-->
+                    <div class="d-flex mb-2">
+                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ nilai($month,0) }}</span>                
+                    </div>
+                    <!--end::Statistics-->
+    
+                    <!--begin::Description-->
+                    <span class="fs-6 fw-semibold text-gray-500">Pengunjung Bulan ini</span>
+                    <!--end::Description-->
                 </div>
                 <!--end::Item-->
                 <!--begin::Item-->
-                <div class="d-flex flex-column">
-                    <!--begin::Number-->
-                    <span class="text fw-bold fs-3 mb-1">{{ nilai($month,0) }}</span>
-                    <!--end::Number-->
+                <div class="border-start-dashed border-gray-300 px-5 ps-md-10 pe-md-7 me-md-5">   
+                    <!--begin::Statistics-->
+                    <div class="d-flex mb-2">
+                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ nilai($week,0) }}</span>                
+                    </div>
+                    <!--end::Statistics-->
 
-                    <!--begin::Section-->
-                    <div class="text opacity-50 fw-bold">Pengunjung bulan ini</div>
-                    <!--end::Section-->
+                    <!--begin::Description-->
+                    <span class="fs-6 fw-semibold text-gray-500">Pengunjung Minggu ini</span>
+                    <!--end::Description-->
                 </div>
                 <!--end::Item-->
+
                 <!--begin::Item-->
-                <div class="d-flex flex-column">
-                    <!--begin::Number-->
-                    <span class="text fw-bold fs-3 mb-1">{{ nilai($week,0) }}</span>
-                    <!--end::Number-->
-
-                    <!--begin::Section-->
-                    <div class="text opacity-50 fw-bold">Pengunjung minggu ini</div>
-                    <!--end::Section-->
+                <div class="border-start-dashed border-start border-gray-300 px-5 ps-md-10 pe-md-7 me-md-5">   
+                    <!--begin::Statistics-->
+                    <div class="d-flex mb-2">
+                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ nilai($now,0) }}</span>                
+                    </div>
+                    <!--end::Statistics-->
+    
+                    <!--begin::Description-->
+                    <span class="fs-6 fw-semibold text-gray-500">Pengunjung Hari ini</span>
+                    <!--end::Description-->
                 </div>
                 <!--end::Item-->
-                <!--begin::Item-->
-                <div class="d-flex flex-column">
-                    <!--begin::Number-->
-                    <span class="text fw-bold fs-3 mb-1">{{ nilai($now,0) }}</span>
-                    <!--end::Number-->
 
-                    <!--begin::Section-->
-                    <div class="text opacity-50 fw-bold">Pengunjung hari ini</div>
-                    <!--end::Section-->
-                </div>
-                <!--end::Item-->
 
             </div>
+            <!--begin::Icon-->
         </div>
         <!--end::Body-->
     </div>
     <!--end::Card-->
 </div>
+

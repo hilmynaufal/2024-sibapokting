@@ -292,7 +292,6 @@ Home
             <!--end::Content container-->
         </div>
         <!--end::Content-->
-
     </div>
     <!--end::Content wrapper-->
 </div>
