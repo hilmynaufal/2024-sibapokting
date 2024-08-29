@@ -23,8 +23,8 @@ class Index extends Component
     public function mount(){
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
-        $this->date = '2024-04-29';
-        $this->date_before = date('Y-m-d',strtotime('2024-04-29' . "-1 days"));
+        $this->date = $tanggal;
+        $this->date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
 
 
         $this->komoditas = RefKomoditas::count();
@@ -39,7 +39,7 @@ class Index extends Component
                                 DB::raw('(AVG(harga_publish) / (AVG(harga_publish) - AVG(harga_dinamik))) * 100 as persentase_turun')
                             )
                             ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-                            ->where('detail_tgl', '2024-04-29') // Menampilkan hanya harga yang turun pada tanggal tertentu
+                            ->where('detail_tgl', $this->date) // Menampilkan hanya harga yang turun pada tanggal tertentu
                             ->groupBy('komoditas_id')
                             ->having(DB::raw('AVG(harga_publish)'), '<', DB::raw('(AVG(harga_publish) + AVG(harga_dinamik))')) // Memastikan hanya komoditas yang mengalami penurunan harga
                             ->orderBy('persentase_turun', 'asc')
@@ -55,7 +55,7 @@ class Index extends Component
                             )
                             ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
                             // ->where('kondisi', 'turun')
-                            ->where('detail_tgl', '2024-04-29') // Menampilkan hanya harga yang turun pada tanggal tertentu
+                            ->where('detail_tgl', $this->date) // Menampilkan hanya harga yang turun pada tanggal tertentu
                             ->groupBy('komoditas_id')
                             ->having(DB::raw('AVG(harga_publish)'), '>', DB::raw('(AVG(harga_publish) - AVG(harga_dinamik))')) // Memastikan hanya komoditas yang mengalami penurunan harga
                             ->orderBy('persentase_turun', 'asc')

@@ -138,3 +138,11 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
     });
 
 });
+
+Route::get('api/pasar/', ['as'=>'api.pasar','uses'=>'App\Http\Controllers\DashboardController@apipasar']);
+Route::get('api/komoditas/', ['as'=>'api.komoditas','uses'=>'App\Http\Controllers\DashboardController@apikomoditas']);
+Route::get('api/hargakomoditas/', ['as'=>'api.hargakomoditas','uses'=>'App\Http\Controllers\DashboardController@apihargakomoditas']);
+Route::get('api/post_silinda/{id}', ['as'=>'api.post_silinda','uses'=>'App\Http\Controllers\APIController@silinda']);
+Route::get('api/get_silinda/', ['as'=>'api.get_silinda','uses'=>'App\Http\Controllers\APIController@silinda_int']);
+
+app('debugbar')->disable();

@@ -1,48 +1,112 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
+
 use Illuminate\Http\Request;
+use App\Http\requests;
+use Illuminate\Support\Facades\DB;
+use Carbon;
 
 class DashboardController extends Controller
 {
-    public function Index(Request $request)
-    {   
-        $user_id = $request->user_id;
-        $dataUser = User::select('nama','email','jabatan','jabatan_pembantu')->where('id',$user_id)->first();
-        $data = array(
-            'surat_masuk'=>array(
-                'belum'=>getTotalStatistik("Surat Masuk","is_status",0,$user_id),
-                'dilihat'=>getTotalStatistik("Surat Masuk","is_status",1,$user_id),
-                'dibaca'=>getTotalStatistik("Surat Masuk","is_status",2,$user_id),
-                'total'=>getTotalStatistik("Surat Masuk","is_active",1,$user_id),
-            ),
-            'surat_keluar'=>array(
-                'belum'=>getTotalStatistik("Surat Keluar","is_status",0,$user_id),
-                'dilihat'=>getTotalStatistik("Surat Keluar","is_status",1,$user_id),
-                'dibaca'=>getTotalStatistik("Surat Keluar","is_status",2,$user_id),
-                'total'=>getTotalStatistik("Surat Keluar","is_active",1,$user_id),
-            ),
-            'disposisi_masuk'=>array(
-                'belum'=>getTotalStatistik("Disposisi Masuk","is_status",0,$user_id),
-                'dilihat'=>getTotalStatistik("Disposisi Masuk","is_status",1,$user_id),
-                'dibaca'=>getTotalStatistik("Disposisi Masuk","is_status",2,$user_id),
-                'total'=>getTotalStatistik("Disposisi Masuk","is_active",1,$user_id),
-            ),
-            'disposisi_keluar'=>array(
-                'belum'=>getTotalStatistik("Disposisi Keluar","is_status",0,$user_id),
-                'dilihat'=>getTotalStatistik("Disposisi Keluar","is_status",1,$user_id),
-                'dibaca'=>getTotalStatistik("Disposisi Keluar","is_status",2,$user_id),
-                'total'=>getTotalStatistik("Disposisi Keluar","is_active",1,$user_id),
-                )
+
+
+    public function apiPasar(Request $request)
+    {
+        if($request->tokenApi == 'Sibapokting123*'){
+            $value = array(
+                            "status"=>"success",
+                            "message"=>"Data retrieved successfully.",
+                            "pageTitle"=>"Data Pasar Kabupaten Bandung",
+                            "data" => DB::table('ref_siba_pasar')->get()
+                        );
+        }else{
+            $value = array(
+                "status"=>"error",
+                "message"=>"Token API not active"
             );
-            return response()->json([
-                'pageTitle' => 'Dashboard',
-                'message' => 'Statistik Dashboard Surat Masuk & Keluar, Disposisi Masuk & Keluar',
-                'code' => 200,
-                'dataUser' => $dataUser,
-                'dataDashboard' => $data
-            ], 200);
-        }   
+        }
+        
+        return json_encode($value);
+        die;
     }
-    
+
+    public function apiKomoditas(Request $request)
+    {
+        if($request->tokenApi == 'Sibapokting123*'){
+            $value = array(
+                            "status"=>"success",
+                            "message"=>"Data retrieved successfully.",
+                            "pageTitle"=>"Data Komoditas Kabupaten Bandung",
+                            "data" => DB::table('ref_siba_komoditas')->get()
+                        );
+        }else{
+            $value = array(
+                "status"=>"error",
+                "message"=>"Token API not active"
+            );
+        }
+        
+        return json_encode($value);
+    }
+
+    public function apiHargaKomoditas(Request $request)
+    {
+        if($request->tokenApi != 'Sibapokting123*'){
+            $value = array(
+                "status"=>"error",
+                "message"=>"Token API not active"
+            );
+            return json_encode($value);
+        }
+
+        $avg = DB::table('t_siba_komoditas')
+            ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
+            ->select(
+                't_siba_komoditas.id',
+                't_siba_komoditas.komoditas_id',
+                't_siba_komoditas.pasar_id',
+                't_siba_komoditas.users_id',
+                't_siba_komoditas.tanggal',
+                't_siba_komoditas.harga_publish',
+                't_siba_komoditas.harga_admin',
+                't_siba_komoditas.harga_dinamik',
+                't_siba_komoditas.kondisi',
+                't_siba_komoditas.status',
+                't_siba_komoditas.tanggal_update',
+                't_siba_komoditas.harga_pasar',
+                't_siba_komoditas.detail_tgl',
+                'ref_siba_komoditas.namakomoditas',
+                'ref_siba_komoditas.satuan',
+                'ref_siba_komoditas.gambar',
+                DB::raw('AVG(t_siba_komoditas.harga_publish) as total'),
+                DB::raw('AVG(t_siba_komoditas.harga_dinamik) as total_kemaren')
+            )
+            ->where('t_siba_komoditas.detail_tgl', $request->tanggal);
+
+        if ($request->pasar != 'semua') {
+            $avg->where('t_siba_komoditas.pasar_id', $request->pasar)
+                ->groupBy(
+                    't_siba_komoditas.id',
+                    't_siba_komoditas.komoditas_id',
+                );
+        } else {
+            $avg->groupBy(
+                't_siba_komoditas.id',
+                't_siba_komoditas.komoditas_id',
+            );
+        }
+
+        $data['avg'] = $avg->get();
+
+        $value = array(
+            "status"=>"success",
+            "message"=>"Data retrieved successfully.",
+            "pageTitle"=>"Data Harga Komoditas Kabupaten Bandung",
+            "data" => $data
+        );
+
+        return json_encode($value);
+    }
+
+}
