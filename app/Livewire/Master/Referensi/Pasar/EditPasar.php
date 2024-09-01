@@ -11,10 +11,13 @@ use App\Models\Wilayah\RefProvinsi;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithFileUploads;
+use Storage;
 
 class EditPasar extends Component
 {
     use LivewireAlert;
+    use WithFileUploads;
 
     
     public $id_pasar;
@@ -34,6 +37,20 @@ class EditPasar extends Component
     public $kecamatanList;
     public $kelurahanList;
 
+    public $sejarah;
+    public $area_pasar;
+    public $jam_oprasional;
+    public $luas_pasar;
+    public $jumlah_kios;
+    public $jumlah_pedagang;
+    public $jenis_barang;
+    public $fasilitas_umum;
+    public $gambar_utama;
+    public $gambar_utama_edit;
+    public $gambar_lainnya = [];
+    public $gambar_lainnya_edit = [];
+    public $images = [];
+
     #[Layout('components.layouts.keenthemes.page')]
     public function render()
     {
@@ -44,16 +61,27 @@ class EditPasar extends Component
     {
         $idPasar = Crypt::decrypt($id);
         $model = Model::where('id',$idPasar)->first();
-        $this->id_pasar           = $model->id;
+        $this->id_pasar             = $model->id;
         $this->namapasar            = $model->namapasar;
-        $this->tipe         = $model->tipe;
-        $this->alamat           = $model->alamat;
-        $this->provinsi         = $model->provinsi;
+        $this->tipe                 = $model->tipe;
+        $this->alamat               = $model->alamat;
+        $this->provinsi             = $model->provinsi;
         $this->kabupaten            = $model->kabupaten;
         $this->kecamatan            = $model->kecamatan;
-        $this->desa         = $model->desa;
-        $this->rt           = $model->rt;
-        $this->rw           = $model->rw;
+        $this->desa                 = $model->desa;
+        $this->rt                   = $model->rt;
+        $this->rw                   = $model->rw;
+        $this->sejarah              = $model->sejarah;
+        $this->area_pasar           = $model->area_pasar;
+        $this->jam_oprasional       = $model->jam_oprasional;
+        $this->luas_pasar           = $model->luas_pasar;
+        $this->jumlah_kios          = $model->jumlah_kios;
+        $this->jumlah_pedagang      = $model->jumlah_pedagang;
+        $this->jenis_barang         = $model->jenis_barang;
+        $this->fasilitas_umum       = $model->fasilitas_umum;
+        $this->gambar_utama         = $model->gambar_utama;
+        $this->gambar_lainnya       = json_decode($model->gambar_lainnya);
+
 
 
         $this->provinsiList        = RefProvinsi::orderBy('name','ASC')->get();
@@ -74,15 +102,57 @@ class EditPasar extends Component
                 'desa'           => 'required',
             ]);
             $model = Model::where('id',$this->id_pasar)->first();
-            $model->namapasar    = $this->namapasar;
-            $model->tipe           = $this->tipe;
-            $model->alamat           = $this->alamat;
-            $model->provinsi           = $this->provinsi;
-            $model->kabupaten          = $this->kabupaten;
-            $model->kecamatan           = $this->kecamatan;
+            $model->namapasar       = $this->namapasar;
+            $model->tipe            = $this->tipe;
+            $model->alamat          = $this->alamat;
+            $model->rt              = $this->rt;
+            $model->rw              = $this->rw;
+            $model->provinsi        = $this->provinsi;
+            $model->kabupaten       = $this->kabupaten;
+            $model->kecamatan       = $this->kecamatan;
             $model->desa            = $this->desa;
+            $model->sejarah         = $this->sejarah;
+            $model->area_pasar      = $this->area_pasar;
+            $model->jam_oprasional  = $this->jam_oprasional;
+            $model->luas_pasar      = $this->luas_pasar;
+            $model->jumlah_kios     = $this->jumlah_kios;
+            $model->jumlah_pedagang = $this->jumlah_pedagang;
+            $model->jenis_barang    = $this->jenis_barang;
+            $model->fasilitas_umum  = $this->fasilitas_umum;
             $model->updated_id      = Auth::user()->id;
-            $model->updated_at      = date('Y-m-d H:i:s');        
+            $model->updated_at      = date('Y-m-d H:i:s');
+
+            if(!empty($this->gambar_utama_edit)){
+                $folderPathImage = "pasar/headline";
+                if (!file_exists(Storage::disk('public')->path($folderPathImage))) {
+                    Storage::disk('public')->makeDirectory($folderPathImage, 0755, true);
+                }
+                $uploadedFileImage = $this->gambar_utama_edit;
+                $fileNameImage = $this->gambar_utama_edit->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+                $newFileNameImage = time() . '_' . str_replace(' ','_',strtolower($fileNameImage)); // Menyusun nama baru file
+                $this->gambar_utama_edit->storeAs($folderPathImage, $newFileNameImage, 'public');
+            }
+            if(!empty($this->gambar_lainnya_edit)){
+                $folderPathImages = "pasar/etc";
+                if (!file_exists(Storage::disk('public')->path($folderPathImages))) {
+                    Storage::disk('public')->makeDirectory($folderPathImages, 0755, true);
+                }
+                $newFileNames = []; // Menyimpan nama file yang baru
+                foreach($this->gambar_lainnya_edit as $value){
+                    $fileName = $value->getClientOriginalName(); // Mengambil nama asli file yang diunggah
+                    $newFileName = time() . '_' . str_replace(' ','_',strtolower($fileName)); // Menyusun nama baru file  
+                    array_push($newFileNames, $folderPathImages.'/'.$newFileName);
+                    $value->storeAs($folderPathImages, $newFileName, 'public');
+                }
+                $this->gambar_lainnya_edit = $newFileNames; // Menyimpan nama file baru ke variabel gambar_lainnya_edit
+            }        
+            if(!empty($this->gambar_utama_edit)){
+                $model->gambar_utama      = $folderPathImage.'/'.$newFileNameImage;
+            }
+            if(!empty($this->gambar_lainnya_edit)){
+                $model->gambar_lainnya    = json_encode($this->gambar_lainnya_edit);
+            }
+
             if($model->update()){
                 $this->alert('success', 'Data Pasar Berhasil di Ubah', [
                     'position' => 'top',
