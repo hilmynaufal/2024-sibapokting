@@ -208,6 +208,7 @@
         </div>
         <!--end::Engage widget 4-->
         <!--begin::Row-->
+        @if(empty($komoditasTurun))
         <div class="row g-5 mt-2 g-xl-10">
             <!--begin::Col-->
             <div class="col-xl-6 mb-xl-10">
@@ -618,6 +619,7 @@
             </div>
             <!--end::Col-->
         </div>
+        @endif
         <!--end::Row-->
 
 
