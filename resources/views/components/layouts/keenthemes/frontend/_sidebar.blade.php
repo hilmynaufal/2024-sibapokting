@@ -6,8 +6,8 @@
                     <div class="d-flex flex-stack px-4 px-lg-6 py-3 py-lg-8" id="kt_app_sidebar_logo">
                         <!--begin::Logo image-->
                         <a href="index.html">
-                            <img alt="Logo" src="https://preview.keenthemes.com/metronic8/demo23/assets/media/logos/demo23.svg" class="h-20px h-lg-25px theme-light-show" />
-                            <img alt="Logo" src="https://preview.keenthemes.com/metronic8/demo23/assets/media/logos/demo23-dark.svg" class="h-20px h-lg-25px theme-dark-show" />
+                            <img alt="Logo" src="{{ getAppLogo() }}" class="h-20px h-lg-25px theme-light-show" />
+                            <img alt="Logo" src="{{ getAppLogo() }}" class="h-20px h-lg-25px theme-dark-show" />
                         </a>
                         <!--end::Logo image-->
 

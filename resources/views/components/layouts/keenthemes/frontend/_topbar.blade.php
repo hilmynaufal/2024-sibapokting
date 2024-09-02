@@ -97,11 +97,11 @@
                             <!--begin::Logo image-->
                             <a href="../../index.html" class="d-flex d-lg-none">
                                 <img alt="Logo"
-                                    src="https://preview.keenthemes.com/metronic8/demo23/assets/media/logos/demo23.svg"
-                                    class="h-20px theme-light-show" />
+                                    src="{{ getAppLogo() }}"
+                                    class="h-30px theme-light-show" />
                                 <img alt="Logo"
-                                    src="https://preview.keenthemes.com/metronic8/demo23/assets/media/logos/demo23-dark.svg"
-                                    class="h-20px theme-dark-show" />
+                                    src="{{ getAppLogo() }}"
+                                    class="h-30px theme-dark-show" />
                             </a>
                             <!--end::Logo image-->
                         </div>
