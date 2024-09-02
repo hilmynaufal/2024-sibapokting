@@ -95,7 +95,7 @@
                             <!--end::Logo wrapper-->
 
                             <!--begin::Logo image-->
-                            <a href="../../index.html" class="d-flex d-lg-none">
+                            <a href="#" class="d-flex d-lg-none">
                                 <img alt="Logo"
                                     src="{{ getAppLogo() }}"
                                     class="h-30px theme-light-show" />

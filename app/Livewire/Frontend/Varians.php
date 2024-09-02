@@ -43,7 +43,7 @@ class Varians extends Component
 
     public function mount()
     {
-        $dt = new \Carbon\Carbon('2024-04-01');
+        $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $this->date_komoditas = $tanggal;
         $this->date_komoditas_before = (new DateTime($tanggal))->sub(new DateInterval('P1D'))->format('Y-m-d');

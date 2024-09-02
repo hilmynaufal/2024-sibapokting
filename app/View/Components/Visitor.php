@@ -23,10 +23,10 @@ class Visitor extends Component
     public function render(): View|Closure|string
     {
         $data = [
-            'all' => Model::query()->withTotalVisitCount()->first()->visit_count_total,
-            'month' => Model::query()->popularThisMonth()->first()->visit_count_total,
-            'week' => Model::query()->popularThisWeek()->first()->visit_count_total,
-            'now' => Model::query()->popularToday()->first()->visit_count_total
+            'all' => Model::query()->withTotalVisitCount()->first()->visit_count_total ?? 0,
+            'month' => Model::query()->popularThisMonth()->first()->visit_count_total ?? 0,
+            'week' => Model::query()->popularThisWeek()->first()->visit_count_total ?? 0,
+            'now' => Model::query()->popularToday()->first()->visit_count_total ?? 0
         ];
 
         return view('components.visitor', $data);

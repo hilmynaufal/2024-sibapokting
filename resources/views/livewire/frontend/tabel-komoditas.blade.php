@@ -30,7 +30,7 @@
                 <label class="form-label">Tanggal Awal</label>
                 <div class="w-200 mw-350px position-relative">
                     <!--begin::Input-->
-                    <input class="form-control form-control-sm" wire:model="start" name="start"
+                    <input class="form-control form-control-sm" wire:model.live="start" name="start"
                         id="start" />
                     <!--end::Input-->
 

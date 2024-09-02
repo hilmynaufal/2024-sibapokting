@@ -141,7 +141,7 @@ Home
                                             @foreach ($model as $index => $item)
                                             <div class="col-sm-6 col-xl-4">
                                                 <div class="border border-dashed border-gray-300 rounded px-7 py-3  ribbon ribbon-top">
-                                                        <div class="ribbon-label bg-primary">HET : {{rupiah($item->het,0)}}</div>
+                                                        <div class="ribbon-label" style="background-color: #ff7575">HET : {{rupiah($item->het,0)}}</div>
                                                     <!--begin::Info-->
                                                     <div class="d-flex flex-stack mb-3">
                                                         <!--begin::Wrapper-->
@@ -359,6 +359,10 @@ $( document ).ready(function() {
             },{
                 name: '2024',
                 data: response['data24']
+            },
+            {
+                name:'HET/HAP',
+                data:response['het']
             }
         ])
     });
@@ -385,6 +389,10 @@ $("#searchKomoditas").on("change", function() {
             },{
                 name: '2024',
                 data: response['data24']
+            },
+            {
+                name:'HET/HAP',
+                data:response['het']
             }
         ])
     });
@@ -408,6 +416,10 @@ $("#searchPasar").on("change", function() {
             },{
                 name: '2024',
                 data: response['data24']
+            },
+            {
+                name:'HET/HAP',
+                data:response['het']
             }
         ])
     });

@@ -194,6 +194,7 @@ Varians Komoditas
             autoScaleYaxis: true
         }
         },
+        colors: ['#98c379'], 
         dataLabels: {
             enabled: false
         },
@@ -245,10 +246,12 @@ Varians Komoditas
             chart.updateSeries([
                 {
                     name: 'Harga Sekarang',
-                    data: response['price_now']
+                    data: response['price_now'],
+                    color: '#00686b'
                 }, {
                     name: 'Harga Sebelumnya',
-                    data: response['price_before']
+                    data: response['price_before'],
+                    color: '#f51156'
                 }
             ]);
         });

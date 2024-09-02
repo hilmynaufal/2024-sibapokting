@@ -4,7 +4,7 @@
         data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_toggle">
         <!--begin::Logo-->
         <div class="d-flex flex-stack px-4 px-lg-6 py-3 py-lg-8" id="kt_app_sidebar_logo">
-            <a href="index.html">
+            <a href="#">
                 <img alt="Logo" src="{{ getAppLogo() }}"
                     class="h-40px h-lg-45px theme-light-show" />
                 <img alt="Logo" src="{{ getAppLogo() }}"
@@ -86,7 +86,7 @@
                         <div class="col mb-4">
                             <!--begin::Link-->
                             <a href="#" wire:click.windows="setKomoditas({{$kom->id}})"
-                                class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column 
+                                class="btn btn-icon btn-outline btn-bg-light btn-active-light-success btn-flex flex-column 
                                                 {{$komoditas_id == $kom->id ? 'active' : ''}} flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200"
                                 data-kt-button="true">
                                 <!--begin::Icon-->

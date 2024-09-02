@@ -29,6 +29,8 @@ class ChartController extends Controller
     public function dataChart(Request $request){
         $chartData = [];
         $years = [2022, 2023, 2024];
+        $komoditas = RefKomoditas::where('id',$request->komoditas)->first();
+        $het = $komoditas->het;
 
         foreach ($years as $year) {
             $komData = Model::select(
@@ -51,13 +53,13 @@ class ChartController extends Controller
 
             $chartData['data' . substr($year, -2)] = $chartYear;
         }
-
+        $chartData['het'] = array_fill(0, count($chartData['data24']), $het);
         return response()->json($chartData);
     }
 
     public function komoditasBar(Request $request){
         $date = \Carbon\Carbon::createFromFormat('Y-m-d', $request->date);
-        $date_before = $date->subDay();
+        $date_before = date('Y-m-d',strtotime($date . "-1 days"));
 
         $pasar_id = RefPasar::orderBy('id','asc')->pluck('id');
         $nowPrices = Model::whereIn('pasar_id', $pasar_id)
