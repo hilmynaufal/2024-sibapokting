@@ -65,7 +65,8 @@ Pasar
 
 @push('js')
 <script type="text/javascript">
-    var mymap = L.map('mapid').setView([-7.003074, 107.688541], 12);
+$( document ).ready(function() {
+    var mymap = L.map('mapid').setView([-7.003074, 107.688541], 11);
     var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var att = '&copy; <a href="https://www.openstreetmap.org/copyright">Open</a>';
     var tiles = L.tileLayer(tileUrl,{att});
@@ -77,8 +78,10 @@ Pasar
     tiles.addTo(mymap);
     
     @foreach($pasarpeta as $i)
-    L.marker([{{$i->latitude}},{{$i->longitude}}]).addTo(mymap).bindPopup("<b>{{$i->namapasar}}</b><br>{{$i->alamat}}<br><a wire:click=\"$dispatch('openModal', { component: 'modal.transaksi.komoditas.edit', arguments: { id: {{ $i->id }} }})\" class='btn btn-sm btn-icon btn-success' title='Lihat'><i class='bi bi-eye-fill'></i></a>");
+    L.marker([{{$i->latitude}},{{$i->longitude}}]).addTo(mymap).bindPopup("<b>{{$i->namapasar}}</b><br>{{$i->alamat}}<br><a wire:click=\"$dispatch('openModal', { component: 'modal.frontend.detail-maps', arguments: { id: {{ $i->id }} }})\" class='btn btn-sm btn-icon btn-success' title='Lihat'><i class='bi bi-eye-fill'></i></a>");
     @endforeach
+});
+
 </script>
 
 @endpush
