@@ -64,7 +64,7 @@
                             <div class="mb-0" style="margin-right:4px;">
                                 <label class="form-label"></label>
                                 <div class="w-200 mt-2 mw-350px position-relative">
-                                    <a href="{{route('laporan.perkomoditas-print', ['komoditas' => $komoditas, 'start' => $start, 'end' => $end ])}}"
+                                    <a href="{{route('laporan.perkomoditas-print', ['komoditas' => $komoditas, 'start' => $start, 'end' => $end ])}}" target="_blank"
                                         class="btn btn-sm btn-light-danger btn-active-light-primary me-1"
                                         title="Cetak">
                                         <i class="ki-duotone ki-printer fs-2"><span class="path1"></span><span

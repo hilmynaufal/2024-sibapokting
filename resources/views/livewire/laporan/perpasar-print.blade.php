@@ -2,14 +2,14 @@
     <br>
     <h3 class="text-center text-gray-800 font-weight-bold ">
         HARGA YANG MENGALAMI KENAIKAN DAN PENURUNAN
-        <br>DARI TANGGAL {{ date('d M Y', strtotime($this->start)) }} S/D {{ date('d M Y', strtotime($this->end)) }} <br>
+        <br>DARI TANGGAL {{ strtoupper(TglIndo($this->start)) }} S/D {{ strtoupper(TglIndo($this->end)) }} <br>
         {{ $pasar_tabel == 100 ? 'Semua Pasar' : getNamaPasar($pasar_tabel) }}
     </h3>
     <br>
-    <table class="table table-bordered align-middle"
+    <table class="table table-sm"
            id="kt_advance_table_widget_2">
         <thead>
-            <tr class="fs-7 fw-bold text-gray-500 text-center">
+            <tr class="fs-7 bg-default fw-bold border-1 text-black">
                 <th class="min-w-50px">NO</th>
                 <th class="min-w-150px">VARIANT</th>
                 <th class="min-w-80px">HARGA AWAL</th>
@@ -25,7 +25,7 @@
             <?php $no=0;?>
             @forelse ($model as $index => $item)
             <?php $no++?>
-            <tr>
+            <tr class="fs-7 text-black" style="border:1px solid black;">
                 <td class="text-center text-gray-800">{{ $no }}.</td>
                 <td class="text-left text-gray-800">
                     {{ $item['nama'] }}
@@ -53,22 +53,22 @@
                 </td>
                 <td class="text-center">
                     @if($item['kondisi'] == 'naik')
-                        <span class="badge badge-light-danger">
-                            <i class="ki-outline ki-arrow-up-right fs-2 text-danger me-2"></i>
+                        <span class="text-danger">
+                            <i class="ki-outline ki-arrow-up-right text-danger me-1"></i>
                             {{$item['persen']}}
                         </span>
                     @elseif($item['kondisi'] == 'turun')
-                        <span class="badge badge-light-success">
-                            <i class="ki-outline ki-arrow-down-right fs-2 text-success me-2"></i>
+                        <span class="text-success">
+                            <i class="ki-outline ki-arrow-down-right text-success me-1"></i>
                             {{$item['persen']}}
                         </span>
                     @elseif($item['kondisi'] == 'stabil')
-                        <span class="badge badge-light-primary">
-                            <i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%
+                        <span class="text-primary">
+                            <i class="ki-outline ki-minus text-primary me-1"></i>0%
                         </span>
                     @else
-                        <span class="badge badge-light-primary">
-                            <i class="ki-outline ki-minus fs-2 text-primary me-2"></i>0%
+                        <span class="text-primary">
+                            <i class="ki-outline ki-minus text-primary me-1"></i>0%
                         </span>
                     @endif
                 </td>

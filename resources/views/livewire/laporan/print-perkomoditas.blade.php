@@ -1,7 +1,7 @@
 <div>
     <h3 class="text-center text-gray-800 font-weight-bold ">
         RENTANG HARGA KOMODITAS {{ getKomoditas($komoditas)->namakomoditas }}
-        <br>DARI TANGGAL {{ date('d M Y', strtotime($this->start)) }} S/D {{ date('d M Y', strtotime($this->end)) }} <br>
+        <br>DARI TANGGAL {{ strtoupper(TglIndo($this->start)) }} S/D {{ strtoupper(TglIndo($this->end)) }} <br>
     </h3>
         <table class="table table-sm m-2">
             <thead>

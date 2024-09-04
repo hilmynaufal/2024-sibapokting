@@ -2,51 +2,27 @@
 
 namespace App\Livewire\Laporan;
 
+use Livewire\Component;
 use App\Models\Referensi\RefPasar;
 use App\Models\Referensi\RefBarang;
 use App\Models\Transaksi\Barang as Model;
-use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
-
-use Livewire\WithPagination;
-use Livewire\WithoutUrlPagination;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use DB;
+use Livewire\Attributes\Layout;
 
-class Stok extends Component
-{
-    use WithPagination,WithoutUrlPagination;
-    protected $paginationTheme = 'bootstrap';
-    public $listBannerTop;
-    public $listBannerActive;
-    public $perpage = 100;
+
+class PrintStok extends Component
+{    
+    public $jsonData,$komoditas,$start,$end;
+
+    #[Layout('components.layouts.keenthemes.frontend.print_no_table_landscape')]
     
-    public $komoditas = 89;
-    public $list_komoditas_search;
-    public $list_pasar;
-
-    public $kategori=[];
-    public $pasar_tabel;
-    public $start;
-    public $end;
-
-    #[Layout('components.layouts.keenthemes.page')]
-    public $jsonData;
-
-    public function mount()
-    {
-        // Contoh data JSON
-        $dt = new \Carbon\Carbon(now());
-        $tanggal = $dt->format('Y-m-d');
-        $this->start = date('Y-m-d',strtotime($tanggal . "-15 days"));
-        $this->end = $tanggal;
-
+    // #[Layout('components.layouts.keenthemes.frontend.print_no_table')]
+    public function mount($start,$end){
+        $this->start = $start;
+        $this->end = $end;
     }
-
     public function render()
     {
-        // $komoditas = $this->komoditas;
         $tgl_start = $this->start;
         $tgl_end = $this->end;
 
@@ -112,18 +88,8 @@ class Stok extends Component
         ];
         // dd($this->jsonData);
 
-        return view('livewire.laporan.stok', [
+        return view('livewire.laporan.print-stok', [
             'jsonData' => $this->jsonData
         ]);
-        
-    }
-    public function updatedStart(){
-        $dt = new \Carbon\Carbon($this->start);
-        $this->start = $dt->format('Y-m-d');
-    }
-
-    public function updatedEnd(){
-        $dt = new \Carbon\Carbon($this->end);
-        $this->end = $dt->format('Y-m-d');
     }
 }
