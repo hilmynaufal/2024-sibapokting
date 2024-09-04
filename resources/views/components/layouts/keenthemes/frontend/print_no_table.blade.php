@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="shortcut icon" href="{{ asset('images/logo/logo.png');}}" />
   <title>@yield('title')</title>
+  @include('components.layouts.keenthemes.frontend.parsial.css')
   <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 
@@ -21,7 +22,7 @@
     <div class="header-kanan">
       <div class="konten-header-kanan">
         <center><H2>Pemerintah Daerah Kabupaten Bandung</H2></center>
-        <center><H2 style="font-size:32px;">BADAN PENDAPATAN DAERAH</H2></center>
+        <center><H2 style="font-size:24px;">DINAS PERDAGANGAN DAN PERINDUSRIAN</H2></center>
         <div class="subinfo">
             Komplek Pemda, Jalan Raya Soreang No.Km. 17, Pamekaran, Bandung, Jawa Barat 
         </div>
@@ -29,7 +30,7 @@
         Kode Pos 40912 Telp/Fax. (022) 00000000
         </div>
         <div class="subinfo">
-        Email : bapenda@bandungkab.go.id Website : https://bapenda.bandungkab.go.id
+        Email : disperdagin@bandungkab.go.id Website : https://disperdagin.bandungkab.go.id
         </div>
       </div>
 
@@ -39,11 +40,11 @@
 
 <img src="{{ asset('images/logo/line.png');}}" style="width: 680px;"/>
 
-<div class="content" style="text-align: left;">
-  @yield('content')
+<div id="myCanvas">
+  <!-- <div id="myCanvas" class="watermarked" data-watermark="Bapenda - Kab Bandung" style="width: 650px;margin:0px auto"> -->
+    {{$slot}}
 </div>
 
-</div>
 
 
 <style type="text/css">
@@ -82,30 +83,19 @@
     .blok-pertanyaan{margin-left:25px;}
 
 
-    .tables.table-style-one {
-      font-size:12px;
-      /* color:#000;
-      border-width: 1px;
-      border-color: #3A3A3A; */
-      border-collapse: collapse;
-      width: 100%;
-      padding: 3px;
-    }
     .tables.table-style-one th, thead {
       border-width: 1px;
-      padding: 8px;
-      /* border-style: solid;
-      border-color: #3A3A3A; */
+      padding: 0px 8px;
+      border-style: solid;
+      border-color: #3A3A3A;
       background-color: #B3B3B3;
     }
-    .tables.table-style-one td {
-      border-width: 1px;
-      padding: 8px;
-      /* border-style: solid;
-      border-color: #3A3A3A; */
-      background-color: #ffffff;
+    tbody, td, tfoot, th, thead, tr, td {
+        padding: 0px 4px;
+        border-color: #3A3A3A;
+        border-width: 1px;
+        border-style: solid;/* Atur nilai padding sesuai kebutuhan Anda */
     }
-
     .watermarked {
       position: relative;
       overflow: hidden;
@@ -139,6 +129,7 @@
   <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jquery.min.js"></script>
   <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jszip.min.js"></script>
   <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>
+  @include('components.layouts.keenthemes.frontend.parsial.js')
 
   <script>
     $(document).ready(function() {
@@ -147,10 +138,10 @@
     //     el.dataset.watermark = (el.dataset.watermark + ' ').repeat(1000);
     //   });
 
-    //   $(window).load(function() {
-    //     alert("Klik OK untuk Download Dokumen");
-    //     ExportPdf();
-    //   });
+      // $(window).load(function() {
+      //   alert("Klik OK untuk Download Dokumen");
+      //   ExportPdf();
+      // });
     });
 
 
@@ -163,6 +154,7 @@
         margin: { top: "1cm", left: "1cm", right: "1cm", bottom: "1cm" },
         scale: 0.8,
         height: 500,
+        landscape: true,
       })
       .then(function(group){
         kendo.drawing.pdf.saveAs(group, "@yield('title').pdf")

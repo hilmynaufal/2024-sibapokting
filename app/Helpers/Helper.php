@@ -1904,6 +1904,22 @@ function dinamikaHargaAvgNilai($sekarang,$kemarin){
     return $html;
 }
 
+function statusKondisi($kondisi,$sekarang,$kemarin){
+    $html='';
+    if(empty($kemarin) || empty($sekarang)){
+        $html = 0;
+    }else{
+        if($kondisi == 'naik'){
+            $html = 'Rp.'.number_format($kemarin - $sekarang,0, ',', '.');
+        }elseif($kondisi == 'turun'){
+            $html = 'Rp.'.number_format($sekarang - $kemarin,0, ',', '.');
+        }elseif($kondisi == 'stabil'){
+            $html = '';
+        }
+    }
+    return $html;
+}
+
 function dinamikaHarga($id,$tgl){
     $dt = new \Carbon\Carbon($tgl);
     $tanggal = $dt->format('Y-m-d');
