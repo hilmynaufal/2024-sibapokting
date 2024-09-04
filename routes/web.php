@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
     Route::prefix('laporan')->group(function () {
         Route::get('perpasar',App\Livewire\Laporan\Perpasar::class)->name('laporan.perpasar');
         Route::get('perpasar-print/{pasar_tabel?}/{end?}',App\Livewire\Laporan\PrintPerpasar::class)->name('laporan.perpasar-print');
+        Route::get('perkomoditas-print/{komoditas?}/{start?}/{end?}',App\Livewire\Laporan\PrintPerkomoditas::class)->name('laporan.perkomoditas-print');
         Route::get('perkomoditas',App\Livewire\Laporan\Perkomoditas::class)->name('laporan.perkomoditas');
         Route::get('all',App\Livewire\Laporan\All::class)->name('laporan.all');
         Route::get('stok',App\Livewire\Laporan\Stok::class)->name('laporan.stok');

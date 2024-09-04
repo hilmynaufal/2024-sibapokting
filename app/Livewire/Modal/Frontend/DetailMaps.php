@@ -12,7 +12,7 @@ class DetailMaps extends ModalComponent
     
     public function render()
     {
-        return view('livewire.main.transaksi.barang.modal.add');
+        return view('livewire.frontend.modal.detail-maps');
     }
     
     public function mount($id)

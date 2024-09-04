@@ -201,7 +201,7 @@ function setIconMenu($id){
             {
                 $dt = new  \Carbon\Carbon($tgl);
                 setlocale(LC_TIME, 'IND');
-                $bulan = Bulan($tgl);
+                $bulan = BulanSingkat($tgl);
                 $tgl = $dt->formatLocalized('%e');
                 return $tgl . ' ' . $bulan;
             }
@@ -307,6 +307,26 @@ function setIconMenu($id){
                 $bulanNames = [
                     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                ];
+                
+                // Ambil nama bulan dari array
+                $bulan = isset($bulanNames[$bulan - 1]) ? $bulanNames[$bulan - 1] : 'Januari';
+                
+                return $bulan;
+            }
+
+            function BulanSingkat($tgl)
+            {
+                $dt = new \Carbon\Carbon($tgl);
+                setlocale(LC_TIME, 'IND');
+                
+                // Ambil bulan dalam bentuk angka
+                $bulan = $dt->formatLocalized('%m');
+                
+                // Array untuk menyimpan nama bulan
+                $bulanNames = [
+                    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+                    'Jul', 'Agus', 'Sept', 'Okt', 'Nov', 'Des'
                 ];
                 
                 // Ambil nama bulan dari array

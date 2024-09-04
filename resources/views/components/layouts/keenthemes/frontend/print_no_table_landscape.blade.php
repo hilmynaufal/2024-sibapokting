@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <div id="myCanvas" style="width: 680px;margin:0px auto;">
+  <div id="myCanvas" style="margin:0px auto;">
   <div style="text-align: center;">
     <div class="header-kiri">
       <center>
@@ -38,7 +38,7 @@
   </div>
 </center>
 
-<img src="{{ asset('images/logo/line.png');}}" style="width: 680px;"/>
+<img src="{{ asset('images/logo/line.png');}}" style="width: 100%; height:5px;"/>
 
 <div id="myCanvas">
   <!-- <div id="myCanvas" class="watermarked" data-watermark="Bapenda - Kab Bandung" style="width: 650px;margin:0px auto"> -->
@@ -59,7 +59,8 @@
   .kanan{width: 45%;float: right;}
   .kanan-tanggal{float: right; padding-top:2px;}
   .header-kiri{width: 13%;float: left;}
-  .header-kanan{width: 87%;float: right;}
+  .header-kanan{width: 87%;float: right;right: 93px;
+    position: relative}
   .konten-header-kanan{margin-top: 11px;}
   .isi, .jadwal{width: 95%;float: right;}
   .judul-main{font-size: 22px;font-family: tahoma;line-height: 18px;font-weight: 700}
