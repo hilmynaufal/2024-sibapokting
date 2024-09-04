@@ -1,3 +1,9 @@
+@section('title')
+    Perkembangan Harga Pokok
+@stop
+@section('menu')
+    Layanan > BPHTB > <b>Perkembangan Harga Pokok</b>
+@stop
 <!--begin::Col-->
 <div id="kt_app_content_container" class="app-container  container-xxl ">
     <!--begin::Row-->

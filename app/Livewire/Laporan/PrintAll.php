@@ -2,50 +2,20 @@
 
 namespace App\Livewire\Laporan;
 
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 use App\Models\Referensi\RefPasar;
 use App\Models\Referensi\RefKomoditas;
 use App\Models\Transaksi\Komoditas as Model;
-use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
-use Livewire\WithPagination;
-use Livewire\WithoutUrlPagination;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
-use DB;
-use Illuminate\Http\JsonResponse;
-
-
-class All extends Component
+class PrintAll extends Component
 {
-    use WithPagination,WithoutUrlPagination;
-    use LivewireAlert;
-    public $listBannerTop;
-    public $listBannerActive;
-    public $perpage = 100;
-    
-    public $komoditas = 89;
-    public $list_komoditas_search;
-    public $list_pasar;
+    public $jsonData,$end;
+    #[Layout('components.layouts.keenthemes.frontend.print_no_table_landscape')]
 
-    public $kategori=[];
-    public $pasar_tabel;
-    public $start;
-    public $end;
-    public $jsonData;
-
-    #[Layout('components.layouts.keenthemes.page')]
-    public function mount()
-    {
-        // Contoh data JSON
-        $dt = new \Carbon\Carbon(now());
-        $tanggal = $dt->format('Y-m-d');
-        $this->start = date('Y-m-d',strtotime($tanggal . "-15 days"));
-        $this->end = $tanggal;
-
-        $this->list_komoditas_search = RefKomoditas::get();
+    public function mount($end){
+        $this->end = $end;
     }
-
     public function render()
     {
         $tgl_end = $this->end;
@@ -108,17 +78,8 @@ class All extends Component
             'data' => $data
         ];
 
-        return view('livewire.laporan.all', [
+        return view('livewire.laporan.print-all', [
             'jsonData' => $this->jsonData
         ]);
-    }
-
-
-
-    public function updatedEnd(){
-        $dt = new \Carbon\Carbon($this->end);
-        $this->end = $dt->format('Y-m-d');
-        $this->start = date('Y-m-d',strtotime($this->end . "-1 days"));
-
     }
 }

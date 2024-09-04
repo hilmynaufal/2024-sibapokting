@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
 
     Route::prefix('laporan')->group(function () {
         Route::get('perpasar',App\Livewire\Laporan\Perpasar::class)->name('laporan.perpasar');
+        Route::get('all-print/{end?}',App\Livewire\Laporan\PrintAll::class)->name('laporan.all-print');
         Route::get('perpasar-print/{pasar_tabel?}/{end?}',App\Livewire\Laporan\PrintPerpasar::class)->name('laporan.perpasar-print');
         Route::get('perkomoditas-print/{komoditas?}/{start?}/{end?}',App\Livewire\Laporan\PrintPerkomoditas::class)->name('laporan.perkomoditas-print');
         Route::get('perkomoditas',App\Livewire\Laporan\Perkomoditas::class)->name('laporan.perkomoditas');
