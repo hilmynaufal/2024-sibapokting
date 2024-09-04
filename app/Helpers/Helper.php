@@ -2153,6 +2153,12 @@ function getNamaPasar($pasar){
     return $data->namapasar;
 }
 
+function getUserByPasar($pasar){
+    $pasar = RefPasar::where('id',$pasar)->first();
+    $data = User::where('pasar_id',$pasar->id)->first();
+    return $data;
+}
+
 function getKomoditas($komoditas){
     $data = RefKomoditas::where('id',$komoditas)->first();
 

@@ -1,3 +1,9 @@
+@section('title')
+Dashboard
+@stop
+@section('menu')
+<b>Dashboard</b>
+@stop
 <div class="row gx-5 gx-xl-10">
     <!--begin::Col-->
     <div class="col-xl-4 mb-10">
@@ -51,7 +57,8 @@
                                 <!--begin::Stats-->
                                 <div class="m-0">
                                     <!--begin::Number-->
-                                    <span class="text-black fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $komoditas }}</span>
+                                    <span
+                                        class="text-black fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $komoditas }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->
@@ -78,7 +85,8 @@
                                 <!--begin::Stats-->
                                 <div class="m-0">
                                     <!--begin::Number-->
-                                    <span class="text-black fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $pasar }}</span>
+                                    <span
+                                        class="text-black fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $pasar }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->
@@ -132,7 +140,8 @@
                                 <!--begin::Stats-->
                                 <div class="m-0">
                                     <!--begin::Number-->
-                                    <span class="text-black fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $distributor }}</span>
+                                    <span
+                                        class="text-black fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $distributor }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->
@@ -251,16 +260,18 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex align-items-center mb-9">
                                     <!--begin::Symbol-->
-                                    
+
                                     <div class="symbol symbol-70px m-4">
-                                        <img src="{{ Storage::disk('public')->url($komoditasNaik[0]->toKomoditas->gambar) }}" alt="">
+                                        <img src="{{ Storage::disk('public')->url($komoditasNaik[0]->toKomoditas->gambar) }}"
+                                            alt="">
                                     </div>
                                     <!--end::Symbol-->
 
                                     <!--begin::Info-->
                                     <div class="m-0">
                                         <!--begin::Subtitle-->
-                                        <h4 class="fw-bold text-gray-800 mb-3">{{ $komoditasNaik[0]->toKomoditas->namakomoditas }}</h4>
+                                        <h4 class="fw-bold text-gray-800 mb-3">
+                                            {{ $komoditasNaik[0]->toKomoditas->namakomoditas }}</h4>
                                         <!--end::Subtitle-->
 
                                         <!--begin::Items-->
@@ -269,22 +280,24 @@
                                             <div class="d-flex flex-column flex-shrink-0 me-4">
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
-                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i> 
-                                                    Harga Sekarang : {{rupiah(avgHarga($komoditasNaik[0]->komoditas_id,null,$date),0)}}
+                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
+                                                    Harga Sekarang :
+                                                    {{rupiah(avgHarga($komoditasNaik[0]->komoditas_id,null,$date),0)}}
                                                 </span>
                                                 <!--end::Section-->
 
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center text-gray-500 fw-bold fs-7">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
-                                                    Harga Sebelum : {{rupiah(avgHarga($komoditasNaik[0]->komoditas_id,null,$date_before),0)}}
+                                                    Harga Sebelum :
+                                                    {{rupiah(avgHarga($komoditasNaik[0]->komoditas_id,null,$date_before),0)}}
                                                 </span>
                                                 <!--end::Section-->
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
                                                     {!!
-                                                        dinamikaHargaAvgIcon(avgHarga($komoditasNaik[0]->komoditas_id,null,$date),avgHarga($komoditasNaik[0]->komoditas_id,null,$date_before))
+                                                    dinamikaHargaAvgIcon(avgHarga($komoditasNaik[0]->komoditas_id,null,$date),avgHarga($komoditasNaik[0]->komoditas_id,null,$date_before))
                                                     !!}
                                                 </span>
                                                 <!--end::Section-->
@@ -304,16 +317,18 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex align-items-center mb-9">
                                     <!--begin::Symbol-->
-                                    
+
                                     <div class="symbol symbol-70px m-4">
-                                        <img src="{{ Storage::disk('public')->url($komoditasNaik[1]->toKomoditas->gambar) }}" alt="">
+                                        <img src="{{ Storage::disk('public')->url($komoditasNaik[1]->toKomoditas->gambar) }}"
+                                            alt="">
                                     </div>
                                     <!--end::Symbol-->
 
                                     <!--begin::Info-->
                                     <div class="m-0">
                                         <!--begin::Subtitle-->
-                                        <h4 class="fw-bold text-gray-800 mb-3">{{ $komoditasNaik[1]->toKomoditas->namakomoditas }}</h4>
+                                        <h4 class="fw-bold text-gray-800 mb-3">
+                                            {{ $komoditasNaik[1]->toKomoditas->namakomoditas }}</h4>
                                         <!--end::Subtitle-->
 
                                         <!--begin::Items-->
@@ -322,22 +337,24 @@
                                             <div class="d-flex flex-column flex-shrink-0 me-4">
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
-                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i> 
-                                                    Harga Sekarang : {{rupiah(avgHarga($komoditasNaik[1]->komoditas_id,null,$date),0)}}
+                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
+                                                    Harga Sekarang :
+                                                    {{rupiah(avgHarga($komoditasNaik[1]->komoditas_id,null,$date),0)}}
                                                 </span>
                                                 <!--end::Section-->
 
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center text-gray-500 fw-bold fs-7">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
-                                                    Harga Sebelum : {{rupiah(avgHarga($komoditasNaik[1]->komoditas_id,null,$date_before),0)}}
+                                                    Harga Sebelum :
+                                                    {{rupiah(avgHarga($komoditasNaik[1]->komoditas_id,null,$date_before),0)}}
                                                 </span>
                                                 <!--end::Section-->
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
                                                     {!!
-                                                        dinamikaHargaAvgIcon(avgHarga($komoditasNaik[1]->komoditas_id,null,$date),avgHarga($komoditasNaik[1]->komoditas_id,null,$date_before))
+                                                    dinamikaHargaAvgIcon(avgHarga($komoditasNaik[1]->komoditas_id,null,$date),avgHarga($komoditasNaik[1]->komoditas_id,null,$date_before))
                                                     !!}
                                                 </span>
                                                 <!--end::Section-->
@@ -356,16 +373,18 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex align-items-center mb-9">
                                     <!--begin::Symbol-->
-                                    
+
                                     <div class="symbol symbol-70px m-4">
-                                        <img src="{{ Storage::disk('public')->url($komoditasNaik[2]->toKomoditas->gambar) }}" alt="">
+                                        <img src="{{ Storage::disk('public')->url($komoditasNaik[2]->toKomoditas->gambar) }}"
+                                            alt="">
                                     </div>
                                     <!--end::Symbol-->
 
                                     <!--begin::Info-->
                                     <div class="m-0">
                                         <!--begin::Subtitle-->
-                                        <h4 class="fw-bold text-gray-800 mb-3">{{ $komoditasNaik[2]->toKomoditas->namakomoditas }}</h4>
+                                        <h4 class="fw-bold text-gray-800 mb-3">
+                                            {{ $komoditasNaik[2]->toKomoditas->namakomoditas }}</h4>
                                         <!--end::Subtitle-->
 
                                         <!--begin::Items-->
@@ -374,22 +393,24 @@
                                             <div class="d-flex flex-column flex-shrink-0 me-4">
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
-                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i> 
-                                                    Harga Sekarang : {{rupiah(avgHarga($komoditasNaik[2]->komoditas_id,null,$date),0)}}
+                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
+                                                    Harga Sekarang :
+                                                    {{rupiah(avgHarga($komoditasNaik[2]->komoditas_id,null,$date),0)}}
                                                 </span>
                                                 <!--end::Section-->
 
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center text-gray-500 fw-bold fs-7">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
-                                                    Harga Sebelum : {{rupiah(avgHarga($komoditasNaik[2]->komoditas_id,null,$date_before),0)}}
+                                                    Harga Sebelum :
+                                                    {{rupiah(avgHarga($komoditasNaik[2]->komoditas_id,null,$date_before),0)}}
                                                 </span>
                                                 <!--end::Section-->
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
                                                     {!!
-                                                        dinamikaHargaAvgIcon(avgHarga($komoditasNaik[2]->komoditas_id,null,$date),avgHarga($komoditasNaik[2]->komoditas_id,null,$date_before))
+                                                    dinamikaHargaAvgIcon(avgHarga($komoditasNaik[2]->komoditas_id,null,$date),avgHarga($komoditasNaik[2]->komoditas_id,null,$date_before))
                                                     !!}
                                                 </span>
                                                 <!--end::Section-->
@@ -434,7 +455,8 @@
                             <!--begin::Carousel Indicators-->
                             <ol
                                 class="p-0 m-0 carousel-indicators carousel-indicators-bullet carousel-indicators-active-success">
-                                <li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="0" class="ms-1 active" aria-current="true"></li>
+                                <li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="0"
+                                    class="ms-1 active" aria-current="true"></li>
                                 <li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="1" class="ms-1"></li>
                                 <li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="2" class="ms-1"></li>
 
@@ -454,16 +476,18 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex align-items-center mb-9">
                                     <!--begin::Symbol-->
-                                    
+
                                     <div class="symbol symbol-70px m-4">
-                                        <img src="{{ Storage::disk('public')->url($komoditasTurun[0]->toKomoditas->gambar) }}" alt="">
+                                        <img src="{{ Storage::disk('public')->url($komoditasTurun[0]->toKomoditas->gambar) }}"
+                                            alt="">
                                     </div>
                                     <!--end::Symbol-->
 
                                     <!--begin::Info-->
                                     <div class="m-0">
                                         <!--begin::Subtitle-->
-                                        <h4 class="fw-bold text-gray-800 mb-3">{{ $komoditasTurun[0]->toKomoditas->namakomoditas }}</h4>
+                                        <h4 class="fw-bold text-gray-800 mb-3">
+                                            {{ $komoditasTurun[0]->toKomoditas->namakomoditas }}</h4>
                                         <!--end::Subtitle-->
 
                                         <!--begin::Items-->
@@ -472,22 +496,24 @@
                                             <div class="d-flex flex-column flex-shrink-0 me-4">
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
-                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i> 
-                                                    Harga Sekarang : {{rupiah(avgHarga($komoditasTurun[0]->komoditas_id,null,$date),0)}}
+                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
+                                                    Harga Sekarang :
+                                                    {{rupiah(avgHarga($komoditasTurun[0]->komoditas_id,null,$date),0)}}
                                                 </span>
                                                 <!--end::Section-->
 
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center text-gray-500 fw-bold fs-7">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
-                                                    Harga Sebelum : {{rupiah(avgHarga($komoditasTurun[0]->komoditas_id,null,$date_before),0)}}
+                                                    Harga Sebelum :
+                                                    {{rupiah(avgHarga($komoditasTurun[0]->komoditas_id,null,$date_before),0)}}
                                                 </span>
                                                 <!--end::Section-->
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
                                                     {!!
-                                                        dinamikaHargaAvgIcon(avgHarga($komoditasTurun[0]->komoditas_id,null,$date),avgHarga($komoditasTurun[0]->komoditas_id,null,$date_before))
+                                                    dinamikaHargaAvgIcon(avgHarga($komoditasTurun[0]->komoditas_id,null,$date),avgHarga($komoditasTurun[0]->komoditas_id,null,$date_before))
                                                     !!}
                                                 </span>
                                                 <!--end::Section-->
@@ -510,16 +536,18 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex align-items-center mb-9">
                                     <!--begin::Symbol-->
-                                    
+
                                     <div class="symbol symbol-70px m-4">
-                                        <img src="{{ Storage::disk('public')->url($komoditasTurun[1]->toKomoditas->gambar) }}" alt="">
+                                        <img src="{{ Storage::disk('public')->url($komoditasTurun[1]->toKomoditas->gambar) }}"
+                                            alt="">
                                     </div>
                                     <!--end::Symbol-->
 
                                     <!--begin::Info-->
                                     <div class="m-0">
                                         <!--begin::Subtitle-->
-                                        <h4 class="fw-bold text-gray-800 mb-3">{{ $komoditasTurun[1]->toKomoditas->namakomoditas }}</h4>
+                                        <h4 class="fw-bold text-gray-800 mb-3">
+                                            {{ $komoditasTurun[1]->toKomoditas->namakomoditas }}</h4>
                                         <!--end::Subtitle-->
 
                                         <!--begin::Items-->
@@ -528,22 +556,24 @@
                                             <div class="d-flex flex-column flex-shrink-0 me-4">
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
-                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i> 
-                                                    Harga Sekarang : {{rupiah(avgHarga($komoditasTurun[1]->komoditas_id,null,$date),0)}}
+                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
+                                                    Harga Sekarang :
+                                                    {{rupiah(avgHarga($komoditasTurun[1]->komoditas_id,null,$date),0)}}
                                                 </span>
                                                 <!--end::Section-->
 
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center text-gray-500 fw-bold fs-7">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
-                                                    Harga Sebelum : {{rupiah(avgHarga($komoditasTurun[1]->komoditas_id,null,$date_before),0)}}
+                                                    Harga Sebelum :
+                                                    {{rupiah(avgHarga($komoditasTurun[1]->komoditas_id,null,$date_before),0)}}
                                                 </span>
                                                 <!--end::Section-->
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
                                                     {!!
-                                                        dinamikaHargaAvgIcon(avgHarga($komoditasTurun[1]->komoditas_id,null,$date),avgHarga($komoditasTurun[1]->komoditas_id,null,$date_before))
+                                                    dinamikaHargaAvgIcon(avgHarga($komoditasTurun[1]->komoditas_id,null,$date),avgHarga($komoditasTurun[1]->komoditas_id,null,$date_before))
                                                     !!}
                                                 </span>
                                                 <!--end::Section-->
@@ -562,16 +592,18 @@
                                 <!--begin::Wrapper-->
                                 <div class="d-flex align-items-center mb-9">
                                     <!--begin::Symbol-->
-                                    
+
                                     <div class="symbol symbol-70px m-4">
-                                        <img src="{{ Storage::disk('public')->url($komoditasTurun[2]->toKomoditas->gambar) }}" alt="">
+                                        <img src="{{ Storage::disk('public')->url($komoditasTurun[2]->toKomoditas->gambar) }}"
+                                            alt="">
                                     </div>
                                     <!--end::Symbol-->
 
                                     <!--begin::Info-->
                                     <div class="m-0">
                                         <!--begin::Subtitle-->
-                                        <h4 class="fw-bold text-gray-800 mb-3">{{ $komoditasTurun[2]->toKomoditas->namakomoditas }}</h4>
+                                        <h4 class="fw-bold text-gray-800 mb-3">
+                                            {{ $komoditasTurun[2]->toKomoditas->namakomoditas }}</h4>
                                         <!--end::Subtitle-->
 
                                         <!--begin::Items-->
@@ -580,22 +612,24 @@
                                             <div class="d-flex flex-column flex-shrink-0 me-4">
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
-                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i> 
-                                                    Harga Sekarang : {{rupiah(avgHarga($komoditasTurun[2]->komoditas_id,null,$date),0)}}
+                                                    <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
+                                                    Harga Sekarang :
+                                                    {{rupiah(avgHarga($komoditasTurun[2]->komoditas_id,null,$date),0)}}
                                                 </span>
                                                 <!--end::Section-->
 
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center text-gray-500 fw-bold fs-7">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
-                                                    Harga Sebelum : {{rupiah(avgHarga($komoditasTurun[2]->komoditas_id,null,$date_before),0)}}
+                                                    Harga Sebelum :
+                                                    {{rupiah(avgHarga($komoditasTurun[2]->komoditas_id,null,$date_before),0)}}
                                                 </span>
                                                 <!--end::Section-->
                                                 <!--begin::Section-->
                                                 <span class="d-flex align-items-center fs-7 fw-bold text-gray-500 mb-2">
                                                     <i class="ki-outline ki-right-square fs-6 text-gray-600 me-2"></i>
                                                     {!!
-                                                        dinamikaHargaAvgIcon(avgHarga($komoditasTurun[2]->komoditas_id,null,$date),avgHarga($komoditasTurun[2]->komoditas_id,null,$date_before))
+                                                    dinamikaHargaAvgIcon(avgHarga($komoditasTurun[2]->komoditas_id,null,$date),avgHarga($komoditasTurun[2]->komoditas_id,null,$date_before))
                                                     !!}
                                                 </span>
                                                 <!--end::Section-->
@@ -626,4 +660,76 @@
 
     </div>
     <!--end::Col-->
+    @if(!empty($cek_komoditas))
+    <div class="modal fade" tabindex="-1" id="kt_modal_1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">PENGUMUMAN</h3>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <div class="fs-4 fw-bold text-gray-900 text-center mb-5">
+                        Berikut Petugas Pasar yang belum menginputkan komoditas > 50%
+                                                    </div>
+                    <div class="me-md-5 w-100">
+
+                    @foreach($cek_komoditas as $data)
+                        <!--begin::Item-->
+                        <div class="d-flex border border-gray-300 border-dashed rounded p-6 mb-6">
+                            <!--begin::Block-->
+                            <div class="d-flex align-items-center flex-grow-1 me-2 me-sm-5">
+                                <!--begin::Section-->
+                                <div class="me-2">
+                                    <a href="#" class="text-gray-800 text-hover-primary fs-6 fw-bold">{{$data['pasar_name']}}</a>
+                                    <span class="text-gray-500 fw-bold d-block fs-7">Petugas {{ optional(getUserByPasar($data['pasar_id']))->nama ?? 'Tidak Ditemukan' }}</span>
+                                </div>
+                                <!--end::Section-->
+                            </div>
+                            <!--end::Block-->
+
+                            <!--begin::Info-->
+                            <div class="d-flex align-items-center">
+                                <span class="text-gray-900 fw-bolder fs-2x">{{$data['total_komoditas']}}</span>
+
+                                <span class="fw-semibold fs-2 text-gray-600 mx-1 pt-1">/</span>
+
+                                <span class="text-gray-600 fw-semibold fs-2 me-3 pt-2">{{$data['komoditas_input']}}</span>
+
+                                <span class="badge badge-lg badge-light-success align-self-center px-2">{{$data['persentase_input']}}%</span>
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::Item-->
+                    @endforeach
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
+
+@push('js')
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Display the modal when the page is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        var myModal = new bootstrap.Modal(document.getElementById('kt_modal_1'));
+        myModal.show();
+    });
+</script>
+@endpush

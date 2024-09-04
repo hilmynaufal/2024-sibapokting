@@ -1,4 +1,3 @@
-
 @section('title')
     Transaksi Harga Komoditas Pangan
 @stop
@@ -196,5 +195,15 @@
 @push('js')
 <script>
     $("#tanggal").flatpickr();
+    
+</script>
+<script>
+    
+       function updatePriceDisplay() {
+        var priceInput = document.getElementById('harga');
+        var priceDisplay = document.getElementById('price-display');
+        var formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(priceInput.value);
+        priceDisplay.textContent = 'Harga yang diinput: ' + formattedPrice;
+    }
 </script>
 @endpush

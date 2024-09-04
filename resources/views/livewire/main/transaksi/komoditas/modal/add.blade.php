@@ -77,12 +77,16 @@
                                 <label class="form-label">Harga Sekarang<span class="text-danger"></span></label>
                             </div>
                             <div class="col-md-10">
+                                <!-- Menampilkan harga yang diinput secara real-time -->
                                 <input required type="number" class="form-control" id="harga"
                                 class="form-control @error('harga') is-invalid @enderror" name="harga"
-                                wire:model="harga"/>
+                                wire:model="harga" oninput="updatePriceDisplay()"/>
                                 @error('harga') <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
-
+                                
+                                <div class="mb-2">
+                                    <span id="price-display" class="text-muted">Harga yang diinput: Rp 0</span>
+                                </div>
                             </div>
                         </div>
                     </div>

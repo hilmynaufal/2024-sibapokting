@@ -18,14 +18,49 @@ class Index extends Component
     public $komoditasNaik;
     public $date;
     public $date_before;
+    public $cek_komoditas;
     
 
     public function mount(){
+        
         $dt = new \Carbon\Carbon(now());
         $tanggal = $dt->format('Y-m-d');
         $this->date = $tanggal;
         $this->date_before = date('Y-m-d',strtotime($tanggal . "-1 days"));
 
+        $pasar = RefPasar::get();
+        $cekkomoditas = [];
+
+        // Hitung jumlah total komoditas
+        $totalKomoditas = RefKomoditas::count();
+
+        // Ambil tanggal tertentu
+        $tanggal = '2024-09-02'; // Ganti dengan tanggal yang relevan
+
+        // Iterasi setiap pasar untuk memeriksa input komoditas
+        foreach ($pasar as $p) {
+            // Hitung jumlah komoditas yang sudah diinputkan oleh pasar pada tanggal tertentu
+            $komoditasInput = Komoditas::where('pasar_id', $p->id)
+                                    ->whereDate('tanggal', $tanggal)
+                                    ->count();
+            
+            // Hitung persentase komoditas yang diinputkan
+            $persentaseInput = ($komoditasInput / $totalKomoditas) * 100;
+            
+            // Cek apakah persentase input kurang dari atau sama dengan 50%
+            if ($persentaseInput <= 50) {
+                $cekkomoditas[] = [
+                    'pasar_id' => $p->id,
+                    'pasar_name' => $p->namapasar, // Ganti dengan atribut nama pasar yang sesuai
+                    'komoditas_input' => $komoditasInput,
+                    'persentase_input' => $persentaseInput,
+                    'total_komoditas' => $totalKomoditas,
+                ];
+            }
+        }
+
+        // Tampilkan pasar yang belum menginputkan data lebih dari 50%
+        $this->cek_komoditas = $cekkomoditas;
 
         $this->komoditas = RefKomoditas::count();
         $this->stok = RefBarang::count();
@@ -61,19 +96,7 @@ class Index extends Component
                             ->orderBy('persentase_turun', 'asc')
                             ->limit(3)
                             ->get();
-        // $this->komoditasTurun = DB::table("t_siba_komoditas")
-        // ->select(
-        //     DB::raw("komoditas_id"),
-        //     DB::raw("namakomoditas"),
-        //     DB::raw('AVG(harga_publish) as total'),
-        //     DB::raw('AVG(harga_dinamik) as total_kemaren')
-        // )
-        // ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
-        // ->where('detail_tgl', '2024-04-29')
-        // ->groupBy('t_siba_komoditas.komoditas_id', 'namakomoditas')
-        // ->orderBy('namakomoditas', 'asc')
-        // ->get();
-        // dd($this->komoditasTurun);
+        
 
     }
 
