@@ -1,6 +1,6 @@
 <div>
     <h3 class="text-center text-gray-800 font-weight-bold ">
-        LAPORAN STOK BARANG
+        LAPORAN STOK BARANG {{ getBarang($barang)->namabarang }}
         <br>DARI TANGGAL {{  strtoupper(TglIndo($this->start)) }} S/D {{  strtoupper(TglIndo($this->end)) }} <br>
     </h3>
         <table class="table table-sm m-2">

@@ -35,7 +35,7 @@ class Index extends Component
         $totalKomoditas = RefKomoditas::count();
 
         // Ambil tanggal tertentu
-        $tanggal = '2024-09-02'; // Ganti dengan tanggal yang relevan
+        $tanggal = $this->date; // Ganti dengan tanggal yang relevan
 
         // Iterasi setiap pasar untuk memeriksa input komoditas
         foreach ($pasar as $p) {

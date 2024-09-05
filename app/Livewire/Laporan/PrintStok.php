@@ -12,21 +12,24 @@ use Livewire\Attributes\Layout;
 
 class PrintStok extends Component
 {    
-    public $jsonData,$komoditas,$start,$end;
+    public $jsonData,$barang,$start,$end;
 
     #[Layout('components.layouts.keenthemes.frontend.print_no_table_landscape')]
     
     // #[Layout('components.layouts.keenthemes.frontend.print_no_table')]
-    public function mount($start,$end){
+    public function mount($barang,$start,$end){
+        $this->barang = $barang;
         $this->start = $start;
         $this->end = $end;
     }
     public function render()
     {
+        $barang = $this->barang;
         $tgl_start = $this->start;
         $tgl_end = $this->end;
 
         $show = Model::with('toPasar')->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
+        ->where('barang_id', $barang)
         ->get();
 
         
@@ -34,7 +37,7 @@ class PrintStok extends Component
                     DB::raw("detail_tgl")
                 )
         ->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
-        // ->where('komoditas_id', $komoditas)
+        ->where('barang_id', $barang)
         ->groupBy('detail_tgl')
         ->get();
         $list_date = [];
@@ -55,11 +58,13 @@ class PrintStok extends Component
 
             $dataPasar = Model::with('toPasar')->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
                 ->where('pasar_id', $s->toPasar->id)
+                ->where('barang_id', $barang)
                 ->orderBy('detail_tgl', 'asc')
                 ->get();
 
             foreach ($dataPasar as $dp) {
                 $by_date[] = (object)[
+                    'barang' => $dp->barang_id,
                     'date' => $dp->detail_tgl,
                     'awal' => $dp->stok_awal,
                     'masuk' => $dp->stok_masuk,

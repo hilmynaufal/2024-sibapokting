@@ -4,6 +4,7 @@ namespace App\Livewire\Laporan;
 
 use App\Models\Referensi\RefPasar;
 use App\Models\Referensi\RefBarang;
+use App\Models\Referensi\RefKomoditas;
 use App\Models\Transaksi\Barang as Model;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ use Livewire\WithoutUrlPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use DB;
 
+
 class Stok extends Component
 {
     use WithPagination,WithoutUrlPagination;
@@ -22,8 +24,8 @@ class Stok extends Component
     public $listBannerActive;
     public $perpage = 100;
     
-    public $komoditas = 89;
-    public $list_komoditas_search;
+    public $barang = 143;
+    public $list_barang_search;
     public $list_pasar;
 
     public $kategori=[];
@@ -41,16 +43,17 @@ class Stok extends Component
         $tanggal = $dt->format('Y-m-d');
         $this->start = date('Y-m-d',strtotime($tanggal . "-15 days"));
         $this->end = $tanggal;
-
+        $this->list_barang_search = RefBarang::get();
     }
 
     public function render()
     {
-        // $komoditas = $this->komoditas;
+        $barang = $this->barang;
         $tgl_start = $this->start;
         $tgl_end = $this->end;
 
         $show = Model::with('toPasar')->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
+        ->where('barang_id', $barang)
         ->get();
 
         
@@ -58,7 +61,7 @@ class Stok extends Component
                     DB::raw("detail_tgl")
                 )
         ->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
-        // ->where('komoditas_id', $komoditas)
+        ->where('barang_id', $barang)
         ->groupBy('detail_tgl')
         ->get();
         $list_date = [];
@@ -78,12 +81,14 @@ class Stok extends Component
             $by_date = []; // Reset variabel $by_date di setiap iterasi loop utama
 
             $dataPasar = Model::with('toPasar')->whereBetween('detail_tgl', [$tgl_start, $tgl_end])
+                ->where('barang_id', $barang)
                 ->where('pasar_id', $s->toPasar->id)
                 ->orderBy('detail_tgl', 'asc')
                 ->get();
 
             foreach ($dataPasar as $dp) {
                 $by_date[] = (object)[
+                    'barang' => $dp->barang_id,
                     'date' => $dp->detail_tgl,
                     'awal' => $dp->stok_awal,
                     'masuk' => $dp->stok_masuk,
@@ -100,7 +105,6 @@ class Stok extends Component
 
         // Ubah array $data dari asosiatif menjadi numerik
         $data = array_values($data);
-        
         $this->jsonData =(object)[
             'success' => 'true',
             'meta' => (object)[

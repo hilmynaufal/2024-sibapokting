@@ -21,6 +21,22 @@
                         <!--begin::Toolbar-->
                         <div class="card-toolbar">
                             <div class="mb-0" style="margin-right:4px;">
+                                <label class="form-label">Pilih Barang</label>
+                                <div class="w-200 mw-350px" wire:ignore>
+                                    <select x-init="$($el).select2();
+                                    $($el).on('change', function() {
+                                        $wire.set('barang', $($el).val())
+                                    })" wire:model.live="barang"
+                                        name="barang" id="barang"
+                                        class="form-control form-control-sm form-select-solid">
+                                        <option value="">Semua Barang</option>
+                                        @foreach($list_barang_search as $kom)
+                                        <option value="{{$kom->id}}">{{$kom->namabarang}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-0" style="margin-right:4px;">
                                 <label class="form-label">Pilih Mulai</label>
                                 <div class="w-200 mw-350px position-relative">
                                     <input class="form-control form-control-sm" wire:model.live="start" name="start" id="start" />
@@ -47,7 +63,7 @@
                             <div class="mb-0" style="margin-right:4px;">
                                 <label class="form-label"></label>
                                 <div class="w-200 mt-2 mw-350px position-relative">
-                                    <a href="{{route('laporan.stok-print', ['start' => $start, 'end' => $end ])}}" target="_blank"
+                                    <a href="{{route('laporan.stok-print', ['barang'=>$barang,'start' => $start, 'end' => $end ])}}" target="_blank"
                                         class="btn btn-sm btn-light-danger btn-active-light-primary me-1"
                                         title="Cetak">
                                         <i class="ki-duotone ki-printer fs-2"><span class="path1"></span><span

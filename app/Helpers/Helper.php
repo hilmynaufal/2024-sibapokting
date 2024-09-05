@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\RefSetting;
 use App\Models\Referensi\RefPasar;
 use App\Models\Referensi\RefKomoditas;
+use App\Models\Referensi\RefBarang;
 use App\Models\Activity;
 use App\Models\Transaksi\Komoditas;
 use App\Models\Transaksi\Barang;
@@ -2161,10 +2162,15 @@ function getUserByPasar($pasar){
 
 function getKomoditas($komoditas){
     $data = RefKomoditas::where('id',$komoditas)->first();
-
     return $data;
 }
-                                          
+      
+
+function getBarang($barang){
+    $data = RefBarang::where('id',$barang)->first();
+    return $data;
+}
+      
                                             
                                             
                                             
