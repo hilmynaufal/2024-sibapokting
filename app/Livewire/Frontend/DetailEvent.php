@@ -1,10 +1,10 @@
 <?php
 namespace App\Livewire\Frontend;
 use Livewire\Component;
-use App\Models\website\RefArticles as Model;
+use App\Models\Website\RefArticles as Model;
 use App\Models\Referensi\RefPasar;
-use App\Models\referensi\RefKomoditas;
-use App\Models\website\RefBanner;
+use App\Models\Referensi\RefKomoditas;
+use App\Models\Website\RefBanner;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Laporan;
 
-use App\Models\transaksi\Komoditas as Model;
+use App\Models\Transaksi\Komoditas as Model;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use DB;

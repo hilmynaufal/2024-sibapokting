@@ -1,7 +1,7 @@
 <?php
 namespace App\Livewire\Frontend;
 use Livewire\Component;
-use App\Models\website\RefArticles as Model;
+use App\Models\Website\RefArticles as Model;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
