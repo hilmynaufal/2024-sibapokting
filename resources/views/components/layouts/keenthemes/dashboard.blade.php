@@ -47,9 +47,9 @@
                         <!--end::Mobile toggle-->
                         <!--begin::Logo image-->
                         <a href="index-2.html">
-                            <img alt="Logo" src="{{ asset('backend/themes/assets/media/logos/demo63.svg') }}"
+                            <img alt="Logo" src="{{ getAppLogo() }}"
                                 class="h-25px theme-light-show" />
-                            <img alt="Logo" src="{{ asset('backend/themes/assets/media/logos/demo63-dark.svg') }}"
+                            <img alt="Logo" src="{{ getAppLogo() }}"
                                 class="h-25px theme-dark-show" />
                         </a>
                         <!--end::Logo image-->
