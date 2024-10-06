@@ -16,7 +16,7 @@
                         <div class="page_detail">
                             <p>
                                 <img alt="Foto"
-                                    src="{{ {{Storage::disk('public')->url($informasi->gambar_utama)}} }}"
+                                    src="{{ Storage::disk('public')->url($informasi->gambar_utama) }}"
                                     style="float:right; height:169px; margin:10px 20px; width:300px"></p>
                             <p><strong>Sejarah Pendirian Pasar :</strong></p>
                             {!! $informasi->sejarah !!}
