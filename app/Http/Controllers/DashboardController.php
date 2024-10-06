@@ -79,22 +79,35 @@ class DashboardController extends Controller
                 'ref_siba_komoditas.namakomoditas',
                 'ref_siba_komoditas.satuan',
                 'ref_siba_komoditas.gambar',
-                DB::raw('AVG(t_siba_komoditas.harga_publish) as total'),
-                DB::raw('AVG(t_siba_komoditas.harga_dinamik) as total_kemaren')
+                DB::raw('AVG(t_siba_komoditas.harga_publish::numeric) as total'),
+                DB::raw('AVG(t_siba_komoditas.harga_dinamik::numeric) as total_kemaren')
             )
             ->where('t_siba_komoditas.detail_tgl', $request->tanggal);
 
+        $groupByColumns = [
+            't_siba_komoditas.id',
+            't_siba_komoditas.komoditas_id',
+            't_siba_komoditas.pasar_id',
+            't_siba_komoditas.users_id',
+            't_siba_komoditas.tanggal',
+            't_siba_komoditas.harga_publish',
+            't_siba_komoditas.harga_admin',
+            't_siba_komoditas.harga_dinamik',
+            't_siba_komoditas.kondisi',
+            't_siba_komoditas.status',
+            't_siba_komoditas.tanggal_update',
+            't_siba_komoditas.harga_pasar',
+            't_siba_komoditas.detail_tgl',
+            'ref_siba_komoditas.namakomoditas',
+            'ref_siba_komoditas.satuan',
+            'ref_siba_komoditas.gambar'
+        ];
+
         if ($request->pasar != 'semua') {
             $avg->where('t_siba_komoditas.pasar_id', $request->pasar)
-                ->groupBy(
-                    't_siba_komoditas.id',
-                    't_siba_komoditas.komoditas_id',
-                );
+                ->groupBy($groupByColumns);
         } else {
-            $avg->groupBy(
-                't_siba_komoditas.id',
-                't_siba_komoditas.komoditas_id',
-            );
+            $avg->groupBy($groupByColumns);
         }
 
         $data['avg'] = $avg->get();
