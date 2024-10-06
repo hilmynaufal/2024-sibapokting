@@ -7,6 +7,7 @@ use App\Http\requests;
 use Illuminate\Support\Facades\DB;
 use Carbon;
 
+
 class DashboardController extends Controller
 {
 
@@ -34,12 +35,32 @@ class DashboardController extends Controller
     public function apiKomoditas(Request $request)
     {
         if($request->tokenApi == 'Sibapokting123*'){
+            $data = DB::table('ref_siba_komoditas')
+                ->select(
+                    'ref_siba_komoditas.id',
+                    'namakomoditas',
+                    'ref_siba_satuan.satuan as satuan',
+                    'gambar',
+                    'created_at',
+                    'created_id',
+                    'updated_at',
+                    'updated_id',
+                    'deleted_at',
+                    'deleted_id',
+                    'token',
+                    'het',
+                    'id_silinda',
+                    'prioritas'
+                )
+                ->join('ref_siba_satuan', 'ref_siba_komoditas.satuan', '=', 'ref_siba_satuan.id')
+                ->get();
+
             $value = array(
-                            "status"=>"success",
-                            "message"=>"Data retrieved successfully.",
-                            "pageTitle"=>"Data Komoditas Kabupaten Bandung",
-                            "data" => DB::table('ref_siba_komoditas')->get()
-                        );
+                "status" => "success",
+                "message" => "Data retrieved successfully.",
+                "pageTitle" => "Data Komoditas Kabupaten Bandung",
+                "data" => $data
+            );
         }else{
             $value = array(
                 "status"=>"error",
