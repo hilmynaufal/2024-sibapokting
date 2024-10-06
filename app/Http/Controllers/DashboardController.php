@@ -62,6 +62,7 @@ class DashboardController extends Controller
 
         $avg = DB::table('t_siba_komoditas')
             ->join('ref_siba_komoditas', 'ref_siba_komoditas.id', '=', 't_siba_komoditas.komoditas_id')
+            ->join('ref_siba_satuan', 'ref_siba_komoditas.satuan', '=', 'ref_siba_satuan.id')
             ->select(
                 't_siba_komoditas.id',
                 't_siba_komoditas.komoditas_id',
@@ -77,7 +78,7 @@ class DashboardController extends Controller
                 't_siba_komoditas.harga_pasar',
                 't_siba_komoditas.detail_tgl',
                 'ref_siba_komoditas.namakomoditas',
-                'ref_siba_komoditas.satuan',
+                'ref_siba_satuan.nama as satuan',
                 'ref_siba_komoditas.gambar',
                 DB::raw('AVG(t_siba_komoditas.harga_publish::numeric) as total'),
                 DB::raw('AVG(t_siba_komoditas.harga_dinamik::numeric) as total_kemaren')
@@ -99,7 +100,7 @@ class DashboardController extends Controller
             't_siba_komoditas.harga_pasar',
             't_siba_komoditas.detail_tgl',
             'ref_siba_komoditas.namakomoditas',
-            'ref_siba_komoditas.satuan',
+            'ref_siba_satuan.nama',
             'ref_siba_komoditas.gambar'
         ];
 
