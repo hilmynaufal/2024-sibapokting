@@ -19,7 +19,7 @@ Home
                     <div class="col-xl-12">
                         <!--begin::Slider Widget 7-->
                         <div id="kt_sliders_widget_7_slider"
-                            class="card card-flush carousel carousel-custom carousel-light-dots carousel-stretch slide h-500px"
+                            class="card card-flush carousel carousel-custom carousel-light-dots carousel-stretch slide h-450px"
                             data-bs-ride="carousel" data-bs-interval="5000" style="background-color: #008674"
                             data-bs-theme="light">
                             <!--begin::Header-->
@@ -50,7 +50,7 @@ Home
                             <!--begin::Body-->
                             <div class="card-body pt-3">
                                 <!--begin::Carousel-->
-                                <div class="carousel-inner h-450px pt-20">
+                                <div class="carousel-inner h-400px pt-20">
                                     @foreach($listBannerTop as $listBannerData)
                                     <!--begin::Item-->
                                     <div class="carousel-item {{$listBannerData->id == $listBannerActive->id ? 'active show' : ''}}">
@@ -68,7 +68,7 @@ Home
                             
                                             <!--begin::Illustration-->
                                             <img src="{{Storage::disk('public')->url($listBannerData->gambar)}}"
-                                                class="position-absolute me-3 bottom-2 mt-8 end-0 h-500px w-auto" alt="">
+                                                class="position-absolute me-3 bottom-2 mt-8 end-0 h-400px w-auto" alt="">
                                             <!--end::Illustration-->
                                         </div>
                                         <!--end::Wrapper-->

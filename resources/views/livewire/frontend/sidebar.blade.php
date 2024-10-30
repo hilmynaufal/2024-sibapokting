@@ -85,7 +85,7 @@
                         <!--begin::Col-->
                         <div class="col mb-4">
                             <!--begin::Link-->
-                            <a href="#" wire:click.windows="setKomoditas({{$kom->id}})"
+                            <a wire:click="setKomoditas({{$kom->id}})"
                                 class="btn btn-icon btn-outline btn-bg-light btn-active-light-success btn-flex flex-column 
                                                 {{$komoditas_id == $kom->id ? 'active' : ''}} flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200"
                                 data-kt-button="true">

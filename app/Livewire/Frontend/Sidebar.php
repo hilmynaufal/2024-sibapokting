@@ -1,8 +1,8 @@
 <?php
 namespace App\Livewire\Frontend;
 use Livewire\Component;
-use App\Models\transaksi\Komoditas as Model;
-use App\Models\referensi\RefKomoditas;
+use App\Models\Transaksi\Komoditas as Model;
+use App\Models\Referensi\RefKomoditas;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Jantinnerezo\LivewireAlert\LivewireAlert;

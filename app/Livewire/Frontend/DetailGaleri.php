@@ -1,7 +1,7 @@
 <?php
 namespace App\Livewire\Frontend;
 use Livewire\Component;
-use App\Models\website\RefGaleri as Model;
+use App\Models\Website\RefGaleri as Model;
 use App\Models\Website\RefKategori;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;

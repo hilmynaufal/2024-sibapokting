@@ -38,7 +38,7 @@ return [
     |
     */
     
-    'layout' => 'components.layouts.keenthemes.app',
+    'layout' => 'components.layouts.keenthemes.page',
     
     /*
     |---------------------------------------------------------------------------
