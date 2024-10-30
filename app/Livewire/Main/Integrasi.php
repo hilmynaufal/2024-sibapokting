@@ -33,13 +33,13 @@ class Integrasi extends Component
     protected $queryString = ['search'];
 
     // TOKEN ACCESS API
-    private $credentialId;
-    private $credentialKey;
-    private $urlTokenSPLP;
-    private $baseURL;
-    private $pathResource;
-    private $pathResourceSend;
-    private $allToken ;
+    public $credentialId;
+    public $credentialKey;
+    public $urlTokenSPLP;
+    public $baseURL;
+    public $pathResource;
+    public $pathResourceSend;
+    public $allToken ;
     // END ACCESS API
 
     #[Layout('components.layouts.keenthemes.page')]
