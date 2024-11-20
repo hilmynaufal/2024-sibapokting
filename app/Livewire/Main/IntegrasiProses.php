@@ -15,13 +15,13 @@ class IntegrasiProses extends Component
     use WithPagination,WithoutUrlPagination;
     use LivewireAlert;
     // TOKEN ACCESS API
-    private $credentialId;
-    private $credentialKey;
-    private $urlTokenSPLP;
-    private $baseURL;
-    private $pathResource;
-    private $pathResourceSend;
-    private $allToken ;
+    public $credentialId;
+    public $credentialKey;
+    public $urlTokenSPLP;
+    public $baseURL;
+    public $pathResource;
+    public $pathResourceSend;
+    public $allToken ;
     // END ACCESS API
 
     #[Layout('components.layouts.keenthemes.page')]
@@ -118,7 +118,7 @@ class IntegrasiProses extends Component
     }
     
     // mendapatkan token SPLP
-    private function token_splp($credentialId, $credentialKey, $urlTokenSPLP)
+    public function token_splp($credentialId, $credentialKey, $urlTokenSPLP)
     {
         $ch = curl_init();
 
