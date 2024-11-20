@@ -15,13 +15,13 @@ class IntegrasiProses extends Component
     use WithPagination,WithoutUrlPagination;
     use LivewireAlert;
     // TOKEN ACCESS API
-    public $credentialId;
-    public $credentialKey;
-    public $urlTokenSPLP;
-    public $baseURL;
-    public $pathResource;
-    public $pathResourceSend;
-    public $allToken ;
+    private $credentialId;
+    private $credentialKey;
+    private $urlTokenSPLP;
+    private $baseURL;
+    private $pathResource;
+    private $pathResourceSend;
+    private $allToken ;
     // END ACCESS API
 
     #[Layout('components.layouts.keenthemes.page')]
@@ -34,8 +34,6 @@ class IntegrasiProses extends Component
         $this->baseURL = $model->baseURL;
         $this->pathResource = $model->pathResource;
         $this->pathResourceSend = $model->pathResourceSend;
-
-        
     }
     
     public function render()
@@ -171,6 +169,8 @@ class IntegrasiProses extends Component
     }
 
     public function token_get(){
+        dd($this->urlTokenSPLP);
+
         $Token1                     = "Bearer " . $this->token_splp($this->credentialId,$this->credentialKey, $this->urlTokenSPLP);
         $data                       = Model::where('is_active','=',1)->first();
         $model                      = Model::firstOrNew(['id' =>  $data->id]);
