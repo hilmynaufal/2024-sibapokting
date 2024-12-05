@@ -34,8 +34,6 @@ class IntegrasiProses extends Component
         $this->baseURL = $model->baseURL;
         $this->pathResource = $model->pathResource;
         $this->pathResourceSend = $model->pathResourceSend;
-
-        
     }
     
     public function render()
@@ -87,7 +85,11 @@ class IntegrasiProses extends Component
 
         }
         if(empty($response)){
+<<<<<<< HEAD
             $log = 'Integrasi Silinda Gagal';
+=======
+            $log = 'Data Kosong';
+>>>>>>> 53350e9da0a045078042ab607513a16ca9e68c60
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
@@ -120,7 +122,7 @@ class IntegrasiProses extends Component
     }
     
     // mendapatkan token SPLP
-    private function token_splp($credentialId, $credentialKey, $urlTokenSPLP)
+    public function token_splp($credentialId, $credentialKey, $urlTokenSPLP)
     {
         $ch = curl_init();
 
@@ -171,6 +173,8 @@ class IntegrasiProses extends Component
     }
 
     public function token_get(){
+        dd($this->urlTokenSPLP);
+
         $Token1                     = "Bearer " . $this->token_splp($this->credentialId,$this->credentialKey, $this->urlTokenSPLP);
         $data                       = Model::where('is_active','=',1)->first();
         $model                      = Model::firstOrNew(['id' =>  $data->id]);

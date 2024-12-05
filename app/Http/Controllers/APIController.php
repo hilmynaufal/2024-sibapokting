@@ -99,7 +99,7 @@ class APIController extends Controller
     }
     
     // mendapatkan token SPLP
-    private function token_splp($credentialId, $credentialKey, $urlTokenSPLP)
+    public function token_splp($credentialId, $credentialKey, $urlTokenSPLP)
     {
         $ch = curl_init();
 
