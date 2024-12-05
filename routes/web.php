@@ -16,6 +16,8 @@ use App\Http\Controllers\api\UserController;
 */
 
 Route::get('curvatahunan', App\Livewire\Frontend\CurvaTahunan::class)->name('curvatahunan');
+Route::get('grafikharian', App\Livewire\Frontend\GrafikHarian::class)->name('grafikharian');
+Route::get('grafikbulanan', App\Livewire\Frontend\GrafikBulanan::class)->name('grafikbulanan');
 Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
