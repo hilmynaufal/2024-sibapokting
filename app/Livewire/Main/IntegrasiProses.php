@@ -85,11 +85,7 @@ class IntegrasiProses extends Component
 
         }
         if(empty($response)){
-<<<<<<< HEAD
             $log = 'Integrasi Silinda Gagal';
-=======
-            $log = 'Data Kosong';
->>>>>>> 53350e9da0a045078042ab607513a16ca9e68c60
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,

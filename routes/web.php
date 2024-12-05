@@ -15,7 +15,7 @@ use App\Http\Controllers\api\UserController;
 |
 */
 
-
+Route::get('curvatahunan', App\Livewire\Frontend\CurvaTahunan::class)->name('curvatahunan');
 Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
