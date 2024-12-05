@@ -1,3 +1,6 @@
+@section('title')
+CURVA TAHUNAN
+@stop
 <div>
     <!--begin::Row-->
     <div class="row g-xl-12">

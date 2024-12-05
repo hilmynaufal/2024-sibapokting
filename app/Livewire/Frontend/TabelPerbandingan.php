@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Livewire\Frontend;
+
 use Livewire\Component;
 use App\Models\Referensi\RefPasar;
 use App\Models\Referensi\RefKomoditas;
@@ -9,9 +11,8 @@ use Livewire\Attributes\Layout;
 use Storage;
 use DB;
 
-class TabelKomoditas extends Component
+class TabelPerbandingan extends Component
 {
-    use WithPagination,WithoutUrlPagination;
     protected $paginationTheme = 'bootstrap';
     public $listBannerTop;
     public $listBannerActive;
@@ -25,9 +26,7 @@ class TabelKomoditas extends Component
     public $pasar_tabel;
     public $start;
     public $end;
-
-
-    #[Layout('components.layouts.keenthemes.frontend.app')]
+    #[Layout('components.layouts.keenthemes.frontend.dash')]
 
     public function mount()
     {
@@ -45,7 +44,7 @@ class TabelKomoditas extends Component
         }
 
     }
-    
+
     public function render()
     {
         $pasar = $this->pasar_tabel;
@@ -112,9 +111,9 @@ class TabelKomoditas extends Component
                 ];
             }
         }
-        return view('livewire.frontend.tabel-komoditas', [
+        return view('livewire.frontend.tabel-perbandingan', [
             'model'=> $data
-          ]);
+        ]);
     }
 
     public function updatedStart(){
@@ -126,6 +125,4 @@ class TabelKomoditas extends Component
         $dt = new \Carbon\Carbon($this->end);
         $this->end = $dt->format('Y-m-d');
     }
-
-
 }

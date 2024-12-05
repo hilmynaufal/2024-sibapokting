@@ -1,3 +1,6 @@
+@section('title')
+GRAFIK BULANAN
+@stop
 <div>
     <div class="row g-5 g-xl-12">
         <!--begin::Col-->
