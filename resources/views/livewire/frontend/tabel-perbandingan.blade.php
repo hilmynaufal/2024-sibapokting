@@ -123,5 +123,19 @@ PERBANDINGAN HARGA
 
 @push('js')
 <script>
+    $(document).ready(function () {
+        $("#date_komoditas").flatpickr({
+            "setDate": new Date(),
+            "autoclose": true
+        });
+        $("#start").flatpickr({
+            "setDate": new Date(),
+            "autoclose": true
+        });
+        $("#end").flatpickr({
+            "setDate": new Date(),
+            "autoclose": true
+        });
+    });
 </script>
 @endpush

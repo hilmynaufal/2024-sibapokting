@@ -91,6 +91,40 @@ class ChartController extends Controller
         ]);
     }
 
+    public function komoditasBarPeta(Request $request){
+        $date = \Carbon\Carbon::createFromFormat('Y-m-d', $request->date);
+        $date_before = date('Y-m-d',strtotime($date . "-1 days"));
+
+        $pasar_id = RefPasar::orderBy('id','asc')->pluck('id');
+        $nowPrices = Model::whereIn('pasar_id', $pasar_id)
+            ->where('detail_tgl', $request->date)
+            ->where('komoditas_id', $request->komoditas)
+            ->get()
+            ->keyBy('pasar_id');
+
+        $beforePrices = Model::whereIn('pasar_id', $pasar_id)
+            ->where('detail_tgl', $date_before)
+            ->where('komoditas_id', $request->komoditas)
+            ->get()
+            ->keyBy('pasar_id');
+
+        $barNow = [];
+        $barBefore = [];
+
+        foreach ($pasar_id as $id) {
+            $harga = $nowPrices[$id]->harga_publish ?? 0;
+            $harga_sebelumnya = $beforePrices[$id]->harga_publish ?? 0;
+
+            array_push($barNow, round($harga));
+            array_push($barBefore, round($harga_sebelumnya));
+        }
+
+        return response()->json([
+            'price_now' => $barNow,
+            'price_before' => $barBefore
+        ]);
+    }
+
     public function komoditasLine(Request $request){
         $dt = new \Carbon\Carbon($request->date);
         $end_date = $dt->format('Y-m-d');
@@ -107,6 +141,27 @@ class ChartController extends Controller
         ]);
 
     }
+
+    
+    public function komoditasLineDash(Request $request){
+        $dt = new \Carbon\Carbon($request->date);
+        $pasar = $request->pasar;
+        $end_date = $dt->format('Y-m-d');
+        $date = date('Y-m-d',strtotime($end_date . "-20days"));
+        while (strtotime($date) <= strtotime($end_date)) {
+            array_push($this->dateList,TglIndoBulan($date));
+            array_push($this->priceList,avgHarga($request->komoditas,$pasar,$date));
+            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
+        }
+
+        return response()->json([
+            'categori' => $this->dateList,
+            'price_before' => $this->priceList
+        ]);
+
+    }
+
+    
 
     public function chartPasarStatistik(Request $request)
     {

@@ -33,7 +33,7 @@ class Child extends Component
     
     public function render()
     {
-        $menu = RefMenu::where('is_active','=',1)->where('parent_id','=',0)->orderBy('parent_id','asc')->paginate(10);
+        $menu = RefMenu::where('is_active','=',1)->where('parent_id','=',0)->orderBy('parent_id','asc')->paginate(100);
         // dd($menu);
         $this->firstIdView = $menu[0]->id;
         return view('livewire.master.konfigurasi.role.child',['menu'=>$menu]);

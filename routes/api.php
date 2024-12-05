@@ -27,6 +27,7 @@ use App\Models\DisposisiLaporan;
 Route::get('dataChart', [ChartController::class,'dataChart']);
 Route::get('komoditasBar', [ChartController::class,'komoditasBar']);
 Route::get('komoditasLine', [ChartController::class,'komoditasLine']);
+Route::get('komoditasLineDash', [ChartController::class,'komoditasLineDash']);
 Route::post('tabelKomoditas', [ChartController::class,'chartPasarStatistik']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

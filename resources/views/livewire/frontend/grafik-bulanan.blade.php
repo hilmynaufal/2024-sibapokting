@@ -16,6 +16,20 @@ GRAFIK BULANAN
                     <div class="card-toolbar">
                         <!--begin::Daterangepicker(defined in src/js/layout/app.js)-->
                         <div class="mb-0">
+                            <label class="form-label">Pilih Pasar</label>
+                            <div class="w-200 mw-350px" wire:ignore>
+                                <select x-init="$($el).select2();" onchange="changeBar()" wire:model="pasar"
+                                    name="pasar" id="pasar"
+                                    class="form-control form-control-sm form-select-solid">
+                                    <option value="0">Semua Pasar</option>
+                                    @foreach($list_pasar as $pas)
+                                    <option value="{{$pas->id}}">{{$pas->namapasar}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="mb-0">
                             <label class="form-label">Pilih Komoditas</label>
                             <div class="w-200 mw-350px" wire:ignore>
                                 <select x-init="$($el).select2();" onchange="changeBar()" wire:model="komoditas"
@@ -108,56 +122,12 @@ GRAFIK BULANAN
 
 @push('js')
 <script>
-    var options = {
-        series: [],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: {!! json_encode($this->kategori) !!},
-        },
-        yaxis: {
-            title: {
-                text: 'Rp (Rupiah)'
-            }
-        },
-        fill: {
-            opacity: 1
-        },
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return "Rp " + val
-                }
-            }
-        }
-    };
-
-    var chart = new ApexCharts(document.querySelector("#bar"), options);
-    chart.render();
-
     var options2 = {
         series: [],
         chart:{
           type: 'area',
           stacked: false,
-          height: 350,
+          height: 450,
           zoom: {
             enabled: true,
             type: 'x',  
@@ -206,30 +176,8 @@ GRAFIK BULANAN
         });
 
 
-        var settings = {
-            "url": {!! json_encode(url('/')) !!}+"/api/komoditasBar?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
-            "method": "GET",
-            "timeout": 0,
-        };
-
-        $.ajax(settings).done(function (response) {
-            chart.updateSeries([
-                {
-                    name: 'Harga Sekarang',
-                    data: response['price_now'],
-                    color: '#00686b'
-                }, {
-                    name: 'Harga Sebelumnya',
-                    data: response['price_before'],
-                    color: '#f51156'
-                }
-            ]);
-        });
-
-
-
         var settings1 = {
-            "url": {!! json_encode(url('/')) !!}+"/api/komoditasLine?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
+            "url": {!! json_encode(url('/')) !!}+"/api/komoditasLineDash?pasar="+$('#pasar').val() +"&komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
             "method": "GET",
             "timeout": 0,
         };
@@ -252,29 +200,13 @@ GRAFIK BULANAN
 
     function changeBar(){
         @this.set('komoditas', $('#komoditas').val());
+        @this.set('pasar', $('#pasar').val());
         @this.set('date_komoditas', $('#date_komoditas').val());
         @this.set('date_komoditas_before', formatDateBefore($('#date_komoditas').val()));
 
-        var settings = {
-            "url": {!! json_encode(url('/')) !!}+"/api/komoditasBar?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
-            "method": "GET",
-            "timeout": 0,
-        };
-
-        $.ajax(settings).done(function (response) {
-            chart.updateSeries([
-                {
-                    name: 'Harga Sekarang',
-                    data: response['price_now']
-                }, {
-                    name: 'Harga Sebelumnya',
-                    data: response['price_before']
-                }
-            ])
-        });
 
         var settings1 = {
-            "url": {!! json_encode(url('/')) !!}+"/api/komoditasLine?komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
+            "url": {!! json_encode(url('/')) !!}+"/api/komoditasLineDash?pasar="+$('#pasar').val() +"&komoditas="+$('#komoditas').val() +"&date="+$('#date_komoditas').val(),
             "method": "GET",
             "timeout": 0,
         };
