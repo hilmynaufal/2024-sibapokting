@@ -22,7 +22,7 @@
     <div class="header-kanan">
       <div class="konten-header-kanan">
         <center><H2>Pemerintah Daerah Kabupaten Bandung</H2></center>
-        <center><H2 style="font-size:24px;">DINAS PERDAGANGAN DAN PERINDUSRIAN</H2></center>
+        <center><H2 style="font-size:24px;">DINAS PERDAGANGAN DAN PERINDUSTRIAN</H2></center>
         <div class="subinfo">
             Komplek Pemda, Jalan Raya Soreang No.Km. 17, Pamekaran, Bandung, Jawa Barat 
         </div>

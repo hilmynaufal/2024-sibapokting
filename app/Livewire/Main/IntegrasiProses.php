@@ -15,13 +15,13 @@ class IntegrasiProses extends Component
     use WithPagination,WithoutUrlPagination;
     use LivewireAlert;
     // TOKEN ACCESS API
-    private $credentialId;
-    private $credentialKey;
-    private $urlTokenSPLP;
-    private $baseURL;
-    private $pathResource;
-    private $pathResourceSend;
-    private $allToken ;
+    public $credentialId;
+    public $credentialKey;
+    public $urlTokenSPLP;
+    public $baseURL;
+    public $pathResource;
+    public $pathResourceSend;
+    public $allToken ;
     // END ACCESS API
 
     #[Layout('components.layouts.keenthemes.page')]
@@ -47,7 +47,7 @@ class IntegrasiProses extends Component
     }
 
     public function singkronisasi($id){
-        // $this->token_get();
+        $this->token_get();
         $model              = Model::where('is_active','=',1)->first();
         $token_silinda      = Model::where('is_active','=',1)->first();
         $pasarInt           = RefPasar::where('id',$id)->first();
@@ -87,7 +87,7 @@ class IntegrasiProses extends Component
 
         }
         if(empty($response)){
-            $log = 'Integrasi Silinda Gagal di Hapus';
+            $log = 'Integrasi Silinda Gagal';
             $this->alert('error', $log, [
                 'position' => 'top-end',
                 'timer' => 3000,
@@ -99,7 +99,7 @@ class IntegrasiProses extends Component
                 $model                      = RefPasar::firstOrNew(['id' =>  $id]);
                 $model->last_integrasi      = date("Y-m-d H:i:s");
                 $model->save();
-                $log = 'Integrasi Silinda Berhasil di Hapus';
+                $log = 'Integrasi Silinda Berhasil';
                 setActivity($log);
                 $this->alert('success', $log, [
                     'position' => 'top-end',
@@ -107,7 +107,7 @@ class IntegrasiProses extends Component
                     'toast' => true,
                 ]);
             }else{
-                $log = 'Integrasi Silinda Gagal di Hapus';
+                $log = 'Integrasi Silinda Gagal';
                 $this->alert('error', $log, [
                     'position' => 'top-end',
                     'timer' => 3000,

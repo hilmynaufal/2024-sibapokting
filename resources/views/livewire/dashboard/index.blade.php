@@ -677,7 +677,7 @@ Dashboard
 
                 <div class="modal-body">
                     <div class="fs-4 fw-bold text-gray-900 text-center mb-5">
-                        Berikut Petugas Pasar yang belum menginputkan komoditas > 50%
+                        Berikut Petugas Pasar yang belum menginputkan komoditas > 75%
                                                     </div>
                     <div class="me-md-5 w-100">
 

@@ -200,7 +200,7 @@ Referensi > <b>Komoditas</b>
                                             $wire.set('satuan', $($el).val());
                                         })" wire:model="satuan" name="satuan" id="satuan" class="form-control form-control-sm form-select-solid">
                                             @foreach($list_satuan as $satuan)
-                                            <option value="{{$satuan->satuan}}">{{$satuan->nama}}</option>
+                                            <option value="{{$satuan->id}}">{{$satuan->nama}}</option>
                                             @endforeach
                                         </select>
                                     </div>
