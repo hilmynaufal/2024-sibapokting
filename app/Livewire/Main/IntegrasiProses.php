@@ -169,8 +169,6 @@ class IntegrasiProses extends Component
     }
 
     public function token_get(){
-        dd($this->urlTokenSPLP);
-
         $Token1                     = "Bearer " . $this->token_splp($this->credentialId,$this->credentialKey, $this->urlTokenSPLP);
         $data                       = Model::where('is_active','=',1)->first();
         $model                      = Model::firstOrNew(['id' =>  $data->id]);
