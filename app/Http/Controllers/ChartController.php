@@ -174,6 +174,36 @@ class ChartController extends Controller
 
     }
 
+    public function komoditasLineDashAll(Request $request){
+        $dt = new \Carbon\Carbon($request->date);
+        $end_date = $dt->format('Y-m-d');
+        $start_date = date('Y-m-d', strtotime($end_date . "-20days"));
+        $pasar = RefPasar::get();
+    
+        $dateList = [];
+        $priceList = [];
+    
+        foreach ($pasar as $p) {
+            $priceList[$p->namapasar] = [];
+        }
+    
+        $current_date = $start_date;
+        // dd($request->komoditas);
+        // dd($request->komoditas.', '.$p->id.', '.$current_date);
+        // dd(avgHarga($request->komoditas, $p->id, $current_date));
+        while (strtotime($current_date) <= strtotime($end_date)) {
+            array_push($dateList, TglIndoBulan($current_date));
+            foreach ($pasar as $p) {
+                $priceList[$p->namapasar][] = avgHarga($request->komoditas, $p->id, $current_date);
+            }
+            $current_date = date("Y-m-d", strtotime("+1 day", strtotime($current_date)));
+        }
+    
+        return response()->json([
+            'categori' => $dateList,
+            'price_before' => $priceList
+        ]);
+    }
     
 
     public function chartPasarStatistik(Request $request)
