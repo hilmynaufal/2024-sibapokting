@@ -22,7 +22,7 @@ class Home extends Component
     public $listBannerTop;
     public $listBannerActive;
     public $search = '';
-    public $searchPasar = 8;
+    public $searchPasar = '';
     public $searchKomoditas = 89;
     public $date;
     public $date_before;

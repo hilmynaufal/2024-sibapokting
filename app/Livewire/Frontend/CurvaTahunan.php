@@ -10,7 +10,7 @@ use Livewire\Attributes\Layout;
 class CurvaTahunan extends Component
 {
     public $search = '';
-    public $searchPasar = 8;
+    public $searchPasar = '';
     public $searchKomoditas = 89;
     public $date;
     public $date_before;

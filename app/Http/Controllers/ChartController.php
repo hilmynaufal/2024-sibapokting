@@ -33,18 +33,31 @@ class ChartController extends Controller
         $het = $komoditas->het;
 
         foreach ($years as $year) {
+            if(empty($request->pasar)){
             $komData = Model::select(
-                DB::raw("pasar_id"),
                 DB::raw("komoditas_id"),
                 DB::raw("AVG(harga_publish) as data"),
                 DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm') as bulan")
             )
             ->whereYear(DB::raw("CAST(detail_tgl AS timestamp)"), '=', $year)
-            ->where('pasar_id', $request->pasar)
             ->where('komoditas_id', $request->komoditas)
-            ->groupBy(DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm')"), 'pasar_id', 'komoditas_id')
+            ->groupBy(DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm')"), 'komoditas_id')
             ->orderBy(DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm')"), 'asc')
             ->get();
+            }else{
+                $komData = Model::select(
+                    DB::raw("pasar_id"),
+                    DB::raw("komoditas_id"),
+                    DB::raw("AVG(harga_publish) as data"),
+                    DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm') as bulan")
+                )
+                ->where('pasar_id', $request->pasar)
+                ->whereYear(DB::raw("CAST(detail_tgl AS timestamp)"), '=', $year)
+                ->where('komoditas_id', $request->komoditas)
+                ->groupBy(DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm')"), 'pasar_id', 'komoditas_id')
+                ->orderBy(DB::raw("to_char(CAST(detail_tgl AS timestamp), 'mm')"), 'asc')
+                ->get();
+            }
             
             $chartYear = [];
             foreach ($komData as $val) {
