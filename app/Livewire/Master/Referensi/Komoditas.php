@@ -31,6 +31,8 @@ class Komoditas extends Component
     public $gambar;
     public $het;
     public $list_satuan;
+    public $prioritas;
+    public $nilai_peringatan;
     
     
     protected $rules = [
@@ -72,9 +74,11 @@ class Komoditas extends Component
     {
         $this->namakomoditas    = NULL;
         $this->satuan           = NULL;
-        $this->het           = NULL;
+        $this->het              = NULL;
         $this->gambar           = NULL;
         $this->id               = NULL;
+        $this->prioritas        = NULL;
+        $this->nilai_peringatan = NULL;
     }
     
     public function cancel()
@@ -114,7 +118,9 @@ class Komoditas extends Component
         $model->id              = $this->id;
         $model->namakomoditas   = $this->namakomoditas;
         $model->satuan          = $this->satuan;
-        $model->het          = $this->het;
+        $model->het             = $this->het;
+        $model->prioritas       = $this->prioritas;
+        $model->nilai_peringatan= $this->nilai_peringatan;
         $model->gambar          = $this->gambar->storeAs($folderPath, $newFileName, 'public');
         $model->created_id      = Auth::user()->id;
         $model->created_at      = date('Y-m-d H:i:s');
@@ -152,7 +158,9 @@ class Komoditas extends Component
         $this->namakomoditas   = $model->namakomoditas;
         $this->satuan          = $model->satuan;
         $this->gambar          = $model->gambar;
-        $this->het              = $model->het;
+        $this->het             = $model->het;
+        $this->prioritas       = $model->prioritas;
+        $this->nilai_peringatan= $model->nilai_peringatan;
         $this->dispatch("showForm");
         $this->showForm = true;
     }
@@ -171,6 +179,9 @@ class Komoditas extends Component
         $model->satuan          = $this->satuan;
         $model->het             = $this->het;
         $uploadedFile           = $this->gambar;
+        $model->prioritas       = $this->prioritas;
+        $model->nilai_peringatan= $this->nilai_peringatan;
+
         if(!empty($request->hasfile('gambar'))){
             $fileName = $uploadedFile->getClientOriginalName(); // Mengambil nama asli file yang diunggah
             $fileExtension = $uploadedFile->getClientOriginalExtension(); // Mengambil ekstensi file yang diunggah

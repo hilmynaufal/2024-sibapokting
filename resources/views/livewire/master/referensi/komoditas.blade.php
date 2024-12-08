@@ -76,6 +76,7 @@ Referensi > <b>Komoditas</b>
                                 <tr class="fw-bold text-muted">
                                     <th>No</th>
                                     <th>Nama Komoditas</th>
+                                    <th>Prioritas</th>
                                     <th>Satuan</th>
                                     <th>HET</th>
                                     <th>Gambar</th>
@@ -93,6 +94,10 @@ Referensi > <b>Komoditas</b>
                                     <td>
                                         <span
                                             class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->namakomoditas}}</span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="text-center text-gray-80 font-weight-bolder text-hover-success font-size-lg">{{ $item->prioritas==1?'Ya':'Tidak';}}</span>
                                     </td>
                                     <td>
                                         <span
@@ -206,6 +211,40 @@ Referensi > <b>Komoditas</b>
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="form-label">Proioritas<span class="text-danger"></span></label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <select  wire:model="prioritas" name="prioritas" id="prioritas" class="form-control form-control-sm form-select-solid">
+                                            <option value="0">Tidak</option>
+                                            <option value="1">Ya</option>
+                                        </select>
+                                        @error('prioritas') <span class="invalid-feedback"
+                                            role="alert">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="form-label">Early Warning<span class="text-danger"></span></label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        
+                                        <input type="number"
+                                            class="form-control form-control-sm @error('nilai_peringatan') is-invalid @enderror"
+                                            name="nilai_peringatan" wire:model="nilai_peringatan" id="nilai_peringatan">
+                                        @error('nilai_peringatan') <span class="invalid-feedback"
+                                            role="alert">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                                 <div class="row">
                                     <div class="col-md-2">
