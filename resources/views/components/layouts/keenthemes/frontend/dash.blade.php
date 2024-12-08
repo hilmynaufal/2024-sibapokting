@@ -85,7 +85,7 @@
             </div>
             <!--end::Scrolltop-->
             <!--end::Theme mode setup on page load-->
-            @include('components.layouts.keenthemes.frontend.parsial.js')
+            @include('components.layouts.keenthemes.frontend.parsial.dash-js')
             <script>
                 var defaultThemeMode = "light";
                 var themeMode;
