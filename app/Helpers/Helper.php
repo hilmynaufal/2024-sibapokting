@@ -1887,6 +1887,72 @@ function dinamikaHargaAvgIcon($sekarang,$kemarin){
     return $html;
 }
 
+function inflasi($sekarang,$kemarin,$persen){
+    $red = $persen;
+    $yellow = $persen / 2;
+    $green = $persen / 3;
+    $blue = $persen / 2 ;
+    $low_blue = $persen;
+
+    $html='';
+    if(empty($kemarin) || empty($sekarang)){
+        $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
+    }else{
+        if ($sekarang > $kemarin){
+            if(inflasiKenaikan($sekarang,$kemarin) >= 5){
+                $html .= '<span class="badge badge-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-white me-2"></i>Kenaikan '
+                .inflasiKenaikan($sekarang,$kemarin).
+                ' % </span>'; 
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 3 && inflasiKenaikan($sekarang,$kemarin) < 5){
+                $html .= '<span class="badge badge-warning"><i class="ki-outline ki-arrow-up-right fs-2 text-white me-2"></i>Kenaikan '
+                .inflasiKenaikan($sekarang,$kemarin).
+                ' % </span>';
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 0 && inflasiKenaikan($sekarang,$kemarin) < 3){
+                $html .= '<span class="badge badge-success"><i class="ki-outline ki-arrow-up-right fs-2 text-white me-2"></i>Kenaikan '
+                .inflasiKenaikan($sekarang,$kemarin).
+                ' % </span>';
+            }
+        }elseif ($sekarang < $kemarin){
+            $html .= '<span class="badge badge-primary"><i class="ki-outline ki-arrow-down-right fs-2 text-white me-2"></i>Penurunan '
+            .inflasiKenaikan($sekarang,$kemarin).
+            ' % </span>';
+        }elseif($sekarang == $kemarin){
+            $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-white me-2"></i>Tetap 0% </span>';
+        }
+
+    }
+    return $html;
+}
+
+function classInflasi($sekarang,$kemarin,$persen){
+    $red = $persen;
+    $yellow = $persen / 2;
+    $green = $persen / 3;
+    $blue = $persen / 2 ;
+    $low_blue = $persen;
+
+    $html='';
+    if(empty($kemarin) || empty($sekarang)){
+        $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
+    }else{
+        if ($sekarang > $kemarin){
+            if(inflasiKenaikan($sekarang,$kemarin) >= 5){
+                $html .= 'bg-light-danger'; 
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 3 && inflasiKenaikan($sekarang,$kemarin) < 5){
+                $html .= 'bg-light-warning';
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 0 && inflasiKenaikan($sekarang,$kemarin) < 3){
+                $html .= 'bg-light-success';
+            }
+        }elseif ($sekarang < $kemarin){
+            $html .= 'bg-light-primary';
+        }elseif($sekarang == $kemarin){
+            $html .= 'bg-light-primary';
+        }
+
+    }
+    return $html;
+}
+
 function dinamikaHargaAvgVariant($sekarang,$kemarin){
     $html='';
     if(empty($kemarin) || empty($sekarang)){
@@ -2056,6 +2122,11 @@ function presentaseKenaikan($sekarang,$kemarin){
     return substr($hasil,0,4).'%';
 }
 
+function inflasiKenaikan($sekarang,$kemarin){
+    $hasil = abs($sekarang/$kemarin * 100 - 100);
+    return substr($hasil,0,4);
+}
+
 function presentasePenurunan($sekarang,$kemarin){
     $selisih = $kemarin - $sekarang;
     $presentase = $selisih / $sekarang;
@@ -2128,6 +2199,22 @@ function avgHarga($komoditas,$pasar,$tgl){
     
 }
 
+function iphHarga($komoditas,$tgl){
+    $raw_date = $tgl;
+    $date_parts = explode('-', $raw_date);
+
+    // $year = (int)$date_parts[0];
+    // $month = (int)$date_parts[1];
+    // $day = (int)$date_parts[2];
+    $startOfWeek = date('Y-m-d', strtotime('last monday', strtotime($tgl)));
+    $endOfWeek = date('Y-m-d', strtotime($startOfWeek . "+6 days"));
+    $avg_komoditas = Komoditas::where('komoditas_id', $komoditas)
+        ->where('detail_tgl', '>=', $startOfWeek)
+        ->where('detail_tgl', '<=', $endOfWeek)
+        ->Avg('harga_publish');
+    return round($avg_komoditas);
+}
+
 function getLastDayOfMonth($year, $month) {
     // Membuat objek DateTime untuk tanggal pertama dalam bulan
     $date = new DateTime("$year-$month-01");
@@ -2171,6 +2258,7 @@ function getBarang($barang){
     return $data;
 }
       
+                                            
                                             
                                             
                                             

@@ -15,6 +15,7 @@ use App\Http\Controllers\api\UserController;
 |
 */
 
+Route::get('earlywarning', App\Livewire\Frontend\EarlyWarning::class)->name('earlywarning');
 Route::get('curvatahunan', App\Livewire\Frontend\CurvaTahunan::class)->name('curvatahunan');
 Route::get('grafikharian', App\Livewire\Frontend\GrafikHarian::class)->name('grafikharian');
 Route::get('grafikbulananall', App\Livewire\Frontend\GrafikBulananAll::class)->name('grafikbulananall');
