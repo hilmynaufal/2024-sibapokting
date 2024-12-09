@@ -9,12 +9,12 @@
     @include('components.layouts.keenthemes.frontend.parsial.css')
     <link rel="shortcut icon" href="{!! getAppFavicon() !!}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
-    <script>
+    {{-- <script>
         // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
         if (window.top != window.self) {
             window.top.location.replace(window.self.location.href);
         }
-    </script>
+    </script> --}}
     @livewireStyles
     @stack('css')
 </head>
