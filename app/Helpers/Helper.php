@@ -1899,15 +1899,15 @@ function inflasi($sekarang,$kemarin,$persen){
         $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
     }else{
         if ($sekarang > $kemarin){
-            if(inflasiKenaikan($sekarang,$kemarin) >= 5){
+            if(inflasiKenaikan($sekarang,$kemarin) >= 10){
                 $html .= '<span class="badge badge-danger"><i class="ki-outline ki-arrow-up-right fs-2 text-white me-2"></i>Kenaikan '
                 .inflasiKenaikan($sekarang,$kemarin).
                 ' % </span>'; 
-            }else if(inflasiKenaikan($sekarang,$kemarin) >= 3 && inflasiKenaikan($sekarang,$kemarin) < 5){
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 5 && inflasiKenaikan($sekarang,$kemarin) < 10){
                 $html .= '<span class="badge badge-warning"><i class="ki-outline ki-arrow-up-right fs-2 text-white me-2"></i>Kenaikan '
                 .inflasiKenaikan($sekarang,$kemarin).
                 ' % </span>';
-            }else if(inflasiKenaikan($sekarang,$kemarin) >= 0 && inflasiKenaikan($sekarang,$kemarin) < 3){
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 0 && inflasiKenaikan($sekarang,$kemarin) < 5){
                 $html .= '<span class="badge badge-success"><i class="ki-outline ki-arrow-up-right fs-2 text-white me-2"></i>Kenaikan '
                 .inflasiKenaikan($sekarang,$kemarin).
                 ' % </span>';
