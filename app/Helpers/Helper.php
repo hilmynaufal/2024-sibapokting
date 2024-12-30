@@ -1936,11 +1936,11 @@ function classInflasi($sekarang,$kemarin,$persen){
         $html .= '<span class="badge badge-light-primary"><i class="ki-outline ki-minus fs-2 text-primary me-2"></i>Tetap 0% </span>';
     }else{
         if ($sekarang > $kemarin){
-            if(inflasiKenaikan($sekarang,$kemarin) >= 5){
+            if(inflasiKenaikan($sekarang,$kemarin) >= 10){
                 $html .= 'bg-light-danger'; 
-            }else if(inflasiKenaikan($sekarang,$kemarin) >= 3 && inflasiKenaikan($sekarang,$kemarin) < 5){
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 5 && inflasiKenaikan($sekarang,$kemarin) < 10){
                 $html .= 'bg-light-warning';
-            }else if(inflasiKenaikan($sekarang,$kemarin) >= 0 && inflasiKenaikan($sekarang,$kemarin) < 3){
+            }else if(inflasiKenaikan($sekarang,$kemarin) >= 0 && inflasiKenaikan($sekarang,$kemarin) < 5){
                 $html .= 'bg-light-success';
             }
         }elseif ($sekarang < $kemarin){

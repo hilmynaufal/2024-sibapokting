@@ -16,8 +16,9 @@ class EarlyWarning extends Component
     public function mount(){
         $dt = new \Carbon\Carbon(now());
         $this->date = $dt->startOfWeek()->format('Y-m-d');
-        $this->date_before = $dt->subMonth()->startOfWeek()->format('Y-m-d');
-
+        // $this->date_before = $dt->subMonth()->startOfWeek()->format('Y-m-d');
+        $this->date_before = $dt->subWeek()->startOfWeek()->format('Y-m-d');
+        // dd($this->date.'-'.$this->date_before);
     }
     public function render()
     {
