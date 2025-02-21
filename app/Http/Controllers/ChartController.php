@@ -28,7 +28,7 @@ class ChartController extends Controller
 
     public function dataChart(Request $request){
         $chartData = [];
-        $years = [2022, 2023, 2024];
+        $years = [2022, 2023, 2024, 2025];
         $komoditas = RefKomoditas::where('id',$request->komoditas)->first();
         $het = $komoditas->het;
 

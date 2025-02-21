@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Models;
 
 use Coderflex\Laravisit\Concerns\CanVisit;
