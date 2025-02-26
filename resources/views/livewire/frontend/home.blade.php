@@ -361,6 +361,10 @@ $( document ).ready(function() {
                 data: response['data24']
             },
             {
+                name: '2025',
+                data: response['data25']
+            },
+            {
                 name:'HET/HAP',
                 data:response['het']
             }
@@ -391,6 +395,10 @@ $("#searchKomoditas").on("change", function() {
                 data: response['data24']
             },
             {
+                name: '2025',
+                data: response['data25']
+            },
+            {
                 name:'HET/HAP',
                 data:response['het']
             }
@@ -416,6 +424,10 @@ $("#searchPasar").on("change", function() {
             },{
                 name: '2024',
                 data: response['data24']
+            },
+            {
+                name: '2025',
+                data: response['data25']
             },
             {
                 name:'HET/HAP',
