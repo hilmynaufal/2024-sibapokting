@@ -12,7 +12,7 @@
             </a>
         </div>
         <!--end::Logo-->
-        @if(!empty($komoditas_sekarang->komoditas_id))
+        @if(!empty($komoditas_sekarang->komoditas_id) && !empty($komoditas_kemarin->komoditas_id))
         <!--begin::Sidebar nav-->
         <div class="flex-column-fluid px-4 px-lg-8 py-4" id="kt_app_sidebar_nav">
             <!--begin::Nav wrapper-->
