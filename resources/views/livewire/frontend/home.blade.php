@@ -351,9 +351,9 @@ $( document ).ready(function() {
     $.ajax(settings).done(function (response) {
         chart.updateSeries([
             {
-                name: '2022',
-                data: response['data22']
-            },{
+            //     name: '2022',
+            //     data: response['data22']
+            // },{
                 name: '2023',
                 data: response['data23']
             },{
@@ -385,9 +385,9 @@ $("#searchKomoditas").on("change", function() {
     $.ajax(settings).done(function (response) {
         chart.updateSeries([
             {
-                name: '2022',
-                data: response['data22']
-            },{
+            //     name: '2022',
+            //     data: response['data22']
+            // },{
                 name: '2023',
                 data: response['data23']
             },{
@@ -416,9 +416,9 @@ $("#searchPasar").on("change", function() {
     $.ajax(settings).done(function (response) {
         chart.updateSeries([
             {
-                name: '2022',
-                data: response['data22']
-            },{
+            //     name: '2022',
+            //     data: response['data22']
+            // },{
                 name: '2023',
                 data: response['data23']
             },{
