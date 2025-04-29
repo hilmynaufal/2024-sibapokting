@@ -191,7 +191,7 @@ Home
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
-                                        <div
+                                        {{-- <div
                                             class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
                                             <div class="dataTables_length" id="kt_ecommerce_products_table_length">
                                                 <label><select name="kt_ecommerce_products_table_length"
@@ -210,7 +210,7 @@ Home
                                                 id="kt_ecommerce_products_table_paginate">
                                                 {{ $model->links() }}
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <!--end: Card Body-->
