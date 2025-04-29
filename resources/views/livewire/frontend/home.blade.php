@@ -87,7 +87,7 @@ Home
                     <!--end::Row-->
 
                     <!--begin::Row-->
-                    <div class="row g-2 g-xl-12">
+                    {{-- <div class="row g-2 g-xl-12">
                         <!--begin::Col-->
                         <div class="col-xl-12">
                             <!--begin::Table widget 6-->
@@ -191,7 +191,7 @@ Home
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
-                                        {{-- <div
+                                        <div
                                             class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
                                             <div class="dataTables_length" id="kt_ecommerce_products_table_length">
                                                 <label><select name="kt_ecommerce_products_table_length"
@@ -210,7 +210,7 @@ Home
                                                 id="kt_ecommerce_products_table_paginate">
                                                 {{ $model->links() }}
                                             </div>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                 </div>
                                 <!--end: Card Body-->
@@ -218,7 +218,7 @@ Home
                             <!--end::Table widget 6-->
                         </div>
                         <!--end::Col-->
-                    </div>
+                    </div> --}}
                     <!--end::Row-->
 
                     

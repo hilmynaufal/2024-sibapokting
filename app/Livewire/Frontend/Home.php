@@ -59,7 +59,7 @@ class Home extends Component
 
         $this->show(1);
         $query = RefKomoditas::query();
-        $rows = $query->limit(12)->paginate($this->perpage);
+        $rows = $query->paginate($this->perpage);
         
         return view('livewire.frontend.home', [
           'model'=> $rows
