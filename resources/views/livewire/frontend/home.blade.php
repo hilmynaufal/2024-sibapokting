@@ -87,7 +87,7 @@ Home
                     <!--end::Row-->
 
                     <!--begin::Row-->
-                    {{-- <div class="row g-2 g-xl-12">
+                    <div class="row g-2 g-xl-12">
                         <!--begin::Col-->
                         <div class="col-xl-12">
                             <!--begin::Table widget 6-->
@@ -218,7 +218,7 @@ Home
                             <!--end::Table widget 6-->
                         </div>
                         <!--end::Col-->
-                    </div> --}}
+                    </div>
                     <!--end::Row-->
 
                     
