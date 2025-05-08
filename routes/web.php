@@ -14,7 +14,7 @@ use App\Http\Controllers\api\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+// START FUNGSI UNTUK DITAMPILKAN DI DASH PIMPINAN
 Route::get('earlywarning', App\Livewire\Frontend\EarlyWarning::class)->name('earlywarning');
 Route::get('curvatahunan', App\Livewire\Frontend\CurvaTahunan::class)->name('curvatahunan');
 Route::get('grafikharian', App\Livewire\Frontend\GrafikHarian::class)->name('grafikharian');
@@ -22,6 +22,8 @@ Route::get('grafikbulananall', App\Livewire\Frontend\GrafikBulananAll::class)->n
 Route::get('grafikbulanan', App\Livewire\Frontend\GrafikBulanan::class)->name('grafikbulanan');
 Route::get('tabelperbandingan', App\Livewire\Frontend\TabelPerbandingan::class)->name('tabelperbandingan');
 Route::get('petapersebaran', App\Livewire\Frontend\PetaPersebaran::class)->name('petapersebaran');
+// END FUNGSI UNTUK DITAMPILKAN DI DASH PIMPINAN
+
 Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
@@ -160,6 +162,8 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
 Route::get('api/pasar/', ['as'=>'api.pasar','uses'=>'App\Http\Controllers\DashboardController@apipasar']);
 Route::get('api/komoditas/', ['as'=>'api.komoditas','uses'=>'App\Http\Controllers\DashboardController@apikomoditas']);
 Route::get('api/hargakomoditas/', ['as'=>'api.hargakomoditas','uses'=>'App\Http\Controllers\DashboardController@apihargakomoditas']);
+
+// DIGUNAKAN UNTUK INTEGRASI DENGAN APLIKASI SILINDA
 Route::get('api/post_silinda/{id}', ['as'=>'api.post_silinda','uses'=>'App\Http\Controllers\APIController@silinda']);
 Route::get('api/get_silinda/', ['as'=>'api.get_silinda','uses'=>'App\Http\Controllers\APIController@silinda_int']);
 
