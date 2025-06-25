@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Closure;
 use App\Models\RefSetting as Model;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Component;
 
 class Visitor extends Component

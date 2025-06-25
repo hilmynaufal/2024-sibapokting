@@ -362,32 +362,32 @@ Home
                 "timeout": 0,
             };
 
-            $.ajax(settings).done(function (response) {
-                chart.updateSeries([
-                    {
-                        name: '2022',
-                        data: response['data22']
-                    }, {
-                        name: '2023',
-                        data: response['data23']
-                    }, {
-                        name: '2024',
-                        data: response['data24']
-                    },
-                    {
-                        name: '2025',
-                        data: response['data25']
-                    },
-                    {
-                        name: 'HET/HAP',
-                        data: response['het']
-                    }
-                ])
-            });
-        });
-
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+    $.ajax(settings).done(function (response) {
+        chart.updateSeries([
+            {
+            //     name: '2022',
+            //     data: response['data22']
+            // },{
+                name: '2023',
+                data: response['data23']
+            },{
+                name: '2024',
+                data: response['data24']
+            },
+            {
+                name: '2025',
+                data: response['data25']
+            },
+            {
+                name:'HET/HAP',
+                data:response['het']
+            }
+        ])
+    });
+});
+        
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
 
         $("#searchKomoditas").on("change", function () {
             var settings = {
@@ -396,29 +396,29 @@ Home
                 "timeout": 0,
             };
 
-            $.ajax(settings).done(function (response) {
-                chart.updateSeries([
-                    {
-                        name: '2022',
-                        data: response['data22']
-                    }, {
-                        name: '2023',
-                        data: response['data23']
-                    }, {
-                        name: '2024',
-                        data: response['data24']
-                    },
-                    {
-                        name: '2025',
-                        data: response['data25']
-                    },
-                    {
-                        name: 'HET/HAP',
-                        data: response['het']
-                    }
-                ])
-            });
-        });
+    $.ajax(settings).done(function (response) {
+        chart.updateSeries([
+            {
+            //     name: '2022',
+            //     data: response['data22']
+            // },{
+                name: '2023',
+                data: response['data23']
+            },{
+                name: '2024',
+                data: response['data24']
+            },
+            {
+                name: '2025',
+                data: response['data25']
+            },
+            {
+                name:'HET/HAP',
+                data:response['het']
+            }
+        ])
+    });
+});
 
         $("#searchPasar").on("change", function () {
             var settings = {
@@ -427,29 +427,29 @@ Home
                 "timeout": 0,
             };
 
-            $.ajax(settings).done(function (response) {
-                chart.updateSeries([
-                    {
-                        name: '2022',
-                        data: response['data22']
-                    }, {
-                        name: '2023',
-                        data: response['data23']
-                    }, {
-                        name: '2024',
-                        data: response['data24']
-                    },
-                    {
-                        name: '2025',
-                        data: response['data25']
-                    },
-                    {
-                        name: 'HET/HAP',
-                        data: response['het']
-                    }
-                ])
-            });
-        });
+    $.ajax(settings).done(function (response) {
+        chart.updateSeries([
+            {
+            //     name: '2022',
+            //     data: response['data22']
+            // },{
+                name: '2023',
+                data: response['data23']
+            },{
+                name: '2024',
+                data: response['data24']
+            },
+            {
+                name: '2025',
+                data: response['data25']
+            },
+            {
+                name:'HET/HAP',
+                data:response['het']
+            }
+        ])
+    });
+});
 
     </script>
 @endpush

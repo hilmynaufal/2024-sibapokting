@@ -2115,11 +2115,21 @@ function hargaSebelum($id,$tgl){
     return $html;
 }
 
-function presentaseKenaikan($sekarang,$kemarin){
+// function presentaseKenaikan($sekarang,$kemarin){
+//     $selisih = $sekarang - $kemarin;
+//     $presentase = $selisih / $kemarin;
+//     $hasil = $presentase * 100;
+//     return substr($hasil,0,4).'%';
+// }
+function presentaseKenaikan($sekarang, $kemarin) {
+    if ($kemarin == 0) {
+        return $sekarang > 0 ? '100%' : '0%'; // Jika awalnya nol, kenaikan tak terhingga atau tetap nol.
+    }
+
     $selisih = $sekarang - $kemarin;
-    $presentase = $selisih / $kemarin;
-    $hasil = $presentase * 100;
-    return substr($hasil,0,4).'%';
+    $presentase = ($selisih / $kemarin) * 100;
+
+    return number_format($presentase, 2) . '%';
 }
 
 function inflasiKenaikan($sekarang,$kemarin){
