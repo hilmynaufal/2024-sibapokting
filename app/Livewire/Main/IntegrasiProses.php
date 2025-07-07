@@ -45,7 +45,7 @@ class IntegrasiProses extends Component
     }
 
     public function singkronisasi($id){
-        $this->token_get();
+        // $this->token_get();
         $model              = Model::where('is_active','=',1)->first();
         $token_silinda      = Model::where('is_active','=',1)->first();
         $pasarInt           = RefPasar::where('id',$id)->first();
@@ -64,6 +64,8 @@ class IntegrasiProses extends Component
             $myObj->price = $kom->harga_publish;
             $myJSON = json_encode($myObj);
 
+            // dd($myJSON);
+
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => $model->baseURL.$model->pathResourceSend,
@@ -78,9 +80,13 @@ class IntegrasiProses extends Component
                   CURLOPT_HTTPHEADER => $this->httpHeader($token_silinda->token)
                 ),
             );
+
+            
               
               $response = curl_exec($curl);
               curl_close($curl);
+
+              dd($response);
                 
 
         }
@@ -155,6 +161,7 @@ class IntegrasiProses extends Component
             'Authorization:'.$token,
             'Cookie: priangan_ses=a%3A5%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%223c42b07daa419f31433e7a39fa7b8be0%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A14%3A%22103.170.104.48%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A29%3A%22Synapse-PT-HttpComponents-NIO%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1697775983%3Bs%3A9%3A%22user_data%22%3Bs%3A0%3A%22%22%3B%7D78ddfc0eb4cb1af12e3b8894b97d13e0'
         );
+        // dd($headers);
         return $headers;
     }
 
@@ -165,6 +172,7 @@ class IntegrasiProses extends Component
             'Content-Type:application/json',
             'Cookie: priangan_ses=a%3A5%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%225621aa3e66cf4220e54cda6d6bb24a69%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A15%3A%22172.10.10.67%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A29%3A%22Synapse-PT-HttpComponents-NIO%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1697095087%3Bs%3A9%3A%22user_data%22%3Bs%3A0%3A%22%22%3B%7D2696be34422c57f3fb81adcd0d980164'
         ];
+        // dd($headers);
         return $headers;
     }
 

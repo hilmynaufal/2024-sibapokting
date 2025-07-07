@@ -1,0 +1,12 @@
+# File contoh Excel untuk import komoditas
+# Format: .xlsx dengan header "nama komoditas" dan "harga sekarang"
+# 
+# Contoh isi file:
+# | nama komoditas | harga sekarang |
+# | Beras Premium  | 15000         |
+# | Beras Medium   | 12000         |
+# | Jagung         | 8000          |
+# | Kedelai        | 18000         |
+#
+# Catatan: File ini hanya contoh, Anda perlu membuat file Excel yang sebenarnya
+# dengan format .xlsx yang berisi data komoditas dan harga 

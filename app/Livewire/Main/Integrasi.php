@@ -65,6 +65,7 @@ class Integrasi extends Component
     public function render()
     {
         $this->token_get();
+        // dd($this->token_get());
         $multiCurl          = array();
         $result             = array();
 
@@ -77,6 +78,8 @@ class Integrasi extends Component
             $myObj->market_id   = $id->kode_integrasi;
             $myObj->time        = date("Y-m-d");
             $myJSON             = json_encode($myObj);
+
+            // dd($myJSON);
 
             $multiCurl[$i] = curl_init();
             curl_setopt_array($multiCurl[$i], array(
@@ -137,7 +140,7 @@ class Integrasi extends Component
         curl_close($ch);
         // dd($result);
 
-        $tokenResponse = $result1->access_token;
+        $tokenResponse = $result1->access_token ?? "";
         return $tokenResponse;
     }
 

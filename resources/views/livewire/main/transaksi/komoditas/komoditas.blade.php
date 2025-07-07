@@ -56,11 +56,19 @@
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-bold fs-3 mb-1">Harga Pangan Kabupaten Bandung</span>
                     </h3>
-                    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                        data-bs-original-title="Click to add a user" data-kt-initialized="1">
-                        <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.add'})" class="btn btn-sm btn-light btn-active-primary">
-                            <i class="ki-duotone ki-plus fs-2"></i> Tambah Data
-                        </a>
+                    <div class="d-flex gap-2">
+                        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+                            data-bs-original-title="Click to add a user" data-kt-initialized="1">
+                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.add'})" class="btn btn-sm btn-light btn-active-primary">
+                                <i class="ki-duotone ki-plus fs-2"></i> Tambah Data
+                            </a>
+                        </div>
+                        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+                            data-bs-original-title="Click to add a user" data-kt-initialized="1">
+                            <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.import'})" class="btn btn-sm btn-light btn-active-primary">
+                                <i class="ki-duotone ki-plus fs-2"></i> Import Data
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!--end::Header-->

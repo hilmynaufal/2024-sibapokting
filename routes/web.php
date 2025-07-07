@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\RefController;
-use App\Http\Controllers\api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,6 +164,7 @@ Route::get('api/hargakomoditas/', ['as'=>'api.hargakomoditas','uses'=>'App\Http\
 
 // DIGUNAKAN UNTUK INTEGRASI DENGAN APLIKASI SILINDA
 Route::get('api/post_silinda/{id}', ['as'=>'api.post_silinda','uses'=>'App\Http\Controllers\APIController@silinda']);
+Route::get('api/get_token/', ['as'=>'api.get_token','uses'=>'App\Http\Controllers\APIController@token_get']);
 Route::get('api/get_silinda/', ['as'=>'api.get_silinda','uses'=>'App\Http\Controllers\APIController@silinda_int']);
 
 app('debugbar')->disable();
