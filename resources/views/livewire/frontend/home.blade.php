@@ -146,9 +146,12 @@ Home
                                         @foreach ($model as $index => $item)
                                                                             <div class="col-sm-6 col-xl-4">
                                                                                 <div
-                                                                                    class="border border-dashed border-gray-300 rounded px-7 py-3  ribbon ribbon-top">
-                                                                                    <div class="ribbon-label" style="background-color: #ff7575">HET :
+                                                                                    class="border border-dashed border-gray-300 rounded px-7 py-3  ribbon ribbon-end ribbon-top" style="padding-top: 50px !important;">
+                                                                                    <div class="ribbon-label" style="background-color: #ff7575; right: -8px; max-width: 95px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">HET :
                                                                                         {{rupiah($item->het, 0)}}</div>
+                                                                                    @if($item->komoditas_mbg == 1)
+                                                                                        <div class="ribbon-label" style="background-color: #4CAF50; top: 0px; right: 95px; max-width: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">MBG</div>
+                                                                                    @endif
                                                                                     <!--begin::Info-->
                                                                                     <div class="d-flex flex-stack mb-3">
                                                                                         <!--begin::Wrapper-->
