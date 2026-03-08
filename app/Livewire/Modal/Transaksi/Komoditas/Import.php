@@ -53,6 +53,7 @@ class Import extends ModalComponent
     public $previewData = [];
     public $showPreview = false;
     public $importErrors = [];
+    public $replaceMode = false;
     
     public function render()
     {
@@ -252,26 +253,54 @@ class Import extends ModalComponent
                         $errorMessages[] = "Pasar '$pasarName' tidak ditemukan di database";
                         continue;
                     }
+                    // Cek jika harga hari ini sudah ada dan mode replace
+                    $existingData = Model::where('komoditas_id', $komoditas->id)
+                        ->where('pasar_id', $pasarId)
+                        ->where('detail_tgl', $tanggalChange)
+                        ->first();
+                        
+                    if ($existingData && !$this->replaceMode) {
+                        continue;
+                    }
+
                     // OPTIMASI: gunakan array harga kemarin
                     $selisih_harga = $hargaSelisihArr($komoditas->id, $pasarId, $harga);
                     $kondisi = $statusDinamikaArr($komoditas->id, $pasarId, $harga);
-                    $bulkInsert[] = [
-                        'token' => Uuid::uuid4()->toString(),
-                        'komoditas_id' => $komoditas->id,
-                        'pasar_id' => $pasarId,
-                        'users_id' => \Auth::user()->id,
-                        'tanggal' => $tanggalChangeTime,
-                        'harga_publish' => $harga,
-                        'harga_dinamik' => $selisih_harga,
-                        'kondisi' => $kondisi,
-                        'status' => 'harga pasar',
-                        'harga_pasar' => $harga,
-                        'detail_tgl' => $tanggalChange,
-                        'nama_komoditas' => $komoditas->namakomoditas,
-                        'nama_pasar' => $pasarName,
-                        'created_id' => \Auth::user()->id,
-                        'created_at' => date('Y-m-d H:i:s'),
-                    ];
+
+                    if ($existingData && $this->replaceMode) {
+                        try {
+                            $existingData->update([
+                                'tanggal' => $tanggalChangeTime,
+                                'harga_publish' => $harga,
+                                'harga_dinamik' => $selisih_harga,
+                                'kondisi' => $kondisi,
+                                'harga_pasar' => $harga,
+                                'updated_id' => \Auth::user()->id,
+                            ]);
+                            $successCount++;
+                        } catch (\Exception $e) {
+                            $errorCount++;
+                            $errorMessages[] = "Gagal mengupdate data untuk komoditas '$namaKomoditas': " . $e->getMessage();
+                        }
+                    } else {
+                        $bulkInsert[] = [
+                            'token' => Uuid::uuid4()->toString(),
+                            'komoditas_id' => $komoditas->id,
+                            'pasar_id' => $pasarId,
+                            'users_id' => \Auth::user()->id,
+                            'tanggal' => $tanggalChangeTime,
+                            'harga_publish' => $harga,
+                            'harga_dinamik' => $selisih_harga,
+                            'kondisi' => $kondisi,
+                            'status' => 'harga pasar',
+                            'harga_pasar' => $harga,
+                            'detail_tgl' => $tanggalChange,
+                            'nama_komoditas' => $komoditas->namakomoditas,
+                            'nama_pasar' => $pasarName,
+                            'created_id' => \Auth::user()->id,
+                            'created_at' => date('Y-m-d H:i:s'),
+                        ];
+                    }
                 }
                 // Bulk insert sekaligus untuk semua pasar pada komoditas ini
                 if (!empty($bulkInsert)) {
@@ -414,6 +443,32 @@ class Import extends ModalComponent
                 }
             }
 
+            // Kumpulkan semua komoditas_id dan pasar_id yang akan diimport untuk mengambil data existing hari ini
+            $semua_komoditas_id = [];
+            $semua_pasar_id = array_values($pasarMap);
+            for ($i = 1; $i < $rows->count(); $i++) {
+                $row = $rows[$i];
+                $namaKomoditas = trim($row[0] ?? '');
+                if (empty($namaKomoditas)) continue;
+                $komoditas = RefKomoditas::where('namakomoditas', 'like', '%' . $namaKomoditas . '%')->first();
+                if ($komoditas) {
+                    $semua_komoditas_id[] = $komoditas->id;
+                }
+            }
+            $semua_komoditas_id = array_unique($semua_komoditas_id);
+            
+            $dt = new \Carbon\Carbon($this->tanggal);
+            $tanggalChange = $dt->format('Y-m-d');
+            
+            // Ambil data harga hari ini sekaligus
+            $harga_hari_ini = Model::whereIn('komoditas_id', $semua_komoditas_id)
+                ->whereIn('pasar_id', $semua_pasar_id)
+                ->where('detail_tgl', $tanggalChange)
+                ->get()
+                ->keyBy(function($item) {
+                    return $item->komoditas_id . '-' . $item->pasar_id;
+                });
+
             $previewData = [];
             $maxPreviewRows = $rows->count() - 1;
             for ($i = 1; $i <= $maxPreviewRows; $i++) {
@@ -426,11 +481,30 @@ class Import extends ModalComponent
                     $harga = isset($row[$idx+1]) ? trim($row[$idx+1]) : null;
                     $isValid = is_numeric($harga) && $harga > 0;
                     $pasarFound = isset($pasarMap[$pasarName]);
+                    
+                    $hargaLama = null;
+                    $selisih = null;
+                    $existing = false;
+                    
+                    if ($komoditas && $pasarFound) {
+                        $key = $komoditas->id . '-' . $pasarMap[$pasarName];
+                        if (isset($harga_hari_ini[$key])) {
+                            $existing = true;
+                            $hargaLama = $harga_hari_ini[$key]->harga_publish;
+                            if ($isValid) {
+                                $selisih = $harga - $hargaLama;
+                            }
+                        }
+                    }
+
                     $perPasar[] = [
                         'pasar' => $pasarName,
                         'harga' => $harga,
                         'is_valid' => $isValid,
-                        'pasar_found' => $pasarFound
+                        'pasar_found' => $pasarFound,
+                        'existing' => $existing,
+                        'harga_lama' => $hargaLama,
+                        'selisih' => $selisih
                     ];
                 }
                 $previewData[] = [

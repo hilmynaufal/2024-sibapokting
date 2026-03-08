@@ -28,6 +28,21 @@
                         </div>
                     </div>
 
+                    <div class="form-group mb-3 fv-row fv-plugins-icon-container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Opsi Import</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="1" id="replaceMode" wire:model="replaceMode"/>
+                                    <label class="form-check-label" for="replaceMode">
+                                        Replace Data (Timpa data lama jika harga pada tanggal yang sama sudah ada)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group mb-3 fv-row fv-plugins-icon-container">
                         <div class="row">
@@ -96,11 +111,25 @@
                                                                     @foreach($data['per_pasar'] as $perPasar)
                                                                         <td>
                                                                             @if($perPasar['harga'] !== null && $perPasar['harga'] !== '')
-                                                                                <span>{{ number_format($perPasar['harga']) }}</span><br>
+                                                                                <span>Baru: {{ number_format($perPasar['harga']) }}</span><br>
+                                                                                
+                                                                                @if($perPasar['existing'])
+                                                                                    <span class="text-muted" style="font-size: 0.85em;">Lama: {{ number_format($perPasar['harga_lama']) }}</span><br>
+                                                                                    @if($perPasar['selisih'] !== null)
+                                                                                        @if($perPasar['selisih'] > 0)
+                                                                                            <span class="text-danger" style="font-size: 0.85em;"><i class="fas fa-arrow-up text-danger"></i> {{ number_format(abs($perPasar['selisih'])) }}</span><br>
+                                                                                        @elseif($perPasar['selisih'] < 0)
+                                                                                            <span class="text-success" style="font-size: 0.85em;"><i class="fas fa-arrow-down text-success"></i> {{ number_format(abs($perPasar['selisih'])) }}</span><br>
+                                                                                        @else
+                                                                                            <span class="text-secondary" style="font-size: 0.85em;"><i class="fas fa-minus text-secondary"></i> Stabil</span><br>
+                                                                                        @endif
+                                                                                    @endif
+                                                                                @endif
+                                                                                
                                                                                 @if($perPasar['is_valid'])
-                                                                                    <span class="badge badge-success">Valid</span>
+                                                                                    <span class="badge badge-success mt-1">Valid</span>
                                                                                 @else
-                                                                                    <span class="badge badge-danger">Tidak valid</span>
+                                                                                    <span class="badge badge-danger mt-1">Tidak valid</span>
                                                                                 @endif
                                                                             @else
                                                                                 <span class="text-muted">-</span>
