@@ -21,7 +21,7 @@ class Import extends ModalComponent
     public $id;
     public $listPasar;
     public $pasarId;
-    public $listKomoditas=[];
+    public $listKomoditas = [];
     public $komoditasId;
     public $harga;
     public $created_at;
@@ -54,29 +54,29 @@ class Import extends ModalComponent
     public $showPreview = false;
     public $importErrors = [];
     public $replaceMode = false;
-    
+
     public function render()
     {
         return view('livewire.main.transaksi.komoditas.modal.import');
     }
 
     public function updatedFile()
-{
-    
-    $this->validate([
-        'file' => 'file|max:5120|mimes:xlsx,xls', // 5MB
-    ]);
-    // dd($this->file);
-}
+    {
+
+        $this->validate([
+            'file' => 'file|max:5120|mimes:xlsx,xls', // 5MB
+        ]);
+        // dd($this->file);
+    }
 
 
-    
+
     public function mount()
     {
-        if(Auth::user()->role_id == 5){
-            $this->listPasar = RefPasar::orderBy('namapasar','asc')->where('id',Auth::user()->pasar_id)->get();
-        }else{
-            $this->listPasar = RefPasar::orderBy('namapasar','asc')->get();
+        if (Auth::user()->role_id == 5) {
+            $this->listPasar = RefPasar::orderBy('namapasar', 'asc')->where('id', Auth::user()->pasar_id)->get();
+        } else {
+            $this->listPasar = RefPasar::orderBy('namapasar', 'asc')->get();
         }
         $this->pasarId = Auth::user()->pasar_id;
         $this->tanggal = date('Y-m-d H:i');
@@ -91,7 +91,7 @@ class Import extends ModalComponent
         // $this->listKomoditas = RefKomoditas::orderBy('namakomoditas','asc')
         // ->whereNotIn('id', $komoditasInserted)->get();
 
-        
+
     }
 
     public function create()
@@ -122,7 +122,7 @@ class Import extends ModalComponent
         // Validasi ekstensi file
         $extension = $this->file->getClientOriginalExtension();
         $allowedExtensions = ['xlsx', 'xls'];
-        
+
         if (!in_array(strtolower($extension), $allowedExtensions)) {
             $this->alert('error', 'File harus berformat .xlsx atau .xls', [
                 'timer' => 3000,
@@ -162,7 +162,7 @@ class Import extends ModalComponent
         $tanggalChange = $dt->format('Y-m-d');
         $tanggalChangeTime = $dt->format('Y-m-d H:i:s');
         $tanggal_sebelum = date('Y-m-d', strtotime($tanggalChange . "-1 days"));
-        dd($tanggal_sebelum);
+        // dd($tanggal_sebelum);
         // Kumpulkan semua komoditas_id dan pasar_id yang akan diimport
         $semua_komoditas_id = [];
         $semua_pasar_id = array_values($pasarMap);
@@ -196,7 +196,8 @@ class Import extends ModalComponent
             for ($i = 1; $i < $rows->count(); $i++) {
                 $row = $rows[$i];
                 $namaKomoditas = trim($row[0] ?? '');
-                if (empty($namaKomoditas)) continue;
+                if (empty($namaKomoditas))
+                    continue;
                 $komoditas = RefKomoditas::where('namakomoditas', 'like', '%' . $namaKomoditas . '%')->first();
                 if ($komoditas) {
                     $semua_komoditas_id[] = $komoditas->id;
@@ -208,22 +209,26 @@ class Import extends ModalComponent
                 ->whereIn('pasar_id', $semua_pasar_id)
                 ->where('detail_tgl', $tanggal_sebelum)
                 ->get()
-                ->keyBy(function($item) {
+                ->keyBy(function ($item) {
                     return $item->komoditas_id . '-' . $item->pasar_id;
                 });
             // Fungsi lokal optimal
-            $hargaSelisihArr = function($komoditas_id, $pasar_id, $harga) use ($harga_kemarin) {
+            $hargaSelisihArr = function ($komoditas_id, $pasar_id, $harga) use ($harga_kemarin) {
                 $key = $komoditas_id . '-' . $pasar_id;
-                if (!isset($harga_kemarin[$key])) return 0;
+                if (!isset($harga_kemarin[$key]))
+                    return 0;
                 $harga_kemarin_val = $harga_kemarin[$key]->harga_publish;
                 return abs($harga - $harga_kemarin_val);
             };
-            $statusDinamikaArr = function($komoditas_id, $pasar_id, $harga) use ($harga_kemarin) {
+            $statusDinamikaArr = function ($komoditas_id, $pasar_id, $harga) use ($harga_kemarin) {
                 $key = $komoditas_id . '-' . $pasar_id;
-                if (!isset($harga_kemarin[$key])) return 'stabil';
+                if (!isset($harga_kemarin[$key]))
+                    return 'stabil';
                 $harga_kemarin_val = $harga_kemarin[$key]->harga_publish;
-                if ($harga > $harga_kemarin_val) return 'naik';
-                if ($harga < $harga_kemarin_val) return 'turun';
+                if ($harga > $harga_kemarin_val)
+                    return 'naik';
+                if ($harga < $harga_kemarin_val)
+                    return 'turun';
                 return 'stabil';
             };
             // --- END OPTIMASI ---
@@ -234,7 +239,8 @@ class Import extends ModalComponent
             for ($i = 1; $i < $rows->count(); $i++) {
                 $row = $rows[$i];
                 $namaKomoditas = trim($row[0] ?? '');
-                if (empty($namaKomoditas)) continue;
+                if (empty($namaKomoditas))
+                    continue;
                 // Cari komoditas
                 $komoditas = RefKomoditas::where('namakomoditas', 'like', '%' . $namaKomoditas . '%')->first();
                 if (!$komoditas) {
@@ -245,8 +251,9 @@ class Import extends ModalComponent
                 // Kumpulkan data untuk bulk insert per komoditas
                 $bulkInsert = [];
                 foreach ($pasarNames as $idx => $pasarName) {
-                    $harga = isset($row[$idx+1]) ? trim($row[$idx+1]) : null;
-                    if ($harga === null || $harga === '' || !is_numeric($harga) || $harga <= 0) continue;
+                    $harga = isset($row[$idx + 1]) ? trim($row[$idx + 1]) : null;
+                    if ($harga === null || $harga === '' || !is_numeric($harga) || $harga <= 0)
+                        continue;
                     $pasarId = $pasarMap[$pasarName] ?? null;
                     if (!$pasarId) {
                         $errorCount++;
@@ -258,7 +265,7 @@ class Import extends ModalComponent
                         ->where('pasar_id', $pasarId)
                         ->where('detail_tgl', $tanggalChange)
                         ->first();
-                        
+
                     if ($existingData && !$this->replaceMode) {
                         continue;
                     }
@@ -343,7 +350,7 @@ class Import extends ModalComponent
             ]);
         }
     }
-    
+
     // public function updatedpasarId(){
     //     $dt = new \Carbon\Carbon($this->tanggal);
     //     $tanggalChange = $dt->format('Y-m-d');
@@ -362,9 +369,9 @@ class Import extends ModalComponent
     }
 
     public static function closeModalOnClickAway(): bool
-{
-    return false;
-}
+    {
+        return false;
+    }
 
     public function previewFile()
     {
@@ -433,8 +440,8 @@ class Import extends ModalComponent
                 return;
             }
             for ($i = 0; $i < count($pasarNames); $i++) {
-                if (!isset($header[$i+1]) || trim($header[$i+1]) !== $pasarNames[$i]) {
-                    $this->alert('error', 'Kolom ke-'.($i+2).' harus "'.$pasarNames[$i].'"', [
+                if (!isset($header[$i + 1]) || trim($header[$i + 1]) !== $pasarNames[$i]) {
+                    $this->alert('error', 'Kolom ke-' . ($i + 2) . ' harus "' . $pasarNames[$i] . '"', [
                         'timer' => 3000,
                         'toast' => true,
                         'timerProgressBar' => true,
@@ -449,23 +456,24 @@ class Import extends ModalComponent
             for ($i = 1; $i < $rows->count(); $i++) {
                 $row = $rows[$i];
                 $namaKomoditas = trim($row[0] ?? '');
-                if (empty($namaKomoditas)) continue;
+                if (empty($namaKomoditas))
+                    continue;
                 $komoditas = RefKomoditas::where('namakomoditas', 'like', '%' . $namaKomoditas . '%')->first();
                 if ($komoditas) {
                     $semua_komoditas_id[] = $komoditas->id;
                 }
             }
             $semua_komoditas_id = array_unique($semua_komoditas_id);
-            
+
             $dt = new \Carbon\Carbon($this->tanggal);
             $tanggalChange = $dt->format('Y-m-d');
-            
+
             // Ambil data harga hari ini sekaligus
             $harga_hari_ini = Model::whereIn('komoditas_id', $semua_komoditas_id)
                 ->whereIn('pasar_id', $semua_pasar_id)
                 ->where('detail_tgl', $tanggalChange)
                 ->get()
-                ->keyBy(function($item) {
+                ->keyBy(function ($item) {
                     return $item->komoditas_id . '-' . $item->pasar_id;
                 });
 
@@ -474,18 +482,19 @@ class Import extends ModalComponent
             for ($i = 1; $i <= $maxPreviewRows; $i++) {
                 $row = $rows[$i];
                 $namaKomoditas = trim($row[0] ?? '');
-                if (empty($namaKomoditas)) continue;
+                if (empty($namaKomoditas))
+                    continue;
                 $komoditas = RefKomoditas::where('namakomoditas', 'like', '%' . $namaKomoditas . '%')->first();
                 $perPasar = [];
                 foreach ($pasarNames as $idx => $pasarName) {
-                    $harga = isset($row[$idx+1]) ? trim($row[$idx+1]) : null;
+                    $harga = isset($row[$idx + 1]) ? trim($row[$idx + 1]) : null;
                     $isValid = is_numeric($harga) && $harga > 0;
                     $pasarFound = isset($pasarMap[$pasarName]);
-                    
+
                     $hargaLama = null;
                     $selisih = null;
                     $existing = false;
-                    
+
                     if ($komoditas && $pasarFound) {
                         $key = $komoditas->id . '-' . $pasarMap[$pasarName];
                         if (isset($harga_hari_ini[$key])) {
