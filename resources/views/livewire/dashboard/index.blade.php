@@ -677,8 +677,8 @@ Dashboard
 
                 <div class="modal-body">
                     <div class="fs-4 fw-bold text-gray-900 text-center mb-5">
-                        Berikut Petugas Pasar yang belum menginputkan komoditas > 75%
-                                                    </div>
+                        Status Input Komoditas Petugas Pasar
+                    </div>
                     <div class="me-md-5 w-100">
 
                     @foreach($cek_komoditas as $data)

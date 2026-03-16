@@ -47,16 +47,14 @@ class Index extends Component
             // Hitung persentase komoditas yang diinputkan
             $persentaseInput = ($komoditasInput / $totalKomoditas) * 100;
             
-            // Cek apakah persentase input kurang dari atau sama dengan 75%
-            if ($persentaseInput <= 75) {
-                $cekkomoditas[] = [
-                    'pasar_id' => $p->id,
-                    'pasar_name' => $p->namapasar, // Ganti dengan atribut nama pasar yang sesuai
-                    'komoditas_input' => $komoditasInput,
-                    'persentase_input' => $persentaseInput,
-                    'total_komoditas' => $totalKomoditas,
-                ];
-            }
+            // Masukkan semua pasar ke dalam list untuk ditampilkan di modal
+            $cekkomoditas[] = [
+                'pasar_id' => $p->id,
+                'pasar_name' => $p->namapasar, // Ganti dengan atribut nama pasar yang sesuai
+                'komoditas_input' => $komoditasInput,
+                'persentase_input' => number_format($persentaseInput, 2),
+                'total_komoditas' => $totalKomoditas,
+            ];
         }
 
         // Tampilkan pasar yang belum menginputkan data lebih dari 50%
