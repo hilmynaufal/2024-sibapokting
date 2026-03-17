@@ -22,6 +22,7 @@ class Komoditas extends Component
     public $actionTitle = 'Tambah';
     public $perpage = 10;
     public $role_list;
+    public $firstId;
     
     public $pasar_id;
     public $id_komoditas;
@@ -82,7 +83,7 @@ class Komoditas extends Component
             ->paginate($this->perpage);
         }
 
-        if ($rows[0]!=null) {
+        if ($rows->isNotEmpty()) {
             $this->firstId = $rows[0]->id;
         }
         

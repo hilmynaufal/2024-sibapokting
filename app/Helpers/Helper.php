@@ -2133,19 +2133,21 @@ function presentaseKenaikan($sekarang, $kemarin) {
 }
 
 function inflasiKenaikan($sekarang,$kemarin){
+    if ($kemarin == 0) return '0';
     $hasil = abs($sekarang/$kemarin * 100 - 100);
     return substr($hasil,0,4);
 }
 
 function presentasePenurunan($sekarang,$kemarin){
+    if ($kemarin == 0) return '0%';
     $selisih = $kemarin - $sekarang;
-    $presentase = $selisih / $sekarang;
-    $hasil = $presentase * 100;
-    return substr($hasil,0,4).'%';
+    $presentase = ($selisih / $kemarin) * 100;
+    return number_format($presentase, 2) . '%';
 }
 
 function presentasePermintaan($awal,$masuk,$keluar){
     $stok = $awal + $masuk;
+    if ($stok == 0) return 0;
     $permintaan = $keluar / $stok;
     $hasil = floor($permintaan * 100);
     $html='';

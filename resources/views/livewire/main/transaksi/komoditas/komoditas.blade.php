@@ -67,6 +67,17 @@ Layanan > BPHTB > <b>Transaksi Harga Komoditas Pangan</b>
                             </a>
                         </div>
                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-trigger="hover" data-bs-original-title="Tambah banyak data sekaligus"
+                            data-kt-initialized="1">
+                            <a href="{{ route('main.komoditas.add-bulk') }}"
+                                class="btn btn-sm btn-light btn-active-primary">
+                                <i class="ki-duotone ki-row-horizontal fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i> Tambah Banyak Data
+                            </a>
+                        </div>
+                        <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
                             data-bs-trigger="hover" data-bs-original-title="Click to add a user"
                             data-kt-initialized="1">
                             <a wire:click="$dispatch('openModal', { component: 'modal.transaksi.komoditas.import'})"
