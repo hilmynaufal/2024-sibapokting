@@ -155,6 +155,7 @@ Route::group(['middleware' => ['auth','verified','web'],'prefix' => '', 'as' => 
         Route::get('perkomoditas',App\Livewire\Laporan\Perkomoditas::class)->name('laporan.perkomoditas');
         Route::get('all',App\Livewire\Laporan\All::class)->name('laporan.all');
         Route::get('stok',App\Livewire\Laporan\Stok::class)->name('laporan.stok');
+        Route::get('rekap-input',App\Livewire\Laporan\RekapInput::class)->name('laporan.rekap-input');
     });
 
 });
