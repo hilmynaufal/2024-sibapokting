@@ -1,0 +1,29 @@
+# AGENTS.md — Jules Context
+
+## Project Overview
+[Isi deskripsi project kamu]
+
+## Tech Stack
+- Language: PHP / TypeScript / Dart
+- Framework: Laravel / CodeIgniter 3 / Next.js / Express / Flutter
+- Database: MySQL / PostgreSQL / MongoDB
+- Testing: PHPUnit / Jest / pytest
+
+## Code Conventions
+- Komentar dalam Bahasa Indonesia
+- Nama file: PascalCase untuk class, snake_case untuk method
+- Validasi input wajib di semua endpoint
+- Response API selalu dalam format JSON
+
+## File Structure
+[Jelaskan struktur folder project kamu]
+
+## Build & Test
+- Install: `composer install` / `npm install`
+- Test: `php artisan test` / `npm test`
+
+## Important Rules
+- Jangan hardcode credentials
+- Jangan commit file .env
+- Selalu buat migration untuk perubahan schema database
+- Output file baru ke folder yang sesuai dengan konvensi project
