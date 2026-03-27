@@ -1,35 +1,28 @@
 <?php
 
-namespace App\Livewire\Laporan;
+namespace App\Exports;
 
 use App\Models\Referensi\RefPasar;
-use App\Models\Transaksi\Komoditas as Model;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
-use DB;
-use Carbon\Carbon;
-use App\Exports\RekapInputExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Illuminate\Support\Facades\DB;
 
-class RekapInput extends Component
+class RekapInputExport implements FromView, ShouldAutoSize
 {
-    #[Layout('components.layouts.keenthemes.page')]
+    use Exportable;
 
     public $dateFrom;
     public $dateTo;
 
-    public function mount()
+    public function __construct($dateFrom, $dateTo)
     {
-        $this->dateTo   = Carbon::today()->format('Y-m-d');
-        $this->dateFrom = Carbon::today()->subDays(6)->format('Y-m-d');
+        $this->dateFrom = $dateFrom;
+        $this->dateTo = $dateTo;
     }
 
-    public function exportExcel()
-    {
-        return Excel::download(new RekapInputExport($this->dateFrom, $this->dateTo), 'rekap_input_harga_komoditas_' . Carbon::now()->format('Ymd_His') . '.xlsx');
-    }
-
-    public function render()
+    public function view(): View
     {
         // Ambil semua tanggal dalam range yang ada datanya
         $tanggals = DB::table('t_siba_komoditas')
@@ -53,10 +46,12 @@ class RekapInput extends Component
             ->get()
             ->groupBy('pasar_id');
 
-        return view('livewire.laporan.rekap-input', [
+        return view('exports.rekap-input', [
             'tanggals' => $tanggals,
             'pasars'   => $pasars,
             'counts'   => $counts,
+            'dateFrom' => $this->dateFrom,
+            'dateTo'   => $this->dateTo,
         ]);
     }
 }

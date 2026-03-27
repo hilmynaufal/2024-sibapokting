@@ -27,6 +27,9 @@
                             <button type="button" class="btn btn-sm btn-primary" wire:click="$refresh">
                                 <i class="fas fa-search fs-7 me-1"></i> Tampilkan
                             </button>
+                            <button type="button" class="btn btn-sm btn-success ms-2" wire:click="exportExcel">
+                                <i class="fas fa-file-excel fs-7 me-1"></i> Export Excel
+                            </button>
                         </div>
                     </div>
                 </div>
