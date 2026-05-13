@@ -26,6 +26,7 @@ Route::get('petapersebaran', App\Livewire\Frontend\PetaPersebaran::class)->name(
 Route::get('/', App\Livewire\Frontend\Home::class)->name('home');
 Route::get('varians', App\Livewire\Frontend\Varians::class)->name('varians');
 Route::get('rentang', App\Livewire\Frontend\RentangHarga::class)->name('rentang');
+Route::get('harian', App\Livewire\Frontend\Harian::class)->name('harian');
 Route::get('berita', App\Livewire\Frontend\Berita::class)->name('berita');
 Route::get('galeri', App\Livewire\Frontend\Galeri::class)->name('galeri');
 Route::get('event', App\Livewire\Frontend\Event::class)->name('event');
