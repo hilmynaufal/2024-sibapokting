@@ -38,18 +38,23 @@ Referensi > <b>Integrasi Data</b>
                     <!--begin::Content main-->
                     <div class="mb-14 ">
                         <!--begin::Heading-->
-                        <div class="mb-15">
-                            <!--begin::Title-->
-                            <h1 class="fs-2x text-gray-900 mb-6">Integrasi Silinda Provinsi Jawa Barat</h1>
-                            <!--end::Title-->
+                        <div class="mb-15 d-flex align-items-center justify-content-between flex-wrap gap-4">
+                            <div>
+                                <!--begin::Title-->
+                                <h1 class="fs-2x text-gray-900 mb-2">Integrasi Silinda Provinsi Jawa Barat</h1>
+                                <!--end::Title-->
 
-                            <!--begin::Text-->
-                            <div class="fs-5 text-gray-600 fw-semibold">
-                                <!-- First, a disclaimer – the entire process of writing a blog post often takes more
-                                than a couple of hours, even if you can type
-                                eighty words as per minute and your writing skills are sharp. -->
+                                <!--begin::Text-->
+                                <div class="fs-5 text-gray-600 fw-semibold">
+                                    Pantau dan lakukan sinkronisasi data bahan pokok harian dengan sistem SILINDA Jawa Barat.
+                                </div>
+                                <!--end::Text-->
                             </div>
-                            <!--end::Text-->
+                            <div>
+                                <a href="{{ route('main.integrasi.test') }}" class="btn btn-light-warning fw-bold">
+                                    <i class="ki-outline ki-terminal fs-4 me-1"></i>Halaman Pengetesan (Debug)
+                                </a>
+                            </div>
                         </div>
                         <!--end::Heading-->
 
@@ -106,12 +111,94 @@ Referensi > <b>Integrasi Data</b>
                                     </tbody>
                                     <!--end::Table body-->
                                 </table>
-                                <!--end::Table-->
                             </div>
                             <!--end::Table container-->
                         </div>
                         <!--end::Table-->
-                        <!--end::Body-->
+
+                        <!--begin::Sync Logs Panel-->
+                        @if(!empty($syncLogs))
+                        <div class="card border border-gray-300 shadow-sm rounded-4 mt-8 bg-light">
+                            <div class="card-header border-0 bg-secondary py-4 px-6 d-flex align-items-center justify-content-between rounded-top-4">
+                                <h3 class="card-title my-0">
+                                    <span class="fw-bold text-gray-800 fs-4">
+                                        <i class="ki-outline ki-terminal fs-3 me-2 text-warning"></i>
+                                        Log Sinkronisasi Terakhir: {{ $syncLogs['pasar'] }}
+                                    </span>
+                                </h3>
+                                <div class="card-toolbar">
+                                    <button class="btn btn-sm btn-light-dark fw-bold" wire:click="clearLogs">
+                                        <i class="ki-outline ki-cross fs-5 me-1"></i>Sembunyikan Log
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-6">
+                                <div class="d-flex align-items-center gap-4 mb-5 flex-wrap">
+                                    <span class="badge badge-light-success fs-7 fw-bold px-3 py-2">
+                                        <i class="ki-outline ki-check-circle fs-5 text-success me-1"></i>
+                                        Berhasil: {{ $syncLogs['success_count'] }} Item
+                                    </span>
+                                    <span class="badge badge-light-danger fs-7 fw-bold px-3 py-2">
+                                        <i class="ki-outline ki-cross-circle fs-5 text-danger me-1"></i>
+                                        Gagal: {{ $syncLogs['failed_count'] }} Item
+                                    </span>
+                                    <span class="text-muted fs-8 fw-semibold ms-auto">Waktu: {{ $syncLogs['tanggal'] }}</span>
+                                </div>
+
+                                <div class="row g-4">
+                                    <!-- SUCCESS LIST -->
+                                    <div class="col-md-6">
+                                        <div class="bg-white p-4 rounded-3 border border-gray-200 h-100 max-h-300px overflow-y-auto">
+                                            <h5 class="fw-bold text-success mb-3 fs-6">
+                                                <i class="ki-outline ki-like fs-5 me-1"></i>Item Berhasil Sinkronisasi
+                                            </h5>
+                                            @if(empty($syncLogs['success_list']))
+                                                <div class="text-muted fs-8 py-4 text-center">Tidak ada komoditas yang berhasil dikirim.</div>
+                                            @else
+                                                <ul class="list-group list-group-flush fs-8">
+                                                    @foreach($syncLogs['success_list'] as $sItem)
+                                                        <li class="list-group-item px-0 py-2 border-dashed d-flex align-items-center">
+                                                            <span class="bullet bullet-dot bg-success me-2"></span>
+                                                            <span class="text-gray-800">{{ $sItem }}</span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <!-- FAILED LIST -->
+                                    <div class="col-md-6">
+                                        <div class="bg-white p-4 rounded-3 border border-danger border-dashed h-100 max-h-300px overflow-y-auto">
+                                            <h5 class="fw-bold text-danger mb-3 fs-6">
+                                                <i class="ki-outline ki-shield-cross fs-5 me-1"></i>Detail Log Kegagalan (Errors)
+                                            </h5>
+                                            @if(empty($syncLogs['errors']))
+                                                <div class="text-muted fs-8 py-4 text-center">Bersih! Tidak ada kegagalan pengiriman.</div>
+                                            @else
+                                                <div class="d-flex flex-column gap-3">
+                                                    @foreach($syncLogs['errors'] as $errItem)
+                                                        <div class="p-4 bg-light-danger rounded-3 border border-danger-subtle text-danger fs-8">
+                                                            <div class="fw-bold mb-1">
+                                                                <i class="ki-outline ki-information-2 fs-6 text-danger me-1"></i>
+                                                                {{ $errItem['komoditas'] }}: <span class="text-gray-800 fw-semibold">{{ $errItem['message'] }}</span>
+                                                            </div>
+                                                            <div class="mt-2">
+                                                                <span class="text-muted fs-9 d-block mb-1">Raw Response API:</span>
+                                                                <pre class="bg-dark text-gray-300 p-3 rounded-2 fs-9 fw-mono overflow-x-auto text-break mb-0 max-h-150px" style="white-space: pre-wrap;">{{ $errItem['raw_response'] }}</pre>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        <!--end::Sync Logs Panel-->
+
                     </div>
                     <!--end::Content main-->
 

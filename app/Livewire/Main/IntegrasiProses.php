@@ -23,6 +23,7 @@ class IntegrasiProses extends Component
     public $pathResourceSend;
     public $allToken ;
     // END ACCESS API
+    public $syncLogs = [];
 
     #[Layout('components.layouts.keenthemes.page')]
     public function mount()
@@ -44,8 +45,14 @@ class IntegrasiProses extends Component
         ]);
     }
 
+    public function clearLogs()
+    {
+        $this->syncLogs = [];
+    }
+
     public function singkronisasi($id){
         // $this->token_get();
+        $this->syncLogs     = []; // Reset log sebelumnya
         $model              = Model::where('is_active','=',1)->first();
         $token_silinda      = Model::where('is_active','=',1)->first();
         $pasarInt           = RefPasar::where('id',$id)->first();
@@ -53,7 +60,22 @@ class IntegrasiProses extends Component
                                         ->whereNotNull('ref_siba_komoditas.id_silinda')
                                         ->where('t_siba_komoditas.pasar_id',$id)
                                         ->where('t_siba_komoditas.detail_tgl',date("Y-m-d"))
-                                        ->orderBy('ref_siba_komoditas.id_silinda','asc')->get();
+                                        ->orderBy('ref_siba_komoditas.id_silinda','asc')
+                                        ->select('t_siba_komoditas.*', 'ref_siba_komoditas.namakomoditas', 'ref_siba_komoditas.id_silinda')
+                                        ->get();
+
+        if ($komoditas->isEmpty()) {
+            $this->alert('warning', 'Tidak ada data komoditas hari ini yang memiliki ID SILINDA untuk pasar ini.', [
+                'position' => 'top-end',
+                'timer' => 5000,
+                'toast' => true,
+            ]);
+            return;
+        }
+
+        $errors = [];
+        $successList = [];
+        $successCount = 0;
 
         foreach($komoditas as $kom){
             $myObj = new \stdClass();
@@ -64,63 +86,90 @@ class IntegrasiProses extends Component
             $myObj->price = $kom->harga_publish;
             $myJSON = json_encode($myObj);
 
-            // dd($myJSON);
-
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => $model->baseURL.$model->pathResourceSend,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_TIMEOUT => 15,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => $myJSON,
-                  CURLOPT_HTTPHEADER => $this->httpHeader($token_silinda->token)
-                ),
-            );
+                CURLOPT_HTTPHEADER => $this->httpHeader($token_silinda->token),
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_SSL_VERIFYHOST => 0,
+            ));
 
-            
-              
-              $response = curl_exec($curl);
-              curl_close($curl);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
 
-              dd($response);
-                
-
-        }
-        if(empty($response)){
-            $log = 'Integrasi Silinda Gagal';
-            $this->alert('error', $log, [
-                'position' => 'top-end',
-                'timer' => 3000,
-                'toast' => true,
-            ]);
-        }else{
-            $jsonRest = json_decode($response);
-            if($jsonRest->status == 'ok'){
-                $model                      = RefPasar::firstOrNew(['id' =>  $id]);
-                $model->last_integrasi      = date("Y-m-d H:i:s");
-                $model->save();
-                $log = 'Integrasi Silinda Berhasil';
-                setActivity($log);
-                $this->alert('success', $log, [
-                    'position' => 'top-end',
-                    'timer' => 3000,
-                    'toast' => true,
-                ]);
-            }else{
-                $log = 'Integrasi Silinda Gagal';
-                $this->alert('error', $log, [
-                    'position' => 'top-end',
-                    'timer' => 3000,
-                    'toast' => true,
-                ]);
-                
+            if ($err) {
+                $errors[] = [
+                    'komoditas' => $kom->namakomoditas,
+                    'message' => 'cURL Error (' . $err . ')',
+                    'raw_response' => 'cURL Error: ' . $err
+                ];
+            } else {
+                $jsonRest = json_decode($response);
+                if (isset($jsonRest->status) && $jsonRest->status == 'ok') {
+                    $successCount++;
+                    $successList[] = "{$kom->namakomoditas} (Silinda ID: {$kom->id_silinda}) - Rp " . number_format($kom->harga_publish, 0, ',', '.');
+                } else {
+                    $errMsg = $jsonRest->message ?? ($jsonRest->error ?? 'Respon tidak dikenal');
+                    $errors[] = [
+                        'komoditas' => $kom->namakomoditas,
+                        'message' => $errMsg,
+                        'raw_response' => $response
+                    ];
+                }
             }
         }
-        
+
+        $this->syncLogs = [
+            'pasar' => $pasarInt->namapasar,
+            'tanggal' => date("d-m-Y H:i:s"),
+            'success_count' => $successCount,
+            'failed_count' => count($errors),
+            'success_list' => $successList,
+            'errors' => $errors
+        ];
+
+        if (empty($errors)) {
+            $model                      = RefPasar::firstOrNew(['id' =>  $id]);
+            $model->last_integrasi      = date("Y-m-d H:i:s");
+            $model->save();
+
+            $log = "Integrasi Silinda Berhasil. {$successCount} komoditas tersinkronisasi.";
+            setActivity($log);
+
+            $this->alert('success', $log, [
+                'position' => 'top-end',
+                'timer' => 4000,
+                'toast' => true,
+            ]);
+        } else {
+            $failedCount = count($errors);
+            $errorStrings = array_map(function($e) {
+                return $e['komoditas'] . ': ' . $e['message'];
+            }, $errors);
+            
+            $detailError = implode(' | ', array_slice($errorStrings, 0, 3));
+            if ($failedCount > 3) {
+                $detailError .= ' ...dan ' . ($failedCount - 3) . ' lainnya';
+            }
+
+            $log = "Integrasi Silinda: {$successCount} Berhasil, {$failedCount} Gagal. Detail: {$detailError}";
+            setActivity($log);
+
+            $this->alert('error', "Integrasi Silinda Selesai dengan {$failedCount} error. Detail lengkap dapat dilihat di panel log di bawah.", [
+                'position' => 'top-end',
+                'timer' => 6000,
+                'toast' => true,
+            ]);
+        }
     }
     
     // mendapatkan token SPLP

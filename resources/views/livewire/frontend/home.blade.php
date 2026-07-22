@@ -382,13 +382,17 @@ Home
                 data: response['data25']
             },
             {
+                name: '2026',
+                data: response['data26']
+            },
+            {
                 name:'HET/HAP',
                 data:response['het']
             }
         ])
     });
 });
-        
+
 var chart = new ApexCharts(document.querySelector("#chart"), options);
 chart.render();
 
@@ -414,6 +418,10 @@ chart.render();
             {
                 name: '2025',
                 data: response['data25']
+            },
+            {
+                name: '2026',
+                data: response['data26']
             },
             {
                 name:'HET/HAP',
@@ -445,6 +453,10 @@ chart.render();
             {
                 name: '2025',
                 data: response['data25']
+            },
+            {
+                name: '2026',
+                data: response['data26']
             },
             {
                 name:'HET/HAP',

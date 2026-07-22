@@ -90,9 +90,9 @@
                 <br> KABUPATEN BANDUNG
                 <br><br><br><br><br>
             <p style="left:205px;position:relative;text-align:center;">
-                <strong><u>DICKY ANUGRAH, SH, M.Si</u></strong>
-                <br>Pembina Utama Muda
-                <br>NIP. 19740717 199803 1 003
+                <strong><u>Drs. YAYAN SUHERYAN, M. Si</u></strong>
+                <br>Pembina Tk.I, IV/b
+                <br>NIP. 197206011992021001
             </p>
 
     </div>
