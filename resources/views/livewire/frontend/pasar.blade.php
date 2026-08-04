@@ -45,43 +45,51 @@ Pasar
 
 
 @push('css')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
-   <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-   crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
     <style type="text/css">
         #mapid {
             margin: 0 auto 0 auto;
             height: 500px;
             width: 100%;
         }
-        html, body {
+
+        html,
+        body {
             height: 100%;
         }
-   </style>
+    </style>
 @endpush
 
 @push('js')
-<script type="text/javascript">
-$( document ).ready(function() {
-    var mymap = L.map('mapid').setView([-7.003074, 107.688541], 11);
-    var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var att = '&copy; <a href="https://www.openstreetmap.org/copyright">Open</a>';
-    var tiles = L.tileLayer(tileUrl,{att});
-    var greenIcon = L.icon({
-        iconUrl: 'http://maps.google.com/mapfiles/ms/micons/green.png',
-        iconSize:     [35, 35], // size of the icon
-    });
-    
-    tiles.addTo(mymap);
-    
-    @foreach($pasarpeta as $i)
-    L.marker([{{$i->latitude}},{{$i->longitude}}]).addTo(mymap).bindPopup("<b>{{$i->namapasar}}</b><br>{{$i->alamat}}<br><a wire:click=\"$dispatch('openModal', { component: 'modal.frontend.detail-maps', arguments: { id: {{ $i->id }} }})\" class='btn btn-sm btn-icon btn-success' title='Lihat'><i class='bi bi-eye-fill'></i></a>");
-    @endforeach
-});
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var mymap = L.map('mapid').setView([-7.003074, 107.688541], 11);
+            var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            var att = '&copy; <a href="https://www.openstreetmap.org/copyright">Open</a>';
+            var tiles = L.tileLayer(tileUrl, { att });
+            var greenIcon = L.icon({
+                iconUrl: 'http://maps.google.com/mapfiles/ms/micons/green.png',
+                iconSize: [35, 35], // size of the icon
+            });
 
-</script>
+
+            console.log(@json($pasarpeta));
+
+            tiles.addTo(mymap);
+
+
+            @for ($i = 0; $i < count($pasarpeta); $i++)
+
+                console.log("{{ $pasarpeta[$i]->namapasar }}");
+                L.marker([{{$pasarpeta[$i]->latitude}},{{$pasarpeta[$i]->longitude}}]).addTo(mymap).bindPopup("<b>{{$pasarpeta[$i]->namapasar}}</b><br>{{$pasarpeta[$i]->alamat}}<br><a wire:click=\"$dispatch('openModal', { component: 'modal.frontend.detail-maps', arguments: { id: {{ $pasarpeta[$i]->id }} }})\" class='btn btn-sm btn-icon btn-success' title='Lihat'><i class='bi bi-eye-fill'></i></a>");
+            @endfor
+            });
+
+    </script>
 
 @endpush

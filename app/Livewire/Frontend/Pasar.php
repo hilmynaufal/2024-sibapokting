@@ -18,14 +18,14 @@ class Pasar extends Component
 
     public function mount()
     {
-    
+
     }
 
     public function render()
     {
-        $pasarpeta = RefPasar::where('deleted_id',null)->get();
+        $pasarpeta = RefPasar::where('deleted_id', null)->get();
         // dd($pasarpeta);
-        return view('livewire.frontend.pasar',[
+        return view('livewire.frontend.pasar', [
             'pasarpeta' => $pasarpeta
         ]);
     }
