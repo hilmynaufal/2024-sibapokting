@@ -136,6 +136,18 @@ class CopyYesterday extends ModalComponent
             $dataToCopy = collect($this->previewData)->where('status', 'copy');
 
             foreach ($dataToCopy as $data) {
+                // Re-cek langsung ke DB tepat sebelum insert untuk mencegah duplikasi
+                // jika copyData() sempat terpanggil lebih dari sekali (double click/race condition)
+                $exists = Model::where('pasar_id', $this->pasar_id)
+                    ->where('komoditas_id', $data['komoditas_id'])
+                    ->where('detail_tgl', $this->tanggal_tujuan)
+                    ->lockForUpdate()
+                    ->exists();
+
+                if ($exists) {
+                    continue;
+                }
+
                 // Hitung harga_dinamik dan kondisi
                 $selisih_harga = hargaSelisih(
                     $data['komoditas_id'],

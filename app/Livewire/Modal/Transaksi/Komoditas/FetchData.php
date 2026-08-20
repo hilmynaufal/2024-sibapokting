@@ -137,6 +137,18 @@ class FetchData extends ModalComponent
             $dataToCopy = collect($this->previewData)->where('status', 'copy');
 
             foreach ($dataToCopy as $data) {
+                // Re-cek langsung ke DB tepat sebelum insert untuk mencegah duplikasi
+                // jika copyData() sempat terpanggil lebih dari sekali (double click/race condition)
+                $exists = Model::where('pasar_id', $data['pasar_id'])
+                    ->where('komoditas_id', $data['komoditas_id'])
+                    ->where('detail_tgl', $this->tanggal_tujuan)
+                    ->lockForUpdate()
+                    ->exists();
+
+                if ($exists) {
+                    continue;
+                }
+
                 // Get nama pasar
                 $pasar = RefPasar::find($data['pasar_id']);
                 $nama_pasar = $pasar ? $pasar->namapasar : $data['nama_pasar'];
